@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>NexaTrust | Card Applications</title>
+
+  <link
+    rel="stylesheet"
+    href="css/admin-card-applications.css"
+  >
+
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+  >
+</head>
+
+<body>
+
+  <header class="navbar">
+
+    <div class="logo">
+      <i class="fa-solid fa-building-columns"></i>
+      NexaTrust
+    </div>
+
+    <nav>
+      <a href="home.html">
+        Dashboard
+      </a>
+
+      <a href="admin-loans.html">
+        Loans
+      </a>
+
+      <a href="admin-card-applications.html"
+         class="active">
+        Card Applications
+      </a>
+    </nav>
+
+  </header>
+
+
+  <main class="container">
+
+    <section class="page-header">
+
+      <div>
+        <span class="eyebrow">
+          ADMINISTRATION
+        </span>
+
+        <h1>
+          Card Applications
+        </h1>
+
+        <p>
+          Review and manage customer
+          card applications.
+        </p>
+      </div>
+
+      <button
+        id="refreshBtn"
+        class="refresh-btn">
+
+        <i class="fa-solid fa-rotate"></i>
+
+        Refresh
+      </button>
+
+    </section>
+
+
+    <section class="stats">
+
+      <div class="stat-card">
+
+        <span>
+          Total Applications
+        </span>
+
+        <strong id="totalApplications">
+          0
+        </strong>
+
+      </div>
+
+
+      <div class="stat-card">
+
+        <span>
+          Pending
+        </span>
+
+        <strong id="pendingApplications">
+          0
+        </strong>
+
+      </div>
+
+
+      <div class="stat-card">
+
+        <span>
+          Approved
+        </span>
+
+        <strong id="approvedApplications">
+          0
+        </strong>
+
+      </div>
+
+
+      <div class="stat-card">
+
+        <span>
+          Rejected
+        </span>
+
+        <strong id="rejectedApplications">
+          0
+        </strong>
+
+      </div>
+
+    </section>
+
+
+    <section class="applications-card">
+
+      <div class="section-heading">
+
+        <div>
+          <h2>
+            Customer Applications
+          </h2>
+
+          <p>
+            Latest card requests appear here.
+          </p>
+        </div>
+
+      </div>
+
+
+      <div
+        id="applicationsContainer"
+        class="applications-container">
+
+        <div class="loading">
+          <i class="fa-solid fa-spinner fa-spin"></i>
+          Loading applications...
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <script src="js/admin-card-applications.js"></script>
+
+</body>
+
+</html>

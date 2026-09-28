@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>GlobalCrest Capital | Card Application</title>
+
+  <link rel="stylesheet" href="css/card-application.css">
+
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+  >
+</head>
+
+<body>
+
+  <!-- NAVBAR -->
+  <header class="navbar">
+
+    <a href="home.html" class="logo">
+       <img src="image/file_0000000010f481f4a05668dbc23185f1.png" alt="" style="width: 40px; height: 40px; border-radius: 50%;">
+      <span>Globalcrest<span>Capital</span></span>
+    </a>
+
+    <nav class="nav-links" id="navLinks">
+      <a href="home.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="features.html">Features</a>
+      <a href="loans.html">Loans</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+
+    <button class="menu-btn" id="menuBtn">
+      <i class="fa-solid fa-bars"></i>
+    </button>
+
+  </header>
+
+
+  <!-- HERO -->
+  <section class="hero">
+
+    <div class="hero-content">
+
+      <span class="eyebrow">
+        GLOBALCREST CAPITAL CARDS
+      </span>
+
+      <h1>
+        Your money.
+        <span>Your card.</span>
+        Your way.
+      </h1>
+
+      <p>
+        Apply for a Globalcrest Capital card designed to give you
+        convenient access to your account and everyday spending.
+      </p>
+
+      <a href="#application" class="hero-btn">
+        Apply for a Card
+        <i class="fa-solid fa-arrow-down"></i>
+      </a>
+
+    </div>
+
+
+    <!-- CARD PREVIEW -->
+    <div class="card-preview-area">
+
+      <div class="bank-card">
+
+        <div class="card-top">
+
+          <div class="card-brand">
+            Globalcrest<span>Capital</span>
+          </div>
+
+          <i class="fa-solid fa-wifi card-contactless"></i>
+
+        </div>
+
+
+        <div class="chip">
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
+
+
+        <div class="card-number">
+          •••• &nbsp; •••• &nbsp; •••• &nbsp; 0000
+        </div>
+
+
+        <div class="card-bottom">
+
+          <div>
+            <small>CARD HOLDER</small>
+            <strong>YOUR NAME</strong>
+          </div>
+
+          <div>
+            <small>VALID THRU</small>
+            <strong>--/--</strong>
+          </div>
+
+          <div class="visa-text">
+            VISA
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- BENEFITS -->
+  <section class="benefits">
+
+    <div class="section-heading">
+
+      <span>WHY GLOBALCREST CAPITAL CARD</span>
+
+      <h2>
+        Built for everyday banking
+      </h2>
+
+      <p>
+        A simple card experience designed around convenience,
+        security and control.
+      </p>
+
+    </div>
+
+
+    <div class="benefit-grid">
+
+      <div class="benefit-card">
+
+        <div class="benefit-icon">
+          <i class="fa-solid fa-shield-halved"></i>
+        </div>
+
+        <h3>Secure</h3>
+
+        <p>
+          Designed with security in mind to help protect
+          your account and card information.
+        </p>
+
+      </div>
+
+
+      <div class="benefit-card">
+
+        <div class="benefit-icon">
+          <i class="fa-solid fa-credit-card"></i>
+        </div>
+
+        <h3>Convenient</h3>
+
+        <p>
+          A convenient way to access your account for
+          everyday purchases and spending.
+        </p>
+
+      </div>
+
+
+      <div class="benefit-card">
+
+        <div class="benefit-icon">
+          <i class="fa-solid fa-sliders"></i>
+        </div>
+
+        <h3>Simple Control</h3>
+
+        <p>
+          Keep your card information and account activity
+          organized from your Globalcrest Capital dashboard.
+        </p>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- APPLICATION -->
+  <section class="application-section" id="application">
+
+    <div class="application-wrapper">
+
+
+      <div class="application-info">
+
+        <span class="eyebrow">
+          CARD APPLICATION
+        </span>
+
+        <h2>
+          Apply for your Globalcrest Capital card.
+        </h2>
+
+        <p>
+          Complete the short application form and submit
+          your request.
+        </p>
+
+
+        <div class="application-points">
+
+          <div>
+            <i class="fa-solid fa-check"></i>
+
+            <span>
+              Quick application
+            </span>
+          </div>
+
+
+          <div>
+            <i class="fa-solid fa-check"></i>
+
+            <span>
+              Secure account experience
+            </span>
+          </div>
+
+
+          <div>
+            <i class="fa-solid fa-check"></i>
+
+            <span>
+              Application confirmation
+            </span>
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- FORM -->
+      <form id="cardApplicationForm" class="card-form">
+
+        <div class="form-header">
+
+          <div>
+            <span>APPLICATION</span>
+
+            <h3>
+              Card details
+            </h3>
+          </div>
+
+          <i class="fa-solid fa-credit-card"></i>
+
+        </div>
+
+
+        <!-- CARD TYPE -->
+        <div class="form-group">
+
+          <label for="cardType">
+            Card Type
+          </label>
+
+          <select id="cardType" required>
+
+            <option value="">
+              Select card type
+            </option>
+
+            <option value="Standard Card">
+              Standard Card
+            </option>
+
+            <option value="Premium Card">
+              Premium Card
+            </option>
+
+            <option value="Business Card">
+              Business Card
+            </option>
+
+          </select>
+
+        </div>
+
+
+        <!-- NAME -->
+        <div class="form-group">
+
+          <label for="fullName">
+            Full Name
+          </label>
+
+          <input
+            type="text"
+            id="fullName"
+            placeholder="Enter your full name"
+            required
+          >
+
+        </div>
+
+
+        <!-- EMAIL -->
+        <div class="form-group">
+
+          <label for="email">
+            Email Address
+          </label>
+
+          <input
+            type="email"
+            id="email"
+            placeholder="you@example.com"
+            required
+          >
+
+        </div>
+
+
+        <!-- PHONE -->
+        <div class="form-group">
+
+          <label for="phone">
+            Phone Number
+          </label>
+
+          <input
+            type="tel"
+            id="phone"
+            placeholder="Enter your phone number"
+            required
+          >
+
+        </div>
+
+
+        <!-- DELIVERY -->
+        <div class="form-group">
+
+          <label for="delivery">
+            Preferred Delivery Method
+          </label>
+
+          <select id="delivery" required>
+
+            <option value="">
+              Select delivery method
+            </option>
+
+            <option value="Home Delivery">
+              Home Delivery
+            </option>
+
+            <option value="Branch Pickup">
+              Branch Pickup
+            </option>
+
+          </select>
+
+        </div>
+
+
+        <!-- ADDRESS -->
+        <div class="form-group">
+
+          <label for="address">
+            Delivery Address
+          </label>
+
+          <textarea
+            id="address"
+            rows="4"
+            placeholder="Enter your delivery address"
+            required
+          ></textarea>
+
+        </div>
+
+
+        <!-- TERMS -->
+        <label class="checkbox">
+
+          <input
+            type="checkbox"
+            id="terms"
+            required
+          >
+
+          <span>
+            I confirm that the information provided is
+            accurate and I agree to the card application terms.
+          </span>
+
+        </label>
+
+
+        <button
+          type="submit"
+          class="submit-btn"
+        >
+
+          Submit Card Application
+
+          <i class="fa-solid fa-arrow-right"></i>
+
+        </button>
+
+
+        <p
+          id="formMessage"
+          class="form-message"
+        ></p>
+
+      </form>
+
+    </div>
+
+  </section>
+
+
+  <!-- SUCCESS -->
+  <section
+    id="successSection"
+    class="success-section"
+  >
+
+    <div class="success-card">
+
+      <div class="success-icon">
+        <i class="fa-solid fa-check"></i>
+      </div>
+
+      <span>
+        APPLICATION RECEIVED
+      </span>
+
+      <h2>
+        Card application successful!
+      </h2>
+
+      <p>
+        Your Globalcrest Capital application has been successfully
+        submitted. Your request has been received for processing.
+      </p>
+
+      <div class="success-reference">
+
+        <span>
+          APPLICATION REFERENCE
+        </span>
+
+        <strong id="applicationReference">
+          NT-CARD-000000
+        </strong>
+
+      </div>
+
+      <a href="home.html" class="success-btn">
+        Return to Dashboard
+      </a>
+
+    </div>
+
+  </section>
+
+
+  <!-- FAQ -->
+  <section class="faq-section">
+
+    <div class="section-heading">
+
+      <span>QUESTIONS</span>
+
+      <h2>
+        Frequently asked questions
+      </h2>
+
+    </div>
+
+
+    <div class="faq-container">
+
+      <details>
+
+        <summary>
+          What happens after I apply?
+          <i class="fa-solid fa-chevron-down"></i>
+        </summary>
+
+        <p>
+          Your card application is submitted and a confirmation
+          is displayed on the screen.
+        </p>
+
+      </details>
+
+
+      <details>
+
+        <summary>
+          Can I choose my card type?
+          <i class="fa-solid fa-chevron-down"></i>
+        </summary>
+
+        <p>
+          Yes. You can select the card type that is available
+          to you when completing the application.
+        </p>
+
+      </details>
+
+
+      <details>
+
+        <summary>
+          Is my application information secure?
+          <i class="fa-solid fa-chevron-down"></i>
+        </summary>
+
+        
+
+      </details>
+
+    </div>
+
+  </section>
+
+
+  <!-- FOOTER -->
+  <footer>
+
+    <div class="footer-main">
+
+      <div class="footer-brand">
+
+        <div class="logo">
+
+          <img src="image/file_0000000010f481f4a05668dbc23185f1.png" alt="" style="width: 40px; height: 40px; border-radius: 50%;">
+
+          <span>
+            Globalcrest<span>Capital</span>
+          </span>
+
+        </div>
+
+        <p>
+          Banking designed around your financial goals,
+          security and confidence.
+        </p>
+
+      </div>
+
+
+      <div class="footer-links">
+
+        <div>
+
+          <h4>Globalcrest Capital</h4>
+
+          <a href="about.html">About</a>
+          <a href="features.html">Features</a>
+          <a href="contact.html">Contact</a>
+
+        </div>
+
+
+        <div>
+
+          <h4>Banking</h4>
+
+          <a href="home.html">Dashboard</a>
+          <a href="transfer.html">Transfers</a>
+          <a href="loans.html">Loans</a>
+          <a href="card-application.html">Cards</a>
+
+        </div>
+
+
+        <div>
+
+          <h4>Support</h4>
+
+          <a href="contact.html">Help Center</a>
+          <a href="contact.html">Security</a>
+          <a href="contact.html">Contact Us</a>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div class="footer-bottom">
+
+      <span>
+        © 2026 Globalcrest Capital. All rights reserved.
+      </span>
+
+      <span>
+        <i class="fa-solid fa-lock"></i>
+        Secure Banking
+      </span>
+
+    </div>
+
+  </footer>
+
+
+  <script src="js/card-application.js"></script>
+
+</body>
+</html>

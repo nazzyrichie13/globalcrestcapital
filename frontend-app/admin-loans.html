@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>NexaTrust | Loan Applications</title>
+
+  <link
+    rel="stylesheet"
+    href="css/admin-loans.css"
+  >
+
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+  >
+
+</head>
+
+<body>
+
+
+  <header class="admin-navbar">
+
+    <div class="admin-logo">
+
+      <i class="fa-solid fa-shield-halved"></i>
+
+      <span>
+        Nexa<span>Trust</span>
+      </span>
+
+      <small>
+        ADMIN
+      </small>
+
+    </div>
+
+
+    <a href="home.html">
+
+      <i class="fa-solid fa-arrow-left"></i>
+
+      Back to Dashboard
+
+    </a>
+
+  </header>
+
+
+  <main class="admin-container">
+
+
+    <div class="page-header">
+
+      <div>
+
+        <span>
+          ADMINISTRATION
+        </span>
+
+        <h1>
+          Loan Applications
+        </h1>
+
+        <p>
+          Review and manage customer loan applications.
+        </p>
+
+      </div>
+
+
+      <button
+        id="refreshBtn"
+        class="refresh-btn"
+      >
+
+        <i class="fa-solid fa-rotate"></i>
+
+        Refresh
+
+      </button>
+
+    </div>
+
+
+    <!-- STATS -->
+
+    <div class="stats-grid">
+
+      <div class="stat-card">
+
+        <div class="stat-icon">
+          <i class="fa-solid fa-clock"></i>
+        </div>
+
+        <div>
+
+          <span>
+            Pending
+          </span>
+
+          <h2 id="pendingCount">
+            0
+          </h2>
+
+        </div>
+
+      </div>
+
+
+      <div class="stat-card">
+
+        <div class="stat-icon">
+          <i class="fa-solid fa-money-bill-transfer"></i>
+        </div>
+
+        <div>
+
+          <span>
+            Requested
+          </span>
+
+          <h2 id="requestedAmount">
+            $0
+          </h2>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- APPLICATIONS -->
+
+    <section class="applications-section">
+
+      <div class="section-title">
+
+        <h2>
+          Pending Applications
+        </h2>
+
+        <span id="applicationStatus">
+          Loading...
+        </span>
+
+      </div>
+
+
+      <div
+        id="applicationsList"
+        class="applications-list"
+      >
+
+      </div>
+
+    </section>
+
+
+  </main>
+
+
+  <!-- REVIEW MODAL -->
+
+  <div
+    id="reviewModal"
+    class="modal"
+  >
+
+    <div class="modal-content">
+
+
+      <button
+        id="closeModal"
+        class="close-modal"
+      >
+
+        <i class="fa-solid fa-xmark"></i>
+
+      </button>
+
+
+      <div class="modal-header">
+
+        <span>
+          LOAN REVIEW
+        </span>
+
+        <h2>
+          Application Details
+        </h2>
+
+      </div>
+
+
+      <div
+        id="loanDetails"
+        class="loan-details"
+      >
+
+      </div>
+
+
+      <div class="admin-note">
+
+        <label for="adminNote">
+          Admin Note
+        </label>
+
+        <textarea
+          id="adminNote"
+          rows="4"
+          placeholder="Add a note for the customer..."
+        ></textarea>
+
+      </div>
+
+
+      <div class="modal-actions">
+
+        <button
+          id="rejectBtn"
+          class="reject-btn"
+        >
+
+          <i class="fa-solid fa-xmark"></i>
+
+          Reject Application
+
+        </button>
+
+
+        <button
+          id="approveBtn"
+          class="approve-btn"
+        >
+
+          <i class="fa-solid fa-check"></i>
+
+          Approve Application
+
+        </button>
+
+      </div>
+
+
+      <p
+        id="modalMessage"
+        class="modal-message"
+      ></p>
+
+    </div>
+
+  </div>
+
+
+  <script src="js/admin-loans.js"></script>
+
+</body>
+
+</html>

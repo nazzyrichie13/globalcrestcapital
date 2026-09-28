@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+  <title>Transfer Money</title>
+
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="css/transfer.css">
+   <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+  >
+</head>
+
+<body>
+    <header class="navbar">
+
+    <div class="nav-container">
+
+      <a href="home.html" class="logo">
+
+        <span class="logo-icon">
+          <div>
+         <img src="image/file_0000000010f481f4a05668dbc23185f1.png" alt="" style="width: 40px; height: 40px; border-radius: 50%;">
+         </div>
+        </span>
+        <span>
+          Globalcrest<span>Capital</span>
+        </span>
+
+      </a>
+
+      <nav class="nav-links">
+
+        <a href="home.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="services.html">Services</a>
+
+        <a href="features.html" class="active">
+          Features
+        </a>
+
+        <a href="loans.html">Loans</a>
+        <a href="card-application.html">Cards</a>
+        <a href="contact.html">Contact</a>
+
+      </nav>
+
+      <div class="nav-actions">
+
+        
+
+        <a href="signup.html" class="signup-btn">
+          Open Account
+        </a>
+
+      </div>
+
+      <button class="menu-btn" id="menuBtn">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+
+    </div>
+
+  </header>
+
+
+  <main class="transfer-page">
+
+    <h1>Transfer Money</h1>
+
+
+    <!-- =========================
+         TRANSFER FORM
+    ========================== -->
+
+    <form id="transferForm">
+
+      <h2>Transfer Money</h2>
+
+
+      <!-- TRANSFER TYPE -->
+
+      <label for="transferType">
+        Transfer Type
+      </label>
+
+      <select
+        id="transferType"
+        name="transferType"
+      >
+
+        <option value="same-bank">
+          Bank To Bank
+        </option>
+
+        <option value="external-bank">
+          Other Banks
+        </option>
+
+      </select>
+
+
+      <!-- =========================
+           SAME BANK
+      ========================== -->
+
+      <div id="sameBankSection">
+
+        <label for="sameBankAccount">
+          GlobaCrest Account Number
+        </label>
+
+        <input
+          type="text"
+          id="sameBankAccount"
+          name="accountNumber"
+          placeholder="Enter account number"
+          autocomplete="off"
+        >
+
+        <button
+          type="button"
+          id="verifySameBank"
+        >
+          Verify Account
+        </button>
+
+      </div>
+
+
+      <!-- =========================
+           EXTERNAL BANK
+      ========================== -->
+
+      <div
+        id="externalBankSection"
+        style="display: none;"
+      >
+
+        <label for="bankName">
+          Select Bank
+        </label>
+
+        <select id="bankName">
+
+          <option value="">
+            Select a U.S. bank
+          </option>
+
+          <option value="bank-of-america">
+            Bank of America
+          </option>
+
+          <option value="chase">
+            JPMorgan Chase
+          </option>
+
+          <option value="wells-fargo">
+            Wells Fargo
+          </option>
+
+          <option value="citibank">
+            Citibank
+          </option>
+
+          <option value="us-bank">
+            U.S. Bank
+          </option>
+
+          <option value="pnc">
+            PNC Bank
+          </option>
+
+          <option value="truist">
+            Truist
+          </option>
+
+          <option value="capital-one">
+            Capital One
+          </option>
+
+        </select>
+
+
+        <label for="routingNumber">
+          Routing Number
+        </label>
+
+        <input
+          type="text"
+          id="routingNumber"
+          maxlength="9"
+          inputmode="numeric"
+          placeholder="9-digit routing number"
+          autocomplete="off"
+        >
+
+
+        <label for="externalAccountNumber">
+          Account Number
+        </label>
+
+        <input
+          type="text"
+          id="externalAccountNumber"
+          placeholder="Enter account number"
+          autocomplete="off"
+        >
+
+
+        <button
+          type="button"
+          id="verifyExternalBank"
+        >
+          Verify Account
+        </button>
+
+      </div>
+
+
+      <!-- =========================
+           VERIFIED ACCOUNT
+      ========================== -->
+
+      <div
+        id="verifiedAccountBox"
+        style="display: none;"
+      >
+
+        <p>
+          Account Holder
+        </p>
+
+        <h3 id="verifiedAccountName"></h3>
+
+        <p id="verificationStatus"></p>
+
+      </div>
+
+
+      <!-- =========================
+           AMOUNT
+      ========================== -->
+
+      <label for="amount">
+        Amount
+      </label>
+
+      <input
+        type="number"
+        id="amount"
+        name="amount"
+        min="1"
+        step="0.01"
+        placeholder="Enter amount"
+        required
+      >
+
+
+      <!-- TRANSFER BUTTON -->
+
+      <button type="submit">
+        Transfer
+      </button>
+
+    </form>
+
+
+    <!-- GENERAL MESSAGE -->
+
+    <p id="message"></p>
+
+
+    <!-- =========================
+         TRANSFER RESULT
+    ========================== -->
+
+    <section
+      id="transferResult"
+      style="display: none;"
+    >
+
+      <h2 id="transferStatusTitle"></h2>
+
+      <p id="transferStatusMessage"></p>
+
+
+      <!-- RECEIPT BUTTONS -->
+
+      <div
+        id="receiptButtons"
+        style="display: none;"
+      >
+
+        <button
+          type="button"
+          id="viewReceipt"
+        >
+          View Receipt
+        </button>
+
+
+        <button
+          type="button"
+          id="downloadReceipt"
+        >
+          Download PDF
+        </button>
+
+
+        <button
+          type="button"
+          id="saveReceiptImage"
+        >
+          Save Image
+        </button>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+         TRANSFER RECEIPT
+    ========================== -->
+
+    <section
+      id="receipt"
+      style="display: none;"
+    >
+
+      <div class="receipt-card">
+
+        <h2>
+          TRANSFER RECEIPT
+        </h2>
+
+
+        <!-- SUCCESS ICON -->
+
+        <div class="success-icon">
+          ✓
+        </div>
+
+
+        <h3>
+          Transfer Successful
+        </h3>
+
+
+        <!-- AMOUNT -->
+
+        <h1>
+          ₦<span id="receiptAmount">0</span>
+        </h1>
+
+
+        <hr>
+
+
+        <!-- SENDER -->
+
+        <p>
+          <strong>
+            From
+          </strong>
+          <br>
+
+          <span id="receiptSender"></span>
+        </p>
+
+
+        <!-- SENDER ACCOUNT -->
+
+        <p>
+          <strong>
+            Sender Account
+          </strong>
+          <br>
+
+          <span id="receiptSenderAccount"></span>
+        </p>
+
+
+        <!-- RECEIVER -->
+
+        <p>
+          <strong>
+            To
+          </strong>
+          <br>
+
+          <span id="receiptReceiver"></span>
+        </p>
+
+
+        <!-- RECEIVER ACCOUNT -->
+
+        <p>
+          <strong>
+            Receiver Account
+          </strong>
+          <br>
+
+          <span id="receiptReceiverAccount"></span>
+        </p>
+
+
+        <!-- TRANSACTION REFERENCE -->
+
+        <p>
+          <strong>
+            Transaction Reference
+          </strong>
+          <br>
+
+          <span id="receiptReference"></span>
+        </p>
+
+
+        <!-- STATUS -->
+
+        <p>
+          <strong>
+            Status
+          </strong>
+          <br>
+
+          <span id="receiptStatus"></span>
+        </p>
+
+
+        <!-- DATE -->
+
+        <p>
+          <strong>
+            Date
+          </strong>
+          <br>
+
+          <span id="receiptDate"></span>
+        </p>
+
+
+        <!-- =========================
+             RECEIPT NOTICE
+        ========================== -->
+
+        <div class="receipt-notice">
+
+          <i class="fa-solid fa-circle-info"></i>
+
+          <p>
+
+            <strong>
+              Important:
+            </strong>
+
+            This receipt is generated electronically and is provided
+            for record-keeping purposes. Please verify the transaction
+            status through your official banking account or contact
+            customer support if you have questions.
+
+          </p>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+  
+
+  
+
+  <footer class="footer">
+
+    <div class="footer-container">
+
+      <div class="footer-brand">
+
+        <a href="home.html" class="logo">
+
+          <span class="logo-icon">
+              <img src="image/file_0000000010f481f4a05668dbc23185f1.png" alt="" style="width: 60px; height: 60px; border-radius: 50%;">
+          </span>
+
+          <span>
+            Globalcrest<span>Capital</span>
+          </span>
+
+        </a>
+
+        <p>
+          Modern banking built around simplicity,
+          security and control.
+        </p>
+
+        <div class="social-links">
+
+          <a href="#">
+            <i class="fa-brands fa-facebook-f"></i>
+          </a>
+
+          <a href="#">
+            <i class="fa-brands fa-x-twitter"></i>
+          </a>
+
+          <a href="#">
+            <i class="fa-brands fa-instagram"></i>
+          </a>
+
+          <a href="#">
+            <i class="fa-brands fa-linkedin-in"></i>
+          </a>
+
+        </div>
+
+      </div>
+
+
+      <div class="footer-column">
+
+        <h4>GLOBALCREST CAPITAL</h4>
+
+        <a href="about.html">About Us</a>
+        <a href="services.html">Services</a>
+        <a href="contact.html">Contact</a>
+
+      </div>
+
+
+      <div class="footer-column">
+
+        <h4>Banking</h4>
+
+        <a href="accounts.html">Accounts</a>
+        <a href="card-application.html">Cards</a>
+        <a href="transfer.html">Transfers</a>
+
+      </div>
+
+
+      <div class="footer-column">
+
+        <h4>Support</h4>
+
+        <a href="contact.html">Help Center</a>
+        <a href="contact.html">Security</a>
+        <a href="contact.html">Contact Support</a>
+
+      </div>
+
+    </div>
+
+
+    <div class="footer-bottom">
+
+      <p>
+        © 2026 Globalcrest Capital. All rights reserved.
+      </p>
+
+      <div>
+
+        <a href="#">Privacy Policy</a>
+
+        <a href="#">Terms of Service</a>
+
+      </div>
+
+    </div>
+
+  </footer>
+
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+  <script src="js/home.js"></script>
+
+</body>
+
+</html>

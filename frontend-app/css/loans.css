@@ -1,0 +1,956 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background: #f6f8fb;
+  color: #111827;
+  line-height: 1.6;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+
+/* =========================
+   NAVBAR
+========================= */
+
+.navbar {
+  height: 78px;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 7%;
+  border-bottom: 1px solid #e5e7eb;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 22px;
+  font-weight: 800;
+}
+
+.logo i {
+  color: #1769ff;
+  font-size: 25px;
+}
+
+.logo span span {
+  color: #1769ff;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+}
+
+.nav-links a {
+  color: #4b5563;
+  font-size: 14px;
+  font-weight: 600;
+  transition: 0.3s;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+  color: #1769ff;
+}
+
+.menu-btn {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+
+/* =========================
+   HERO
+========================= */
+
+.loan-hero {
+  min-height: 610px;
+  padding: 100px 7%;
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  align-items: center;
+  gap: 80px;
+  background:
+    radial-gradient(circle at 80% 20%, #dceaff 0, transparent 30%),
+    #f5f8ff;
+}
+
+.hero-content {
+  max-width: 720px;
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 15px;
+  border-radius: 50px;
+  background: #e7efff;
+  color: #1769ff;
+  font-size: 12px;
+  font-weight: 800;
+  margin-bottom: 25px;
+}
+
+.hero-content h1 {
+  font-size: clamp(42px, 5vw, 70px);
+  line-height: 1.05;
+  letter-spacing: -3px;
+  margin-bottom: 25px;
+}
+
+.hero-content h1 span {
+  color: #1769ff;
+}
+
+.hero-content p {
+  color: #667085;
+  max-width: 650px;
+  font-size: 18px;
+  margin-bottom: 35px;
+}
+
+.hero-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  background: #1769ff;
+  color: white;
+  padding: 15px 23px;
+  border-radius: 9px;
+  font-weight: 700;
+  transition: 0.3s;
+}
+
+.hero-btn:hover {
+  transform: translateY(-2px);
+  background: #0956dc;
+}
+
+.hero-card {
+  background: #101828;
+  color: white;
+  border-radius: 25px;
+  padding: 40px;
+  box-shadow: 0 25px 60px rgba(15, 23, 42, 0.2);
+}
+
+.floating-icon {
+  width: 55px;
+  height: 55px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 14px;
+  background: #1769ff;
+  font-size: 22px;
+  margin-bottom: 30px;
+}
+
+.hero-card > p {
+  color: #98a2b3;
+  margin-bottom: 5px;
+}
+
+.hero-card h2 {
+  font-size: 46px;
+  margin-bottom: 5px;
+}
+
+.hero-card > span {
+  color: #98a2b3;
+}
+
+.hero-card-line {
+  height: 1px;
+  background: #344054;
+  margin: 30px 0;
+}
+
+.mini-stat {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+}
+
+.mini-stat span {
+  color: #98a2b3;
+}
+
+
+/* =========================
+   GENERAL
+========================= */
+
+section {
+  padding: 100px 7%;
+}
+
+.section-heading {
+  text-align: center;
+  max-width: 720px;
+  margin: 0 auto 55px;
+}
+
+.section-heading > span {
+  color: #1769ff;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+}
+
+.section-heading h2 {
+  font-size: 42px;
+  line-height: 1.15;
+  margin: 12px 0;
+}
+
+.section-heading p {
+  color: #667085;
+}
+
+
+/* =========================
+   LOAN TYPES
+========================= */
+
+.loan-types {
+  background: white;
+}
+
+.loan-type-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.loan-type-card {
+  padding: 30px;
+  border: 1px solid #eaecf0;
+  border-radius: 18px;
+  transition: 0.3s;
+  background: white;
+}
+
+.loan-type-card:hover {
+  transform: translateY(-7px);
+  box-shadow: 0 20px 40px rgba(16, 24, 40, 0.08);
+  border-color: #cbdcff;
+}
+
+.loan-icon {
+  width: 55px;
+  height: 55px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #edf4ff;
+  color: #1769ff;
+  font-size: 20px;
+  margin-bottom: 22px;
+}
+
+.loan-type-card h3 {
+  margin-bottom: 10px;
+}
+
+.loan-type-card p {
+  color: #667085;
+  font-size: 14px;
+  margin-bottom: 22px;
+}
+
+.select-loan {
+  background: none;
+  border: none;
+  color: #1769ff;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+
+/* =========================
+   APPLICATION
+========================= */
+
+.application-section {
+  background: #f5f8fc;
+}
+
+.application-wrapper {
+  max-width: 1200px;
+  margin: auto;
+  display: grid;
+  grid-template-columns: 0.75fr 1.25fr;
+  gap: 70px;
+  align-items: start;
+}
+
+.application-intro {
+  position: sticky;
+  top: 120px;
+}
+
+.application-intro > span {
+  color: #1769ff;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+}
+
+.application-intro h2 {
+  font-size: 48px;
+  line-height: 1.1;
+  margin: 15px 0;
+}
+
+.application-intro > p {
+  color: #667085;
+  margin-bottom: 40px;
+}
+
+.application-benefits {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.application-benefits > div {
+  display: flex;
+  gap: 15px;
+}
+
+.application-benefits i {
+  width: 45px;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #e9f1ff;
+  color: #1769ff;
+  border-radius: 12px;
+}
+
+.application-benefits strong {
+  display: block;
+}
+
+.application-benefits p {
+  color: #667085;
+  font-size: 13px;
+}
+
+
+/* FORM */
+
+.loan-form {
+  background: white;
+  padding: 40px;
+  border-radius: 22px;
+  box-shadow: 0 15px 50px rgba(16, 24, 40, 0.08);
+}
+
+.form-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 25px;
+  border-bottom: 1px solid #eaecf0;
+  margin-bottom: 30px;
+}
+
+.form-header span {
+  color: #1769ff;
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.form-header h3 {
+  font-size: 24px;
+}
+
+.form-header > i {
+  font-size: 25px;
+  color: #1769ff;
+}
+
+.form-group {
+  margin-bottom: 25px;
+}
+
+.form-group label {
+  display: block;
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 9px;
+}
+
+.form-group select,
+.form-group textarea,
+.form-group input[type="number"] {
+  width: 100%;
+  border: 1px solid #d0d5dd;
+  border-radius: 9px;
+  padding: 13px 14px;
+  outline: none;
+  background: white;
+}
+
+.form-group select:focus,
+.form-group textarea:focus,
+.form-group input:focus {
+  border-color: #1769ff;
+  box-shadow: 0 0 0 3px #e8f0ff;
+}
+
+.label-row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.label-row strong {
+  color: #1769ff;
+}
+
+input[type="range"] {
+  width: 100%;
+  accent-color: #1769ff;
+}
+
+.range-labels {
+  display: flex;
+  justify-content: space-between;
+  color: #98a2b3;
+  font-size: 12px;
+}
+
+.input-wrapper {
+  display: flex;
+  align-items: center;
+  border: 1px solid #d0d5dd;
+  border-radius: 9px;
+  padding-left: 14px;
+}
+
+.input-wrapper span {
+  color: #667085;
+}
+
+.input-wrapper input {
+  border: none !important;
+  box-shadow: none !important;
+}
+
+
+/* SUMMARY */
+
+.loan-summary {
+  background: #f7f9fc;
+  border-radius: 14px;
+  padding: 22px;
+  margin: 30px 0;
+}
+
+.summary-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+  color: #667085;
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.summary-header i {
+  color: #1769ff;
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid #e4e7ec;
+}
+
+.summary-row:last-child {
+  border-bottom: none;
+}
+
+.summary-row span {
+  color: #667085;
+}
+
+.summary-row strong {
+  color: #101828;
+}
+
+.submit-btn {
+  width: 100%;
+  padding: 16px;
+  border: none;
+  border-radius: 9px;
+  background: #1769ff;
+  color: white;
+  font-weight: 800;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  transition: 0.3s;
+}
+
+.submit-btn:hover {
+  background: #0956dc;
+}
+
+.loan-message {
+  text-align: center;
+  margin-top: 15px;
+  font-weight: 700;
+}
+
+.form-note {
+  text-align: center;
+  color: #98a2b3;
+  font-size: 12px;
+  margin-top: 18px;
+}
+
+.form-note i {
+  color: #1769ff;
+}
+
+
+/* =========================
+   MY LOANS
+========================= */
+
+.my-loans {
+  background: white;
+}
+
+.applications-container {
+  max-width: 1000px;
+  margin: auto;
+}
+
+.empty-loans {
+  text-align: center;
+  border: 1px dashed #d0d5dd;
+  padding: 70px 30px;
+  border-radius: 18px;
+}
+
+.empty-loans i {
+  font-size: 40px;
+  color: #1769ff;
+  margin-bottom: 15px;
+}
+
+.empty-loans p {
+  color: #667085;
+}
+
+.loan-application-card {
+  background: white;
+  border: 1px solid #eaecf0;
+  border-radius: 16px;
+  padding: 25px;
+  margin-bottom: 15px;
+}
+
+.loan-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.loan-card-top h3 {
+  margin-bottom: 5px;
+}
+
+.loan-date {
+  color: #98a2b3;
+  font-size: 13px;
+}
+
+.loan-status {
+  padding: 7px 13px;
+  border-radius: 30px;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.status-pending {
+  background: #fff4d6;
+  color: #a16207;
+}
+
+.status-approved {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+.status-rejected {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+.loan-card-details {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+}
+
+.loan-card-details span {
+  display: block;
+  color: #98a2b3;
+  font-size: 12px;
+}
+
+.loan-card-details strong {
+  display: block;
+  margin-top: 3px;
+}
+
+
+/* =========================
+   HOW IT WORKS
+========================= */
+
+.how-section {
+  background: #f5f8fc;
+}
+
+.steps {
+  max-width: 1150px;
+  margin: auto;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.step {
+  background: white;
+  border-radius: 18px;
+  padding: 30px;
+  position: relative;
+}
+
+.step-number {
+  color: #1769ff;
+  font-weight: 800;
+  font-size: 12px;
+  margin-bottom: 25px;
+}
+
+.step > i {
+  font-size: 24px;
+  color: #1769ff;
+  margin-bottom: 20px;
+}
+
+.step h3 {
+  margin-bottom: 8px;
+}
+
+.step p {
+  color: #667085;
+  font-size: 14px;
+}
+
+
+/* =========================
+   FAQ
+========================= */
+
+.faq-section {
+  background: white;
+}
+
+.faq-container {
+  max-width: 850px;
+  margin: auto;
+}
+
+details {
+  border-bottom: 1px solid #eaecf0;
+  padding: 20px 0;
+}
+
+summary {
+  list-style: none;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  font-weight: 700;
+}
+
+summary::-webkit-details-marker {
+  display: none;
+}
+
+details p {
+  color: #667085;
+  padding-top: 15px;
+  max-width: 700px;
+}
+
+
+/* =========================
+   CTA
+========================= */
+
+.loan-cta {
+  background: #1769ff;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 30px;
+}
+
+.loan-cta span {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+}
+
+.loan-cta h2 {
+  font-size: 38px;
+  margin: 8px 0;
+}
+
+.loan-cta p {
+  opacity: 0.85;
+}
+
+.loan-cta a {
+  background: white;
+  color: #1769ff;
+  padding: 14px 22px;
+  border-radius: 8px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+
+/* =========================
+   FOOTER
+========================= */
+
+footer {
+  background: #101828;
+  color: white;
+  padding: 65px 7% 25px;
+}
+
+.footer-main {
+  display: flex;
+  justify-content: space-between;
+  gap: 50px;
+  padding-bottom: 50px;
+}
+
+.footer-brand {
+  max-width: 330px;
+}
+
+.footer-brand p {
+  color: #98a2b3;
+  margin-top: 15px;
+}
+
+.footer-links {
+  display: flex;
+  gap: 80px;
+}
+
+.footer-links div {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.footer-links h4 {
+  margin-bottom: 8px;
+}
+
+.footer-links a {
+  color: #98a2b3;
+  font-size: 14px;
+}
+
+.footer-links a:hover {
+  color: white;
+}
+
+.footer-bottom {
+  border-top: 1px solid #344054;
+  padding-top: 22px;
+  display: flex;
+  justify-content: space-between;
+  color: #98a2b3;
+  font-size: 13px;
+}
+
+.footer-bottom i {
+  margin-right: 5px;
+}
+
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 1000px) {
+
+  .loan-type-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .application-wrapper {
+    grid-template-columns: 1fr;
+  }
+
+  .application-intro {
+    position: static;
+  }
+
+  .steps {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .loan-hero {
+    grid-template-columns: 1fr;
+  }
+
+}
+
+
+@media (max-width: 700px) {
+
+  .navbar {
+    padding: 0 5%;
+  }
+
+  .menu-btn {
+    display: block;
+  }
+
+  .nav-links {
+    display: none;
+    position: absolute;
+    top: 78px;
+    left: 0;
+    width: 100%;
+    background: white;
+    flex-direction: column;
+    padding: 25px;
+    border-bottom: 1px solid #e5e7eb;
+  }
+
+  .nav-links.show {
+    display: flex;
+  }
+
+  section {
+    padding: 70px 5%;
+  }
+
+  .hero-content h1 {
+    font-size: 44px;
+    letter-spacing: -2px;
+  }
+
+  .hero-content p {
+    font-size: 16px;
+  }
+
+  .hero-card {
+    padding: 30px;
+  }
+
+  .loan-type-grid,
+  .steps {
+    grid-template-columns: 1fr;
+  }
+
+  .section-heading h2 {
+    font-size: 34px;
+  }
+
+  .application-intro h2 {
+    font-size: 38px;
+  }
+
+  .loan-form {
+    padding: 25px;
+  }
+
+  .loan-card-top {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+
+  .loan-card-details {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .loan-cta {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .loan-cta h2 {
+    font-size: 30px;
+  }
+
+  .footer-main {
+    flex-direction: column;
+  }
+
+  .footer-links {
+    flex-wrap: wrap;
+    gap: 40px;
+  }
+
+  .footer-bottom {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+}

@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>GlobalCrest | Loans</title>
+
+  <link rel="stylesheet" href="css/loans.css">
+
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+  >
+</head>
+
+<body>
+
+  <!-- NAVBAR -->
+  <header class="navbar">
+
+    <div class="logo">
+      <img src="image/file_0000000010f481f4a05668dbc23185f1.png" alt="" style="width: 40px; height: 40px; border-radius: 50%;">
+      <span>Globalcrest<span>Capital</span></span>
+    </div>
+
+    <nav class="nav-links" id="navLinks">
+      <a href="home.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="features.html">Features</a>
+      <a href="loans.html" class="active">Loans</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+
+    <button class="menu-btn" id="menuBtn">
+      <i class="fa-solid fa-bars"></i>
+    </button>
+
+  </header>
+
+
+  <!-- HERO -->
+  <section class="loan-hero">
+
+    <div class="hero-content">
+
+      <span class="hero-badge">
+        <i class="fa-solid fa-hand-holding-dollar"></i>
+        Flexible Financing
+      </span>
+
+      <h1>
+        Turn your plans into
+        <span>possibilities.</span>
+      </h1>
+
+      <p>
+        Whether you're planning a major purchase, growing your business,
+        or handling an unexpected expense, Globalcrest Capital offers flexible
+        financing options designed around your needs.
+      </p>
+
+      <a href="#loanApplication" class="hero-btn">
+        Apply for a Loan
+        <i class="fa-solid fa-arrow-right"></i>
+      </a>
+
+    </div>
+
+    <div class="hero-card">
+
+      <div class="floating-icon">
+        <i class="fa-solid fa-chart-line"></i>
+      </div>
+
+      <p>Available financing</p>
+
+      <h2>$100,000</h2>
+
+      <span>
+        Flexible terms available
+      </span>
+
+      <div class="hero-card-line"></div>
+
+      <div class="mini-stat">
+        <span>Application</span>
+        <strong>Simple & Secure</strong>
+      </div>
+
+      <div class="mini-stat">
+        <span>Decision</span>
+        <strong>Admin Review</strong>
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- LOAN TYPES -->
+  <section class="loan-types">
+
+    <div class="section-heading">
+
+      <span>FINANCING OPTIONS</span>
+
+      <h2>Choose the loan that fits your plans</h2>
+
+      <p>
+        Select an option below and complete a simple application.
+      </p>
+
+    </div>
+
+
+    <div class="loan-type-grid">
+
+      <div class="loan-type-card">
+
+        <div class="loan-icon">
+          <i class="fa-solid fa-user"></i>
+        </div>
+
+        <h3>Personal Loan</h3>
+
+        <p>
+          Flexible financing for personal projects,
+          major purchases and unexpected expenses.
+        </p>
+
+        <button
+          type="button"
+          class="select-loan"
+          data-loan="Personal Loan">
+          Select Loan
+        </button>
+
+      </div>
+
+
+      <div class="loan-type-card">
+
+        <div class="loan-icon">
+          <i class="fa-solid fa-building"></i>
+        </div>
+
+        <h3>Business Loan</h3>
+
+        <p>
+          Funding designed to help businesses manage
+          growth, equipment and operating expenses.
+        </p>
+
+        <button
+          type="button"
+          class="select-loan"
+          data-loan="Business Loan">
+          Select Loan
+        </button>
+
+      </div>
+
+
+      <div class="loan-type-card">
+
+        <div class="loan-icon">
+          <i class="fa-solid fa-car"></i>
+        </div>
+
+        <h3>Auto Loan</h3>
+
+        <p>
+          Finance your next vehicle with a structured
+          repayment period that works for you.
+        </p>
+
+        <button
+          type="button"
+          class="select-loan"
+          data-loan="Auto Loan">
+          Select Loan
+        </button>
+
+      </div>
+
+
+      <div class="loan-type-card">
+
+        <div class="loan-icon">
+          <i class="fa-solid fa-kit-medical"></i>
+        </div>
+
+        <h3>Emergency Loan</h3>
+
+        <p>
+          Financing for unexpected situations and
+          urgent personal expenses.
+        </p>
+
+        <button
+          type="button"
+          class="select-loan"
+          data-loan="Emergency Loan">
+          Select Loan
+        </button>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- APPLICATION -->
+  <section class="application-section" id="loanApplication">
+
+    <div class="application-wrapper">
+
+      <div class="application-intro">
+
+        <span>LOAN APPLICATION</span>
+
+        <h2>
+          Tell us what you need.
+        </h2>
+
+        <p>
+          Complete the application below. Your application will be
+          securely submitted for review.
+        </p>
+
+
+        <div class="application-benefits">
+
+          <div>
+            <i class="fa-solid fa-lock"></i>
+
+            <div>
+              <strong>Secure Application</strong>
+              <p>Your information is protected.</p>
+            </div>
+          </div>
+
+
+          <div>
+            <i class="fa-solid fa-file-circle-check"></i>
+
+            <div>
+              <strong>Simple Process</strong>
+              <p>Submit your application in minutes.</p>
+            </div>
+          </div>
+
+
+          <div>
+            <i class="fa-solid fa-user-check"></i>
+
+            <div>
+              <strong>Manual Review</strong>
+              <p>Every application is reviewed.</p>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <form id="loanForm" class="loan-form">
+
+        <div class="form-header">
+
+          <div>
+            <span>STEP 1</span>
+            <h3>Loan details</h3>
+          </div>
+
+          <i class="fa-solid fa-money-check-dollar"></i>
+
+        </div>
+
+
+        <!-- LOAN TYPE -->
+        <div class="form-group">
+
+          <label for="loanType">
+            Loan Type
+          </label>
+
+          <select id="loanType" name="loanType" required>
+
+            <option value="">
+              Select loan type
+            </option>
+
+            <option value="Personal Loan">
+              Personal Loan
+            </option>
+
+            <option value="Business Loan">
+              Business Loan
+            </option>
+
+            <option value="Emergency Loan">
+              Emergency Loan
+            </option>
+
+            <option value="Auto Loan">
+              Auto Loan
+            </option>
+
+          </select>
+
+        </div>
+
+
+        <!-- AMOUNT -->
+        <div class="form-group">
+
+          <div class="label-row">
+            <label for="amount">
+              How much do you need?
+            </label>
+
+            <strong id="amountDisplay">
+              $10,000
+            </strong>
+          </div>
+
+          <input
+            type="range"
+            id="amount"
+            name="amount"
+            min="100"
+            max="100000"
+            step="100"
+            value="10000"
+          >
+
+          <div class="range-labels">
+            <span>$100</span>
+            <span>$100,000</span>
+          </div>
+
+        </div>
+
+
+        <!-- TERM -->
+        <div class="form-group">
+
+          <label for="termMonths">
+            Repayment Period
+          </label>
+
+          <select
+            id="termMonths"
+            name="termMonths"
+            required>
+
+            <option value="3">3 Months</option>
+            <option value="6">6 Months</option>
+            <option value="12" selected>12 Months</option>
+            <option value="24">24 Months</option>
+            <option value="36">36 Months</option>
+            <option value="48">48 Months</option>
+            <option value="60">60 Months</option>
+
+          </select>
+
+        </div>
+
+
+        <!-- INCOME -->
+        <div class="form-group">
+
+          <label for="monthlyIncome">
+            Monthly Income
+          </label>
+
+          <div class="input-wrapper">
+
+            <span>$</span>
+
+            <input
+              type="number"
+              id="monthlyIncome"
+              name="monthlyIncome"
+              min="0"
+              placeholder="8,500"
+              required>
+
+          </div>
+
+        </div>
+
+
+        <!-- EMPLOYMENT -->
+        <div class="form-group">
+
+          <label for="employmentStatus">
+            Employment Status
+          </label>
+
+          <select
+            id="employmentStatus"
+            name="employmentStatus"
+            required>
+
+            <option value="">
+              Select employment status
+            </option>
+
+            <option value="Employed">
+              Employed
+            </option>
+
+            <option value="Self Employed">
+              Self Employed
+            </option>
+
+            <option value="Business Owner">
+              Business Owner
+            </option>
+
+            <option value="Other">
+              Other
+            </option>
+
+          </select>
+
+        </div>
+
+
+        <!-- PURPOSE -->
+        <div class="form-group">
+
+          <label for="purpose">
+            Purpose of Loan
+          </label>
+
+          <textarea
+            id="purpose"
+            name="purpose"
+            rows="4"
+            placeholder="Tell us briefly what you plan to use the loan for..."
+            required></textarea>
+
+        </div>
+
+
+        <!-- SUMMARY -->
+        <div class="loan-summary">
+
+          <div class="summary-header">
+            <span>APPLICATION SUMMARY</span>
+
+            <i class="fa-solid fa-calculator"></i>
+          </div>
+
+
+          <div class="summary-row">
+
+            <span>Loan Amount</span>
+
+            <strong id="summaryAmount">
+              $10,000
+            </strong>
+
+          </div>
+
+
+          <div class="summary-row">
+
+            <span>Term</span>
+
+            <strong id="summaryTerm">
+              12 Months
+            </strong>
+
+          </div>
+
+
+          <div class="summary-row">
+
+            <span>Estimated Monthly Payment</span>
+
+            <strong id="monthlyPayment">
+              $833.33
+            </strong>
+
+          </div>
+
+        </div>
+
+
+        <button
+          type="submit"
+          class="submit-btn">
+
+          Submit Application
+
+          <i class="fa-solid fa-arrow-right"></i>
+
+        </button>
+
+
+        <p id="loanMessage" class="loan-message"></p>
+
+        <p class="form-note">
+
+          <i class="fa-solid fa-shield-halved"></i>
+
+          Your application will be reviewed by an authorized
+          Globalcrest Capital administrator.
+
+        </p>
+
+      </form>
+
+    </div>
+
+  </section>
+
+
+  <!-- MY APPLICATIONS -->
+  <section class="my-loans">
+
+    <div class="section-heading">
+
+      <span>APPLICATION HISTORY</span>
+
+      <h2>Your loan applications</h2>
+
+      <p>
+        Track the status of your submitted applications.
+      </p>
+
+    </div>
+
+
+    <div id="loanApplications" class="applications-container">
+
+      <div class="empty-loans">
+
+        <i class="fa-solid fa-folder-open"></i>
+
+        <h3>No applications yet</h3>
+
+        <p>
+          Your submitted loan applications will appear here.
+        </p>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- HOW IT WORKS -->
+  <section class="how-section">
+
+    <div class="section-heading">
+
+      <span>HOW IT WORKS</span>
+
+      <h2>A simple application process</h2>
+
+    </div>
+
+
+    <div class="steps">
+
+      <div class="step">
+
+        <div class="step-number">01</div>
+
+        <i class="fa-solid fa-pen-to-square"></i>
+
+        <h3>Apply</h3>
+
+        <p>
+          Complete your loan application and submit your request.
+        </p>
+
+      </div>
+
+
+      <div class="step">
+
+        <div class="step-number">02</div>
+
+        <i class="fa-solid fa-magnifying-glass"></i>
+
+        <h3>Review</h3>
+
+        <p>
+          Your application is reviewed by an authorized administrator.
+        </p>
+
+      </div>
+
+
+      <div class="step">
+
+        <div class="step-number">03</div>
+
+        <i class="fa-solid fa-circle-check"></i>
+
+        <h3>Decision</h3>
+
+        <p>
+          Your application status will be updated once reviewed.
+        </p>
+
+      </div>
+
+
+      <div class="step">
+
+        <div class="step-number">04</div>
+
+        <i class="fa-solid fa-wallet"></i>
+
+        <h3>Disbursement</h3>
+
+        <p>
+          Approved applications can proceed through the appropriate
+          disbursement process.
+        </p>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- FAQ -->
+  <section class="faq-section">
+
+    <div class="section-heading">
+
+      <span>QUESTIONS</span>
+
+      <h2>Frequently asked questions</h2>
+
+    </div>
+
+
+    <div class="faq-container">
+
+      <details>
+        <summary>
+          How do I apply for a loan?
+          <i class="fa-solid fa-chevron-down"></i>
+        </summary>
+
+        <p>
+          Select your loan type, enter your requested amount,
+          repayment period, income and loan purpose, then submit
+          your application for review.
+        </p>
+      </details>
+
+
+      <details>
+        <summary>
+          How long does approval take?
+          <i class="fa-solid fa-chevron-down"></i>
+        </summary>
+
+        <p>
+          Applications are reviewed by an authorized administrator.
+          The actual review time can vary.
+        </p>
+      </details>
+
+
+      <details>
+        <summary>
+          Can I have more than one application?
+          <i class="fa-solid fa-chevron-down"></i>
+        </summary>
+
+        <p>
+          The Globalcrest Capital system allows one pending loan application
+          at a time. Once it has been reviewed, another application
+          can be submitted if permitted.
+        </p>
+      </details>
+
+
+      <details>
+        <summary>
+          Does approval automatically add money to my account?
+          <i class="fa-solid fa-chevron-down"></i>
+        </summary>
+
+        <p>
+          No. Approval and loan disbursement are separate steps.
+          An approved application must go through the appropriate
+          disbursement process.
+        </p>
+      </details>
+
+    </div>
+
+  </section>
+
+
+  <!-- CTA -->
+  <section class="loan-cta">
+
+    <div>
+
+      <span>READY TO GET STARTED?</span>
+
+      <h2>
+        Build your next chapter with Globalcrest Capital.
+      </h2>
+
+      <p>
+        Apply today and let us review your financing request.
+      </p>
+
+    </div>
+
+    <a href="#loanApplication">
+      Start Application
+      <i class="fa-solid fa-arrow-up"></i>
+    </a>
+
+  </section>
+
+
+  <!-- FOOTER -->
+  <footer>
+
+    <div class="footer-main">
+
+      <div class="footer-brand">
+
+        <div class="logo">
+          <img src="image/file_0000000010f481f4a05668dbc23185f1.png" alt="" style="width: 40px; height: 40px; border-radius: 50%;">
+          <span>Globalcrest<span>Capital</span></span>
+        </div>
+
+        <p>
+          Banking designed around your financial goals,
+          security and confidence.
+        </p>
+
+      </div>
+
+
+      <div class="footer-links">
+
+        <div>
+          <h4>Globalcrest Capital</h4>
+          <a href="about.html">About</a>
+          <a href="features.html">Features</a>
+          <a href="contact.html">Contact</a>
+        </div>
+
+        <div>
+          <h4>Banking</h4>
+          <a href="home.html">Dashboard</a>
+          <a href="transfer.html">Transfers</a>
+          <a href="loans.html">Loans</a>
+        </div>
+
+        <div>
+          <h4>Support</h4>
+          <a href="contact.html">Help Center</a>
+          <a href="contact.html">Security</a>
+          <a href="contact.html">Contact Us</a>
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div class="footer-bottom">
+
+      <span>
+        © 2026 Globalcrest Capital. All rights reserved.
+      </span>
+
+      <span>
+        <i class="fa-solid fa-lock"></i>
+        Secure Banking
+      </span>
+
+    </div>
+
+  </footer>
+
+
+  <script src="js/loans.js"></script>
+
+</body>
+</html>

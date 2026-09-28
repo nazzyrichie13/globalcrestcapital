@@ -1,0 +1,1411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.min.css">
+
+
+
+</head>
+<body>
+  
+
+
+
+  
+
+
+  <header class="navbar">
+
+    <div class="nav-container">
+
+      <a href="home.html" class="logo">
+
+        <span class="logo-icon">
+          <img src="image/file_0000000010f481f4a05668dbc23185f1.png" alt="" style="width: 40px; height: 40px; border-radius: 50%;">
+        </span>
+
+        <span>
+          Globalcrest<span>Capital</span>
+        </span>
+
+      </a>
+
+      <nav class="nav-links">
+
+        <a href="home.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="services.html">Services</a>
+
+        <a href="features.html" class="active">
+          Features
+        </a>
+
+        <a href="loans.html">Loans</a>
+        <a href="card-application.html">Cards</a>
+        <a href="contact.html">Contact</a>
+        <a href="#" class="login-btn" id="loginSectionButton">
+          Login
+  </a>
+      </nav>
+
+      <div class="nav-actions">
+
+         
+        <a href="signup.html" class="signup-btn">
+          Open Account
+        </a>
+
+      </div>
+
+      <button class="menu-btn" id="menuBtn">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+
+    </div>
+
+  </header>
+
+ 
+
+  <div class="navsection">
+     <h3 class="promisecard">premuim Cards</h3>
+     <p class="nextGen">next-gen <br> <span>card</span> exprience</p> 
+     <p  class="exclusive" style="width: 410px; font-size: 15px ; color:white; ">unlock exclusive rewards,smart spending insight,and seamless payments with our premuim 
+      banking cards designed for mordern lifestyles
+     </p>
+     <div style="display: flex; gap:20px ; " class="firstcardpremuim">
+      <a href="#" style="background-color: blue; color: white;padding:7px ; border-radius:5px ; text-transform: capitalize; text-decoration: none; width:200px ;text-align: center;">get your card</a>
+      <select name="cards" id="cards"  style="background-color: rgba(0, 0, 255, 0.342); color: white;padding:7px ; border-radius:5px ; text-transform: capitalize; text-decoration: none; border: 1px solid white; width:200px ; text-align: center; font-size: 15px;">
+         <option value="compare card ">compare cards </option> 
+        </select>
+     </div>
+     <div>
+      <img src="image/4564 5655 6875 8965_20260920_191356_0000.png" alt="image" style="mix-blend-mode: multiply;" >
+     </div>
+  </div>
+
+  <!-- LOGIN -->
+  <section id="loginSection" class="loginSection">
+    <div class="loginmessage">
+      <h2>Welcome to </h2>
+      <img src="image/file_0000000010f481f4a05668dbc23185f1.png" alt="img">
+    </div>
+    <h1>Login</h1>  
+
+    <form id="loginForm">
+      <input
+        type="email"
+        name="email"
+        placeholder="Email"
+        required
+      >
+ 
+      <input
+        type="password"
+        name="password"
+        placeholder="Password"
+        required
+      >
+
+      <button type="submit">
+        Login
+      </button>
+
+    </form>
+
+    <p id="message"></p>
+
+  </section>
+
+
+  <!-- DASHBOARD -->
+  <section id="dashboardSection" style="display: none;">
+
+    <div class="profile-card">
+
+      <img
+        id="profilePhoto"
+        src="default-profile.png"
+        alt="Profile photo"
+    
+>
+      
+       </h2> Welcome, <span id="userName"></span>
+      </h2>
+
+      <p>
+        Account Number:
+        <span id="accountNumber"></span>
+      </p>
+
+    </div>
+    <div class="balance-card">
+
+      <p>Available Balance</p>
+      <h1>
+        ₦<span id="balance">0</span>
+      </h1>
+
+    </div>
+    <div class="tier-card">
+
+  <div>
+    <span>Account Tier</span>
+    <h3 id="userTier">Tier 1</h3>
+  </div>
+
+  <div>
+    <span>Maximum Transfer</span>
+    <h3 id="tierLimit">$5,000</h3>
+  </div>
+
+</div>
+<div class="card-details-box">
+
+    <h3>No Card Details Available</h3>
+
+    <p>
+      You don't have any card details associated with your account yet.
+    </p>
+
+    <button id="applyCardBtn">
+      Apply for Card
+    </button>
+
+  </div>
+  <a href="transfer.html" class="transfer-button">
+  Transfer 
+</a>
+
+
+    <div id="transactions">
+
+      <h2>Transactions</h2>
+
+    </div>
+
+
+    <button id="logout">
+      Logout
+    </button>
+
+  </section>
+  <main>
+    <section>
+       
+ <div class="solidmenu" style="background-color: whitesmoke; height: 200px; border-radius: 35px; margin:0 30px; display: flex; justify-content: space-between; padding: 20px; align-items: center;">
+<div>
+    
+    <a href="#">Bank Account</a>
+    <p>Simple,Secured </p>
+    <p>built for you</p>
+    <a href="#">learn more <i class="fa-solid fa-circle-arrow-right"></i></a>
+</div>
+<div>
+    <a href="#">Save & invest</a>
+    <p>Grow your money </p>
+    <p>with confidence</p>
+    <a href="#">learn more <i class="fa-solid fa-circle-arrow-right"></i></a>
+</div>
+<div>
+    <a href="#">Loans</a>
+    <p>Personal,Home and </p>
+    <p>Business loans</p>
+    <a href="#">learn more <i class="fa-solid fa-circle-arrow-right"></i></a>
+</div>
+<div>
+    <a href="#">Secure banking</a>
+    <p>your security is our </p>
+    <p>top priority</p>
+    <a href="#">learn More <i class="fa-solid fa-circle-arrow-right"></i></a>
+</div>
+<div>
+    <a href="#">Digital Banking</a>
+    <p>Bank anytime,</p>
+    <p>anywhere</p>
+    <a href="#">learn more <i class="fa-solid fa-circle-arrow-right"></i></a>
+</div>
+            </div>
+    </section>
+
+    <section class="features">
+      <p style="background-color: whitesmoke ; color: blue; border-left: 2px solid blue; padding: 4px; font-weight: 300; width: 200px; text-align: center; ">Premium Features</p>
+      <p style="font-size: 20px; font-weight: 800;">Banking Features Designed for you</p>
+      <p style="font-weight: 300; font-size: 15px; text-transform: capitalize;">exprience Premium banking with features that managing your money simpler <br> and more rewarding</p>
+       <div class="monthlydiv">
+        <div style="display: flex; flex-direction: column; gap: 20px; font-size: 15px; align-items: flex-start; background-color: rgba(230, 233, 235, 0.919);border: 1px solid whitesmoke; width: 400px; padding: 20px;border-radius: 5px;">
+          <h3 style="color: rgb(58, 58, 248);">no monthly fees</h3>
+          <p >enjoy free-free banking with no minium <br>balance requirements or hidden charges</p>
+          <a href="#" style="font-size: 15px;">learn more <i class="fa-solid fa-circle-arrow-right"></i></a>
+
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 20px; font-size: 15px; align-items: flex-start;background-color: rgba(230, 233, 235, 0.919);border: 1px solid whitesmoke; width: 400px;padding: 20px;border-radius: 5px;">
+       <h3 style="color: rgb(58, 58, 248);">Advanced Security</h3>
+       <p>rest easy with industry-leading security <br>features including biometric authentication <br> and real-time alerts.</p>
+       <a href="#" style="font-size: 15px;">learn more</a>
+        </div>
+       </div>
+       <div class="monthlydiv">
+        <div style="display: flex; flex-direction: column; gap: 20px; font-size: 15px; align-items: flex-start;background-color: rgba(230, 233, 235, 0.919);border: 1px solid whitesmoke; width: 400px;padding: 20px;border-radius: 5px;">
+          <h3 style="color: rgb(58, 58, 248);">24/7 Banking</h3>
+          <p>acess your accounts anytime,anywhere <br> with our mobile app and online banking  <br>platform</p>
+          <a href="#" style="font-size: 15px;">learn more <i class="fa-solid fa-circle-arrow-right"></i></a>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 20px; font-size: 15px; align-items: flex-start;background-color: rgba(230, 233, 235, 0.919);border: 1px solid whitesmoke; width: 400px; padding: 20px;border-radius: 5px;">
+          <h3 style="color: rgb(58, 58, 248);">competitive rates</h3>
+          <p>earn more with our high-yield savings <br> accounts and competitive loan rates.</p>
+          <a href="#" style="font-size: 15px;">learn more</a>
+        </div>
+       </div>
+    </section>
+    <section class="finacialconsult">
+      <div class="consultation">
+    <h3>finacial consultation </h3>
+    <p>shedule a free consultation with one of our finacial advisors to discuss <br> your goals and get personalized banking solutions.</p>
+      <p>what will you like to discuss?
+    <form action="" style="display: flex; flex-direction: column; gap: 10px;">
+     <select name="banking" id="bankcon" style=" border: none;background-color: whitesmoke;padding: 10px; border-radius: 10px;">
+      <option value="personal banking">personal banking</option>
+      
+     </select>
+    <label for="name">your name</label>
+      <input type="text" placeholder="john doe">
+      <div style="display: flex; justify-content: space-between; padding: 20px;">
+        <label for="date">date</label>
+        <label for="time"> preferred time</label>
+      </div>
+      <div>
+        <input type="date" name="date" id="date">
+        <input type="time" name="time" id="time">
+      </div>
+      <button type="submit" style=" border: none;background-color: blue;padding: 10px; color: white; font-size: 15px; border-radius: 10px;">Schedule consultation</button>
+    </form>
+      </div>
+      
+      <div class="benefit">
+        <h3>benefits of our consultation</h3>
+        <p>personalized finacial strategy</p>
+        <p>expert insights tailored to your <br>goals</p>
+        <p>no commitment or pressure</p>
+        <p>available in person or via video <br> call</p>
+        <div style="display: flex; gap: 10px; margin-top: 30px; border-top: 1px solid whitesmoke;padding: 20px;">
+          <div><img src="image/file_000000003f9c81f590ad1dd1f59431ae.png" alt="" style="width: 80px; height: 80px; border-radius: 50%;"></div>
+          <div>
+            <h3>our advisors are ready to <br>help</h3>
+          <p>average satisfaction score: <br> 4.9/5</p>
+          </div>
+        </div>
+      </div>
+
+    </section>
+    
+      <div class="slider">
+        <div class="slides">
+      <div class="slide">
+        <img src="image/Screenshot_20260910-133001_1.jpg" alt="image">
+      </div>
+      <div class="slide">
+        <img src="image/file_00000000648081f4910d66d44947abbe.png" alt="image">
+      </div>
+      <div class="slide">
+        <img src="image/file_00000000a34881f4815c6594cd8e96f5.png" alt="image">
+      </div>
+      <div class="slide">
+        <img src="image/file_000000003f9c81f590ad1dd1f59431ae.png" alt="image">
+      </div>
+      
+      <div class="slide">
+        <img src="image/file_00000000054071f68e40dd8440876aa3.png" alt="image">
+      </div>
+      <div class="slide">
+        <img src="image/file_00000000cbcc8210a1d443f3b6f0e5b9.png" alt="image">
+      </div>
+      <div class="slide">
+        <img src="image/4564 5655 6875 8965_20260920_191356_0000.png" alt="image">
+      </div>
+        </div>
+      </div>
+
+      <div id="dashboard">
+
+
+    <!-- HERO -->
+
+    <section class="hero-section">
+
+      <div class="hero-video">
+
+        <video
+          autoplay
+          muted
+          loop
+          playsinline
+        >
+          <source
+            src="video/5981353-uhd_4096_2160_25fps.mp4"
+            type="video/mp4"
+          >
+        </video>
+
+        <div class="video-overlay"></div>
+
+      </div>
+
+
+      <div class="hero-content">
+
+        <span class="hero-badge">
+          <i class="fa-solid fa-shield-halved"></i>
+
+          Secure digital banking
+        </span>
+
+
+        <h1>
+          Banking built around
+          <span>your future.</span>
+        </h1>
+
+
+        <p>
+          Manage your money, move funds,
+          track your financial progress and
+          stay connected to your accounts
+          from one powerful platform.
+        </p>
+
+
+        <div class="hero-buttons">
+
+          <a
+            href="transfer.html"
+            class="primary-btn"
+          >
+            Transfer Money
+
+            <i class="fa-solid fa-arrow-right"></i>
+          </a>
+
+
+          <a
+            href="card-application.html"
+            class="secondary-btn"
+          >
+            Get a Card
+          </a>
+
+        </div>
+
+      </div>
+
+
+      <div class="hero-scroll">
+        <i class="fa-solid fa-chevron-down"></i>
+        Explore your banking
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+         WELCOME
+    ========================== -->
+
+    <section class="welcome-section">
+
+      <div>
+
+        <span class="section-label">
+          YOUR FINANCIAL SPACE
+        </span>
+
+        <h2>
+          Welcome back,
+          <span id="welcomeName">
+            Customer
+          </span>
+        </h2>
+
+        <p>
+          Here's what's happening with
+          your money today.
+        </p>
+
+      </div>
+
+
+      <div class="date-card">
+
+        <i class="fa-regular fa-calendar"></i>
+
+        <div>
+          <span>Today</span>
+
+          <strong id="currentDate">
+            --
+          </strong>
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+         BALANCE AREA
+    ========================== -->
+
+    
+
+      <!-- TIER -->
+
+      
+    
+
+
+    <!-- =========================
+         QUICK ACTIONS
+    ========================== -->
+
+    <section class="section">
+
+      <div class="section-heading">
+
+        <div>
+          <span class="section-label">
+            QUICK ACTIONS
+          </span>
+
+          <h2>
+            Move money your way
+          </h2>
+        </div>
+
+      </div>
+
+
+      <div class="quick-actions">
+
+        <a
+          href="transfer.html"
+          class="action-card transfer"
+        >
+
+          <div class="action-icon">
+            <i class="fa-solid fa-paper-plane"></i>
+          </div>
+
+          <div>
+            <h3>Transfer Money</h3>
+
+            <p>
+              Send money securely
+            </p>
+          </div>
+
+          <i class="fa-solid fa-arrow-right"></i>
+
+        </a>
+
+
+        <a
+          href="card-application.html"
+          class="action-card"
+        >
+
+          <div class="action-icon">
+            <i class="fa-regular fa-credit-card"></i>
+          </div>
+
+          <div>
+            <h3>Get a Card</h3>
+
+            <p>
+              Apply for a GlobalCrest capital card
+            </p>
+          </div>
+
+          <i class="fa-solid fa-arrow-right"></i>
+
+        </a>
+
+
+        <a
+          href="loans.html"
+          class="action-card"
+        >
+
+          <div class="action-icon">
+            <i class="fa-solid fa-hand-holding-dollar"></i>
+          </div>
+
+          <div>
+            <h3>Loans</h3>
+
+            <p>
+              Explore financing options
+            </p>
+          </div>
+
+          <i class="fa-solid fa-arrow-right"></i>
+
+        </a>
+
+
+        <a
+          href="#security"
+          class="action-card"
+        >
+
+          <div class="action-icon">
+            <i class="fa-solid fa-shield-halved"></i>
+          </div>
+
+          <div>
+            <h3>Security</h3>
+
+            <p>
+              Protect your account
+            </p>
+          </div>
+
+          <i class="fa-solid fa-arrow-right"></i>
+
+        </a>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+         CARDS
+    ========================== -->
+
+    <section
+      class="cards-section"
+      id="cards"
+    >
+
+      <div class="section-heading light">
+
+        <div>
+
+          <span class="section-label">
+            YOUR CARDS
+          </span>
+
+          <h2>
+            Designed for your lifestyle
+          </h2>
+
+        </div>
+
+
+        <a
+          href="card-application.html"
+          class="light-link"
+        >
+          Apply for a card
+          <i class="fa-solid fa-arrow-right"></i>
+        </a>
+
+      </div>
+
+
+      <div class="bank-cards">
+
+
+        <!-- STANDARD CARD -->
+
+        <div class="bank-card standard-card">
+
+          <div class="card-header">
+
+            <span>GlobalCrest Capital</span>
+
+            <i class="fa-solid fa-wifi"></i>
+
+          </div>
+
+
+          <div class="chip">
+              <span></span>
+          </div>
+
+
+          <div class="card-number">
+            •••• •••• •••• 4821
+          </div>
+
+
+          <div class="card-footer">
+
+            <div>
+              <small>CARD HOLDER</small>
+              <strong id="cardHolderName">
+                YOUR NAME
+              </strong>
+            </div>
+
+            <div>
+              <small>VALID THRU</small>
+              <strong>09/30</strong>
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <!-- PREMIUM CARD -->
+
+        <div class="bank-card premium-card">
+
+          <div class="card-header">
+
+            <span>GlobalCrest Capital</span>
+
+            <i class="fa-solid fa-wifi"></i>
+
+          </div>
+
+
+          <div class="premium-symbol">
+            GC
+          </div>
+
+
+          <div class="card-number">
+            •••• •••• •••• 9284
+          </div>
+
+
+          <div class="card-footer">
+
+            <div>
+              <small>PREMIUM</small>
+              <strong>MEMBER</strong>
+            </div>
+
+            <div>
+              <small>VALID THRU</small>
+              <strong>11/31</strong>
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <!-- APPLY CARD -->
+
+        <a
+          href="card-application.html"
+          class="apply-card"
+        >
+
+          <div>
+
+            <i class="fa-solid fa-plus"></i>
+
+          </div>
+
+          <h3>
+            Apply for a new card
+          </h3>
+
+          <p>
+            Choose from our available
+            card options.
+          </p>
+
+        </a>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+         FINANCIAL ANALYTICS
+    ========================== -->
+
+    <section class="section analytics-section">
+
+      <div class="section-heading">
+
+        <div>
+
+          <span class="section-label">
+            FINANCIAL OVERVIEW
+          </span>
+
+          <h2>
+            Know where your money stands
+          </h2>
+
+        </div>
+
+
+        <select id="chartPeriod">
+
+          <option>Last 7 days</option>
+
+          <option>
+            Last 30 days
+          </option>
+
+          <option>
+            Last 6 months
+          </option>
+
+        </select>
+
+      </div>
+
+
+      <div class="analytics-grid">
+
+
+        <div class="chart-card">
+
+          <div class="chart-header">
+
+            <div>
+              <span>Balance activity</span>
+
+              <h3>
+                $<span id="chartBalance">
+                  0
+                </span>
+              </h3>
+            </div>
+
+            <span class="positive">
+              <i class="fa-solid fa-arrow-trend-up"></i>
+              8.4%
+            </span>
+
+          </div>
+
+
+          <div class="chart">
+
+            <div class="chart-line line-one"></div>
+
+            <div class="chart-line line-two"></div>
+
+            <div class="chart-line line-three"></div>
+
+            <svg
+              viewBox="0 0 700 220"
+              preserveAspectRatio="none"
+            >
+
+              <polyline
+                points="
+                0,175
+                80,145
+                160,160
+                240,110
+                320,125
+                400,75
+                480,95
+                560,45
+                700,30
+                "
+                fill="none"
+                stroke="currentColor"
+                stroke-width="5"
+              />
+
+            </svg>
+
+          </div>
+
+
+          <div class="chart-days">
+
+            <span>Mon</span>
+            <span>Tue</span>
+            <span>Wed</span>
+            <span>Thu</span>
+            <span>Fri</span>
+            <span>Sat</span>
+            <span>Sun</span>
+
+          </div>
+
+        </div>
+
+
+        <div class="spending-card">
+
+          <h3>
+            Money movement
+          </h3>
+
+          <p>
+            Your recent financial activity
+          </p>
+
+
+          <div class="movement">
+
+            <div class="movement-icon incoming">
+              <i class="fa-solid fa-arrow-down"></i>
+            </div>
+
+            <div>
+              <span>Money received</span>
+              <strong>+$4,850</strong>
+            </div>
+
+          </div>
+
+
+          <div class="movement">
+
+            <div class="movement-icon outgoing">
+              <i class="fa-solid fa-arrow-up"></i>
+            </div>
+
+            <div>
+              <span>Money sent</span>
+              <strong>-$1,420</strong>
+            </div>
+
+          </div>
+
+
+          <div class="movement">
+
+            <div class="movement-icon savings">
+              <i class="fa-solid fa-piggy-bank"></i>
+            </div>
+
+            <div>
+              <span>Savings</span>
+              <strong>$8,240</strong>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+         TRANSACTIONS
+    ========================== -->
+
+   
+     
+    
+
+
+    <!-- =========================
+         FINANCIAL GOALS
+    ========================== -->
+
+    <section class="section">
+
+      <div class="section-heading">
+
+        <div>
+
+          <span class="section-label">
+            YOUR GOALS
+          </span>
+
+          <h2>
+            Build toward something bigger
+          </h2>
+
+        </div>
+
+      </div>
+
+
+      <div class="goals-grid">
+
+
+        <div class="goal-card">
+
+          <div class="goal-top">
+
+            <div class="goal-icon">
+              <i class="fa-solid fa-car"></i>
+            </div>
+
+            <span>
+              72%
+            </span>
+
+          </div>
+
+          <h3>
+            New Car
+          </h3>
+
+          <p>
+            $18,000 of $25,000
+          </p>
+
+          <div class="progress">
+            <span style="width:72%"></span>
+          </div>
+
+        </div>
+
+
+        <div class="goal-card">
+
+          <div class="goal-top">
+
+            <div class="goal-icon">
+              <i class="fa-solid fa-plane"></i>
+            </div>
+
+            <span>
+              48%
+            </span>
+
+          </div>
+
+          <h3>
+            Travel Fund
+          </h3>
+
+          <p>
+            $2,400 of $5,000
+          </p>
+
+          <div class="progress">
+            <span style="width:48%"></span>
+          </div>
+
+        </div>
+
+
+        <div class="goal-card">
+
+          <div class="goal-top">
+
+            <div class="goal-icon">
+              <i class="fa-solid fa-house"></i>
+            </div>
+
+            <span>
+              31%
+            </span>
+
+          </div>
+
+          <h3>
+            Home Fund
+          </h3>
+
+          <p>
+            $31,000 of $100,000
+          </p>
+
+          <div class="progress">
+            <span style="width:31%"></span>
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+         CONNECTED BANKS
+    ========================== -->
+
+    <section class="connected-section">
+
+      <div>
+
+        <span class="section-label">
+          CONNECTED ACCOUNTS
+        </span>
+
+        <h2>
+          Your financial network
+        </h2>
+
+        <p>
+          Connect external accounts to get
+          a clearer picture of your finances.
+        </p>
+
+      </div>
+
+
+      <div class="connected-bank">
+
+        <div class="bank-logo">
+          <i class="fa-solid fa-building-columns"></i>
+        </div>
+
+        <div class="bank-info">
+
+          <strong>
+            GlobaCrest Capital Account
+          </strong>
+
+          <span>
+            •••• <span id="connectedAccount">
+              ----
+            </span>
+          </span>
+
+        </div>
+
+        <span class="verified">
+          <i class="fa-solid fa-circle-check"></i>
+          Verified
+        </span>
+
+      </div>
+
+
+      <button class="connect-bank-btn">
+
+        <i class="fa-solid fa-plus"></i>
+
+        Connect another bank
+
+      </button>
+
+    </section>
+
+
+    <!-- =========================
+         SECURITY
+    ========================== -->
+
+    <section
+      class="security-section"
+      id="security"
+    >
+
+      <div class="security-content">
+
+        <span class="section-label">
+          SECURITY CENTER
+        </span>
+
+        <h2>
+          Your security comes first.
+        </h2>
+
+        <p>
+          GlobaCrest Capital continuously monitors
+          your account activity and provides
+          tools to help keep your financial
+          information protected.
+        </p>
+
+
+        <div class="security-status">
+
+          <div class="security-check">
+
+            <i class="fa-solid fa-check"></i>
+
+          </div>
+
+          <div>
+
+            <strong>
+              Account protection is active
+            </strong>
+
+            <span>
+              No security issues detected
+            </span>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <div class="security-image">
+
+        <img
+          src="image/ChatGPT Image Sep 27, 2026, 11_04_11 PM.png"
+          alt="Secure banking"
+        >
+
+        <div class="security-overlay">
+
+          <i class="fa-solid fa-shield-halved"></i>
+
+          <strong>
+            Protected
+          </strong>
+
+          <span>
+            24/7 account monitoring
+          </span>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+         PROMO
+    ========================== -->
+
+    <section class="promo-section">
+
+      <div class="promo-image">
+
+        <img
+          src="image/ChatGPT Image Sep 27, 2026, 11_07_21 PM.png"
+          alt="Global banking"
+        >
+
+      </div>
+
+
+      <div class="promo-content">
+
+        <span class="section-label">
+          BANKING WITHOUT BORDERS
+        </span>
+
+        <h2>
+          Your money.
+          Your world.
+          Your future.
+        </h2>
+
+        <p>
+          Experience a smarter way to manage
+          your financial life with GlobaCrest.
+        </p>
+
+
+        <a
+          href="features.html"
+          class="primary-btn"
+        >
+          Explore GlobalCrest Capital
+
+          <i class="fa-solid fa-arrow-right"></i>
+        </a>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+         SUPPORT
+    ========================== -->
+
+    <section
+      class="support-section"
+      id="support"
+    >
+
+      <div class="support-card">
+
+        <div class="support-icon">
+          <i class="fa-solid fa-headset"></i>
+        </div>
+
+        <div>
+
+          <span>
+            NEED HELP?
+          </span>
+
+          <h3>
+            We're here for you.
+          </h3>
+
+          <p>
+            Get assistance with your
+            account whenever you need it.
+          </p>
+
+        </div>
+
+        <a href="contact.html">
+          Contact Support
+          <i class="fa-solid fa-arrow-right"></i>
+        </a>
+
+      </div>
+
+    </section>
+
+</div>
+  </main>
+
+
+  <!-- =========================
+       FOOTER
+  ========================== -->
+
+
+
+   <footer>
+
+    <div class="footer-main">
+
+      <div class="footer-brand">
+
+        <div class="logo">
+
+          <div class="logo-icon">
+            <img src="image/file_0000000010f481f4a05668dbc23185f1.png" alt="" style="width: 40px; height: 40px; border-radius: 50%;">
+          </div>
+
+          <span>Globalcrest<span>Capital</span></span>
+
+        </div>
+
+        <p>
+          Modern banking built around security, simplicity,
+          and trust.
+        </p>
+
+        <div class="social-links">
+
+          <a href="#">
+            <i class="fa-brands fa-facebook-f"></i>
+          </a>
+
+          <a href="#">
+            <i class="fa-brands fa-x-twitter"></i>
+          </a>
+
+          <a href="#">
+            <i class="fa-brands fa-instagram"></i>
+          </a>
+
+          <a href="#">
+            <i class="fa-brands fa-linkedin-in"></i>
+          </a>
+
+        </div>
+
+      </div>
+
+
+      <div class="footer-column">
+
+        <h4>Globalcrest Capital</h4>
+
+        <a href="#">About Us</a>
+        <a href="#">Careers</a>
+        <a href="#">Security</a>
+        <a href="#">Newsroom</a>
+
+      </div>
+
+
+      <div class="footer-column">
+
+        <h4>Products</h4>
+
+        <a href="#">Checking</a>
+        <a href="#">Savings</a>
+        <a href="#">Cards</a>
+        <a href="#">Transfers</a>
+
+      </div>
+
+
+      <div class="footer-column">
+
+        <h4>Support</h4>
+
+        <a href="#">Help Center</a>
+        <a href="#">Contact Us</a>
+        <a href="#">Security</a>
+        <a href="#">FAQs</a>
+
+      </div>
+
+    </div>
+
+
+    <div class="footer-bottom">
+
+      <span>
+        © 2026 GlobalCrest Capital. All rights reserved.
+      </span>
+
+      <div>
+        <a href="#">Privacy</a>
+        <a href="#">Terms</a>
+        <a href="#">Cookies</a>
+      </div>
+
+    </div>
+
+  </footer>
+
+
+  
+
+  
+  <script>
+ 
+const slidecontainer = document.querySelector(".slides");
+const slide = document.querySelectorAll(".slide");
+let index = 0;
+const loginSectionButton = 
+document.getElementById("loginSectionButton");
+loginSectionButton.addEventListener('click',() => {
+ const login = document.getElementById("loginSection");
+ login.classList.toggle('loginSectionCard')
+
+})
+setInterval(() => {
+  index = (index + 1)% slide.length;
+  slidecontainer.style.transform = 
+  ` translateX(-${index *  100}%)`;
+}, 3000); 
+const menuBtn =
+      document.getElementById("menuBtn");
+
+    const navLinks =
+      document.querySelector(".nav-links");
+
+    menuBtn.addEventListener("click", () => {
+
+      navLinks.classList.toggle("show");
+
+    });
+  </script> 
+   <script src="./js/home.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script> 
+
+
+ 
+</body>
+</html>

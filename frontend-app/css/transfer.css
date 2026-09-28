@@ -1,0 +1,420 @@
+/* ================================
+   TRANSFER PAGE
+================================ */
+
+* {
+  box-sizing: border-box;
+}
+
+.transfer-page {
+  width: 100%;
+  max-width: 720px;
+  margin: 40px auto;
+  padding: 20px;
+  color: #172033;
+}
+
+/* Page heading */
+.transfer-page > h1 {
+  margin: 0 0 25px;
+  font-size: 32px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+/* ================================
+   TRANSFER FORM
+================================ */
+
+#transferForm {
+  width: 100%;
+  background: #ffffff;
+  border: 1px solid #e5e9f0;
+  border-radius: 18px;
+  padding: 30px;
+  box-shadow: 0 12px 35px rgba(15, 23, 42, 0.08);
+}
+
+#transferForm h2 {
+  margin: 0 0 25px;
+  font-size: 22px;
+  color: #172033;
+}
+
+/* Labels */
+#transferForm label {
+  display: block;
+  margin: 18px 0 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #39445a;
+}
+
+/* Inputs and selects */
+#transferForm input,
+#transferForm select {
+  width: 100%;
+  min-height: 50px;
+  padding: 0 15px;
+  border: 1px solid #d9deea;
+  border-radius: 10px;
+  background: #f9fafc;
+  color: #172033;
+  font-size: 15px;
+  outline: none;
+  transition: 0.2s ease;
+}
+
+/* Focus effect */
+#transferForm input:focus,
+#transferForm select:focus {
+  border-color: #315efb;
+  background: #ffffff;
+  box-shadow: 0 0 0 4px rgba(49, 94, 251, 0.1);
+}
+
+/* Placeholder */
+#transferForm input::placeholder {
+  color: #9aa3b5;
+}
+
+/* ================================
+   TRANSFER SECTIONS
+================================ */
+
+#sameBankSection,
+#externalBankSection {
+  margin-top: 5px;
+}
+
+/* ================================
+   BUTTONS
+================================ */
+
+#transferForm button {
+  width: 100%;
+  min-height: 50px;
+  margin-top: 15px;
+  border: none;
+  border-radius: 10px;
+  background: #315efb;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+#transferForm button:hover {
+  background: #244bd4;
+  transform: translateY(-1px);
+}
+
+#transferForm button:active {
+  transform: translateY(0);
+}
+
+/* Verify buttons */
+#verifySameBank,
+#verifyExternalBank {
+  background: #eef2ff !important;
+  color: #315efb !important;
+  border: 1px solid #d9e0ff !important;
+}
+
+#verifySameBank:hover,
+#verifyExternalBank:hover {
+  background: #e1e7ff !important;
+}
+
+/* Main transfer button */
+#transferForm button[type="submit"] {
+  margin-top: 25px;
+  background: #172033;
+}
+
+#transferForm button[type="submit"]:hover {
+  background: #0d1424;
+}
+
+/* ================================
+   VERIFIED ACCOUNT
+================================ */
+
+#verifiedAccountBox {
+  margin-top: 25px;
+  padding: 20px;
+  border: 1px solid #cfe8d8;
+  border-radius: 14px;
+  background: #f1fbf5;
+}
+
+#verifiedAccountBox p {
+  margin: 0 0 6px;
+  color: #53705d;
+  font-size: 13px;
+}
+
+#verifiedAccountBox h3 {
+  margin: 0 0 8px;
+  color: #176b3a;
+  font-size: 20px;
+}
+
+/* ================================
+   MESSAGE
+================================ */
+
+#message {
+  width: 100%;
+  margin: 18px auto;
+  padding: 12px 15px;
+  font-size: 14px;
+  border-radius: 10px;
+  text-align: center;
+}
+
+/* ================================
+   TRANSFER RESULT
+================================ */
+
+#transferResult {
+  width: 100%;
+  margin-top: 25px;
+  padding: 25px;
+  background: #ffffff;
+  border: 1px solid #e5e9f0;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
+}
+
+#transferStatusTitle {
+  margin: 0 0 10px;
+  font-size: 22px;
+  color: #172033;
+}
+
+#transferStatusMessage {
+  margin: 0;
+  color: #667085;
+  line-height: 1.6;
+}
+
+/* ================================
+   RECEIPT BUTTONS
+================================ */
+
+#receiptButtons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+#receiptButtons button {
+  flex: 1 1 150px;
+  min-height: 45px;
+  padding: 10px 15px;
+  border: 1px solid #d9deea;
+  border-radius: 9px;
+  background: #f8f9fc;
+  color: #172033;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+#receiptButtons button:hover {
+  background: #eef2ff;
+  border-color: #c9d3ff;
+}
+/* footer */
+.footer {
+  background: #041321;
+  color: white;
+}
+
+.footer-container {
+  max-width: 1250px;
+  margin: auto;
+
+  padding: 75px 25px;
+
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 50px;
+}
+
+.footer-brand > p {
+  max-width: 300px;
+
+  margin: 18px 0;
+
+  color: #8799aa;
+  font-size: 13px;
+}
+
+.social-links {
+  display: flex;
+  gap: 9px;
+}
+
+.social-links a {
+  width: 35px;
+  height: 35px;
+
+  display: grid;
+  place-items: center;
+
+  border: 1px solid #203546;
+  border-radius: 8px;
+
+  color: #9cb0c2;
+
+  transition: 0.2s;
+}
+
+.social-links a:hover {
+  color: white;
+  border-color: #277dd4;
+  background: #0b4f8d;
+}
+
+.footer-column {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.footer-column h4 {
+  margin-bottom: 8px;
+  font-size: 14px;
+}
+
+.footer-column a {
+  color: #8396a9;
+  font-size: 13px;
+}
+
+.footer-column a:hover {
+  color: white;
+}
+
+.footer-bottom {
+  max-width: 1250px;
+  margin: auto;
+
+  padding: 20px 25px;
+
+  border-top: 1px solid #172b3b;
+
+  display: flex;
+  justify-content: space-between;
+
+  color: #718496;
+
+  font-size: 11px;
+}
+
+.footer-bottom div {
+  display: flex;
+  gap: 20px;
+}
+
+
+
+/* ================================
+   RECEIPT
+================================ */
+
+#receipt {
+  width: 100%;
+  margin-top: 25px;
+  padding: 25px;
+  background: #ffffff;
+  border-radius: 16px;
+  border: 1px solid #e5e9f0;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
+  overflow: hidden;
+}
+.receipt-notice { margin-top: 25px; 
+    padding: 14px 16px;
+     background: #f5f7fa; border: 1px solid #e1e6ec; 
+     border-radius: 8px;
+      display: flex; 
+      align-items: flex-start;
+       gap: 10px; color: #667085;
+        font-size: 11px; 
+        line-height: 1.6;
+     }
+
+/* ================================
+   MOBILE
+================================ */
+
+@media (max-width: 600px) {
+
+  .transfer-page {
+    width: 100%;
+    margin: 20px auto;
+    padding: 12px;
+  }
+
+  .transfer-page > h1 {
+    font-size: 26px;
+    margin-bottom: 18px;
+  }
+
+  #transferForm {
+    padding: 20px 16px;
+    border-radius: 14px;
+  }
+
+  #transferForm h2 {
+    font-size: 20px;
+  }
+
+  #transferForm input,
+  #transferForm select {
+    min-height: 48px;
+    font-size: 14px;
+  }
+
+  #receiptButtons {
+    flex-direction: column;
+  }
+
+  #receiptButtons button {
+    width: 100%;
+    flex: none;
+  }
+
+  #transferResult,
+  #receipt {
+    padding: 18px;
+  }
+}
+
+/* ================================
+   VERY SMALL PHONES
+================================ */
+
+@media (max-width: 380px) {
+
+  .transfer-page {
+    padding: 8px;
+  }
+
+  #transferForm {
+    padding: 16px 12px;
+  }
+
+  .transfer-page > h1 {
+    font-size: 23px;
+  }
+
+  #transferForm h2 {
+    font-size: 18px;
+  }
+}
