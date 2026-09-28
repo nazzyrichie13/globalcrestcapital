@@ -78,16 +78,17 @@ if (![1, 2, 3].includes(selectedTier)) {
     res.status(201).json({
       message: "Account created successfully",
 
-      user: {
-        id: user._id,
-        name: user.name,
-        email: user.email,
-        accountNumber: user.accountNumber,
-        balance: user.balance,
-        profilePhoto: user.profilePhoto,
-        tier: user.tier,
-        tierLimit: user.tierLimit
-      }
+     user: {
+  id: user._id,
+  name: user.name,
+  email: user.email,
+  accountNumber: user.accountNumber,
+  balance: user.balance,
+  profilePhoto: user.profilePhoto,
+  tier: user.tier,
+  tierLimit: user.tierLimit,
+  role: user.role
+}
     });
 
   } catch (error) {

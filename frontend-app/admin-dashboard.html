@@ -1,0 +1,505 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>GlobaCrest | Admin Dashboard</title>
+
+  <link
+    rel="stylesheet"
+    href="css/admin-dashboard.css"
+  >
+
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+  >
+
+</head>
+
+
+<body>
+
+
+  <!-- =========================
+       SIDEBAR
+  ========================== -->
+
+  <aside class="sidebar">
+
+    <div class="admin-brand">
+
+      <div class="brand-icon">
+        <i class="fa-solid fa-shield-halved"></i>
+      </div>
+
+      <div>
+        <h2>GlobaCrest</h2>
+        <span>Admin Portal</span>
+      </div>
+
+    </div>
+
+
+    <nav class="sidebar-nav">
+
+      <a
+        href="#overview"
+        class="active"
+      >
+        <i class="fa-solid fa-chart-line"></i>
+        Overview
+      </a>
+     <a href="admin-deposit.html">
+  <i class="fa-solid fa-money-bill-transfer"></i>
+  <span>Deposit Funds</span>
+</a>
+      <a href="#transfers">
+        <i class="fa-solid fa-money-bill-transfer"></i>
+        Transfers
+      </a>
+
+      <a href="#loans">
+        <i class="fa-solid fa-hand-holding-dollar"></i>
+        Loans
+      </a>
+
+      <a href="admin-card-applications.html">
+        <i class="fa-solid fa-credit-card"></i>
+        Card Applications
+      </a>
+
+      <a href="#users">
+        <i class="fa-solid fa-users"></i>
+        Users
+      </a>
+
+    </nav>
+
+
+    <div class="sidebar-bottom">
+
+      <a href="home.html">
+        <i class="fa-solid fa-house"></i>
+        Main Website
+      </a>
+
+      <button id="logoutButton">
+        <i class="fa-solid fa-right-from-bracket"></i>
+        Sign Out
+      </button>
+
+    </div>
+
+  </aside>
+
+
+
+  <!-- =========================
+       MAIN
+  ========================== -->
+
+  <main class="dashboard">
+
+
+    <!-- HEADER -->
+
+    <header class="dashboard-header">
+
+      <div>
+
+        <p class="eyebrow">
+          ADMINISTRATION
+        </p>
+
+        <h1>
+          Dashboard
+        </h1>
+
+        <p id="welcomeAdmin">
+          Welcome back.
+        </p>
+
+      </div>
+
+
+      <div class="admin-profile">
+
+        <div class="admin-avatar">
+          <i class="fa-solid fa-user-shield"></i>
+        </div>
+
+        <div>
+
+          <strong id="adminName">
+            Administrator
+          </strong>
+
+          <span>
+            System Administrator
+          </span>
+
+        </div>
+
+      </div>
+
+    </header>
+
+
+
+    <!-- =========================
+         OVERVIEW
+    ========================== -->
+
+    <section id="overview">
+
+      <div class="stats-grid">
+
+
+        <div class="stat-card">
+
+          <div class="stat-icon blue">
+            <i class="fa-solid fa-users"></i>
+          </div>
+
+          <div>
+
+            <span>
+              Total Users
+            </span>
+
+            <strong id="totalUsers">
+              —
+            </strong>
+
+          </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+          <div class="stat-icon orange">
+            <i class="fa-solid fa-clock"></i>
+          </div>
+
+          <div>
+
+            <span>
+              Pending Transfers
+            </span>
+
+            <strong id="pendingTransfers">
+              —
+            </strong>
+
+          </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+          <div class="stat-icon purple">
+            <i class="fa-solid fa-file-invoice-dollar"></i>
+          </div>
+
+          <div>
+
+            <span>
+              Pending Loans
+            </span>
+
+            <strong id="pendingLoans">
+              —
+            </strong>
+
+          </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+          <div class="stat-icon green">
+            <i class="fa-solid fa-credit-card"></i>
+          </div>
+
+          <div>
+
+            <span>
+              Card Applications
+            </span>
+
+            <strong id="cardApplications">
+              —
+            </strong>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- =========================
+         TRANSFERS
+    ========================== -->
+
+    <section
+      id="transfers"
+      class="dashboard-section"
+    >
+
+      <div class="section-header">
+
+        <div>
+
+          <p class="eyebrow">
+            TRANSACTIONS
+          </p>
+
+          <h2>
+            Pending Transfers
+          </h2>
+
+        </div>
+
+        <button
+          id="refreshTransfers"
+          class="secondary-button"
+        >
+          <i class="fa-solid fa-rotate"></i>
+          Refresh
+        </button>
+
+      </div>
+
+
+      <div
+        id="transfersContainer"
+        class="data-container"
+      >
+
+        <div class="loading">
+          Loading transfers...
+        </div>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- =========================
+         LOANS
+    ========================== -->
+
+    <section
+      id="loans"
+      class="dashboard-section"
+    >
+
+      <div class="section-header">
+
+        <div>
+
+          <p class="eyebrow">
+            LENDING
+          </p>
+
+          <h2>
+            Pending Loan Applications
+          </h2>
+
+        </div>
+
+        <a
+          href="admin-loans.html"
+          class="secondary-button"
+        >
+          Manage Loans
+        </a>
+
+      </div>
+
+
+      <div class="empty-card">
+
+        <i class="fa-solid fa-hand-holding-dollar"></i>
+
+        <h3>
+          Loan Management
+        </h3>
+
+        <p>
+          Review, approve and reject loan applications
+          from the dedicated administration page.
+        </p>
+
+        <a
+          href="admin-loans.html"
+          class="primary-button"
+        >
+          Open Loan Management
+        </a>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- =========================
+         CARDS
+    ========================== -->
+
+    <section class="dashboard-section">
+
+      <div class="section-header">
+
+        <div>
+
+          <p class="eyebrow">
+            BANK CARDS
+          </p>
+
+          <h2>
+            Card Applications
+          </h2>
+
+        </div>
+
+        <a
+          href="admin-card-applications.html"
+          class="secondary-button"
+        >
+          View Applications
+        </a>
+
+      </div>
+
+
+      <div class="empty-card">
+
+        <i class="fa-solid fa-credit-card"></i>
+
+        <h3>
+          Card Application Center
+        </h3>
+
+        <p>
+          View customer applications and approve or
+          reject pending card requests.
+        </p>
+
+        <a
+          href="admin-card-applications.html"
+          class="primary-button"
+        >
+          Manage Cards
+        </a>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- =========================
+         SYSTEM SECURITY
+    ========================== -->
+
+    <section
+      id="users"
+      class="dashboard-section"
+    >
+
+      <div class="section-header">
+
+        <div>
+
+          <p class="eyebrow">
+            SYSTEM
+          </p>
+
+          <h2>
+            Administration Security
+          </h2>
+
+        </div>
+
+      </div>
+
+
+      <div class="security-grid">
+
+
+        <div class="security-card">
+
+          <i class="fa-solid fa-shield-check"></i>
+
+          <div>
+
+            <h3>
+              Admin Authorization
+            </h3>
+
+            <p>
+              Administrative API requests are protected
+              by authentication and administrator-only
+              middleware.
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <div class="security-card">
+
+          <i class="fa-solid fa-lock"></i>
+
+          <div>
+
+            <h3>
+              Secure Session
+            </h3>
+
+            <p>
+              Your current administrator session uses
+              the authentication token issued by the
+              backend.
+            </p>
+
+          </div>
+
+        </div>
+
+
+      </div>
+
+    </section>
+
+
+  </main>
+
+
+
+  <script src="js/admin-dashboard.js"></script>
+
+</body>
+
+</html>
+

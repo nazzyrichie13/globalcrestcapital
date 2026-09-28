@@ -1,0 +1,159 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>GlobaCrest | Admin Login</title>
+
+  <link
+    rel="stylesheet"
+    href="css/admin-login.css"
+  >
+
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+  >
+</head>
+
+<body>
+
+  <main class="admin-login-page">
+
+    <div class="admin-login-card">
+
+      <div class="admin-logo">
+        <div class="logo-icon">
+          <i class="fa-solid fa-shield-halved"></i>
+        </div>
+
+        <div>
+          <h1>GlobaCrest</h1>
+          <p>Administrator Portal</p>
+        </div>
+      </div>
+
+
+      <div class="login-heading">
+        <h2>Admin Sign In</h2>
+
+        <p>
+          Sign in to securely manage the GlobaCrest banking platform.
+        </p>
+      </div>
+
+
+      <form id="adminLoginForm">
+
+        <div class="input-group">
+
+          <label for="email">
+            Email Address
+          </label>
+
+          <div class="input-wrapper">
+
+            <i class="fa-solid fa-envelope"></i>
+
+            <input
+              type="email"
+              id="email"
+              name="email"
+              placeholder="Enter admin email"
+              autocomplete="username"
+              required
+            >
+
+          </div>
+
+        </div>
+
+
+        <div class="input-group">
+
+          <label for="password">
+            Password
+          </label>
+
+          <div class="input-wrapper">
+
+            <i class="fa-solid fa-lock"></i>
+
+            <input
+              type="password"
+              id="password"
+              name="password"
+              placeholder="Enter password"
+              autocomplete="current-password"
+              required
+            >
+
+            <button
+              type="button"
+              id="togglePassword"
+              class="password-toggle"
+              aria-label="Show password"
+            >
+              <i class="fa-solid fa-eye"></i>
+            </button>
+
+          </div>
+
+        </div>
+
+
+        <button
+          type="submit"
+          class="login-button"
+          id="loginButton"
+        >
+          <span id="loginButtonText">
+            Sign In
+          </span>
+        </button>
+
+
+        <p
+          id="loginMessage"
+          class="login-message"
+        ></p>
+
+      </form>
+
+
+      <div class="security-note">
+
+        <i class="fa-solid fa-shield-halved"></i>
+
+        <p>
+          Authorized personnel only. Your administrator
+          credentials should never be shared.
+        </p>
+
+      </div>
+
+
+      <a
+        href="home.html"
+        class="back-link"
+      >
+        <i class="fa-solid fa-arrow-left"></i>
+        Back to GlobaCrest
+      </a>
+
+    </div>
+
+  </main>
+
+
+  <script src="js/admin-login.js"></script>
+
+</body>
+</html>
+

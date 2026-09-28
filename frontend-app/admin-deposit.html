@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>GlobaCrest | Admin Deposit</title>
+
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+  >
+
+  <link rel="stylesheet" href="css/admin-deposit.css">
+</head>
+
+<body>
+
+  <main class="deposit-page">
+
+    <div class="deposit-card">
+
+      <div class="deposit-header">
+
+        <div class="deposit-icon">
+          <i class="fa-solid fa-money-bill-transfer"></i>
+        </div>
+
+        <h1>Deposit Funds</h1>
+
+        <p>
+          Add funds to a GlobaCrest customer account.
+        </p>
+
+      </div>
+
+      <form id="depositForm">
+
+        <label for="accountNumber">
+          Customer Account Number
+        </label>
+
+        <div class="account-row">
+
+          <input
+            type="text"
+            id="accountNumber"
+            placeholder="Enter account number"
+            autocomplete="off"
+            required
+          >
+
+          <button
+            type="button"
+            id="verifyAccount"
+          >
+            Verify
+          </button>
+
+        </div>
+
+        <div
+          id="accountBox"
+          class="account-box"
+          style="display: none;"
+        >
+
+          <div>
+            <span>Account Holder</span>
+            <strong id="accountName"></strong>
+          </div>
+
+          <div>
+            <span>Account Number</span>
+            <strong id="verifiedAccountNumber"></strong>
+          </div>
+
+          <div>
+            <span>Current Balance</span>
+            <strong id="currentBalance"></strong>
+          </div>
+
+        </div>
+
+        <label for="amount">
+          Deposit Amount
+        </label>
+
+        <input
+          type="number"
+          id="amount"
+          min="1"
+          step="0.01"
+          placeholder="Enter amount"
+          required
+        >
+
+        <button
+          type="submit"
+          id="depositButton"
+        >
+          <i class="fa-solid fa-plus"></i>
+          Deposit Funds
+        </button>
+
+        <p id="depositMessage"></p>
+
+      </form>
+
+      <a
+        href="admin-dashboard.html"
+        class="back-link"
+      >
+        <i class="fa-solid fa-arrow-left"></i>
+        Back to Admin Dashboard
+      </a>
+
+    </div>
+
+  </main>
+
+  <script src="js/admin-deposit.js"></script>
+
+</body>
+</html>

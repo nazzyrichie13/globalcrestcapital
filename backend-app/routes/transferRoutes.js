@@ -1,5 +1,4 @@
 const express = require("express");
-
 const auth = require("../middleware/auth");
 const adminOnly = require("../middleware/adminOnly");
 
