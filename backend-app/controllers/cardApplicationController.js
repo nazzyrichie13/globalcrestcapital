@@ -1,4 +1,4 @@
-const CardApplication = require("../model/CardApplication");
+const CardApplication = require("../models/CardApplication");
 
 
 // ===============================

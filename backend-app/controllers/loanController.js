@@ -1,5 +1,5 @@
 const LoanApplication =
-  require("../model/LoanApplication");
+  require("../models/LoanApplication");
 
 
 // ==============================
