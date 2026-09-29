@@ -33,18 +33,7 @@ connectDB();
 // MIDDLEWARE
 app.use(express.json());
 
-app.use(cors({
-  origin: "https://globalcrestc.com",
-  methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization"]
-}));
-
-app.options("*", cors({
-  origin: "https://globalcrestc.com",
-  methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization"]
-}));
-
+app.use(cors());
 
 // ROUTES
 app.use("/api/auth", authRoutes);
