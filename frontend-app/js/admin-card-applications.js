@@ -62,7 +62,7 @@ async function loadApplications() {
 
     const response =
       await fetch(
-        "https://globalcrestc.com/api/card-applications/admin/all",
+        "https://api.globalcrestc.com/api/card-applications/admin/all",
         {
           headers: {
             Authorization:

@@ -143,7 +143,7 @@ loginForm.addEventListener(
 
       const response =
         await fetch(
-          "https://globalcrestc.com/api/auth/login",
+          "https://api.globalcrestc.com/api/auth/login",
           {
             method: "POST",
 
@@ -215,7 +215,7 @@ async function getProfile() {
 
     const response =
       await fetch(
-        "https://globalcrestc.com/api/users/profile",
+        "https://api.globalcrestc.com/api/users/profile",
         {
           headers: {
             Authorization:
@@ -283,7 +283,7 @@ async function getTransactions() {
 
     const response =
       await fetch(
-        "https://globalcrestc.com/api/users/transactions",
+        "https://api.globalcrestc.com/api/users/transactions",
         {
           headers: {
             Authorization:
@@ -417,7 +417,7 @@ if (verifySameBank) {
       try {
 
         const response = await fetch(
-          "https://globalcrestc.com/api/transfers/verify-same-bank",
+          "https://api.globalcrestc.com/api/transfers/verify-same-bank",
           {
             method: "POST",
 
@@ -492,7 +492,7 @@ transferForm.addEventListener(
 
       const response =
         await fetch(
-          "https://globalcrestc.com:3000/api/transfers",
+          "https://api.globalcrestc.com/api/transfers",
           {
             method: "POST",
 
@@ -650,7 +650,7 @@ async function checkTransferStatus(
 
     const response =
       await fetch(
-        `https://globalcrestc.com/api/users/transactions/${transactionId}`,
+        `https://api.globalcrestc.com/api/users/transactions/${transactionId}`,
         {
           headers: {
             Authorization:

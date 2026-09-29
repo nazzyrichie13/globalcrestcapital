@@ -30,7 +30,7 @@ signupForm.addEventListener(
     try {
 
       const response = await fetch(
-        "https://globalcrestc.com/api/auth/register",
+        "https://api.globalcrestc.com/api/auth/register",
         {
           method: "POST",
 

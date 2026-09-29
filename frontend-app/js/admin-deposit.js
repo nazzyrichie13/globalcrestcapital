@@ -60,7 +60,7 @@ verifyAccount.addEventListener(
 
       const response =
         await fetch(
-          "https://globalcrestc.com/api/admin/deposit/verify",
+          "https://api.globalcrestc.com/api/admin/deposit/verify",
           {
             method: "POST",
 
@@ -150,7 +150,7 @@ depositForm.addEventListener(
 
       const response =
         await fetch(
-          "https://globalcrestc.comapi/admin/deposit",
+          "https://api.globalcrestc.com/api/admin/deposit",
           {
             method: "POST",
 

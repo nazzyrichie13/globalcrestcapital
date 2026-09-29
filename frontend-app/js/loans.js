@@ -1,4 +1,4 @@
-const API_URL = "https://globalcrestc.com";
+const API_URL = "https://api.globalcrestc.com";
 
 
 // =========================

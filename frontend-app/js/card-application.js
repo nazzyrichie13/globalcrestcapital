@@ -134,7 +134,7 @@ if (form) {
 
         const response =
           await fetch(
-            "https://globalcrestc.com/api/card-applications",
+            "https://api.globalcrestc.com/api/card-applications",
             {
               method: "POST",
 

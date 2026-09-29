@@ -1,5 +1,5 @@
 const API_URL =
-  "https://globalcrestc.com";
+  "https://api.globalcrestc.com";
 
 const token =
   localStorage.getItem("token");
