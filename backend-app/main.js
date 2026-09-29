@@ -39,6 +39,13 @@ app.use(cors({
   allowedHeaders: ["Content-Type", "Authorization"]
 }));
 
+app.options("*", cors({
+  origin: "https://globalcrestc.com",
+  methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"]
+}));
+
+
 // ROUTES
 app.use("/api/auth", authRoutes);
 
