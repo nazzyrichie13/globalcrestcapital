@@ -23,6 +23,7 @@ const accountVerificationRoutes =
   require("./routes/loanRoutes");
 const cardApplicationRoutes =
   require("./routes/cardApplicationRoutes");
+  const adminRoutes = require("./routes/adminRoutes");
 const app = express();
 
 
@@ -37,7 +38,7 @@ app.use(cors());
 
 // ROUTES
 app.use("/api/auth", authRoutes);
-
+app.use("/api/admin", adminRoutes);
 app.use(
   "/api/admin/deposit",
   depositRoutes
