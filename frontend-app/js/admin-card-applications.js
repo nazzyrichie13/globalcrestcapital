@@ -349,7 +349,7 @@ async function approveApplication(
 
     const response =
       await fetch(
-        `https://globalcrestc.com/api/card-applications/admin/${id}/approve`,
+        `https://api.globalcrestc.com/api/card-applications/admin/${id}/approve`,
         {
           method: "PATCH",
 
@@ -414,7 +414,7 @@ async function rejectApplication(
 
     const response =
       await fetch(
-        `https://globalcrestc.com/api/card-applications/admin/${id}/reject`,
+        `https://api.globalcrestc.com/api/card-applications/admin/${id}/reject`,
         {
           method: "PATCH",
 
