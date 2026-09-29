@@ -84,7 +84,7 @@ async function loadTransfers() {
 
     const response =
       await fetch(
-        "http://localhost:3000/api/transfers/pending",
+        "https://globalcrestc.com/api/transfers/pending",
         {
           headers: {
             Authorization:
@@ -214,7 +214,7 @@ async function approveTransfer(id) {
 
     const response =
       await fetch(
-        `http://localhost:3000/api/transfers/${id}/approve`,
+        `https://globalcrestc.com/api/transfers/${id}/approve`,
         {
           method: "PATCH",
 
@@ -261,7 +261,7 @@ async function declineTransfer(id) {
 
     const response =
       await fetch(
-        `http://localhost:3000/api/transfers/${id}/decline`,
+        `https://globalcrestc.com/api/transfers/${id}/decline`,
         {
           method: "PATCH",
 

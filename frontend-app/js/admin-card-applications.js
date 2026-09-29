@@ -62,7 +62,7 @@ async function loadApplications() {
 
     const response =
       await fetch(
-        "http://localhost:3000/api/card-applications/admin/all",
+        "https://globalcrestc.com/api/card-applications/admin/all",
         {
           headers: {
             Authorization:
@@ -349,7 +349,7 @@ async function approveApplication(
 
     const response =
       await fetch(
-        `http://localhost:3000/api/card-applications/admin/${id}/approve`,
+        `https://globalcrestc.com/api/card-applications/admin/${id}/approve`,
         {
           method: "PATCH",
 
@@ -414,7 +414,7 @@ async function rejectApplication(
 
     const response =
       await fetch(
-        `http://localhost:3000/api/card-applications/admin/${id}/reject`,
+        `https://globalcrestc.com/api/card-applications/admin/${id}/reject`,
         {
           method: "PATCH",
 
