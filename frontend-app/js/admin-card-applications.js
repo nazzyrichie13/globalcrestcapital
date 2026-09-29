@@ -413,6 +413,9 @@ async function rejectApplication(
   try {
 
     const response =
+
+
+    
       await fetch(
         `https://api.globalcrestc.com/api/card-applications/admin/${id}/reject`,
         {
