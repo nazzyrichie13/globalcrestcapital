@@ -68,11 +68,6 @@ app.get("/", (req, res) => {
     message: "NEW SERVER TEST 123"
   });
 });
-app.get("/api/admin-test", (req, res) => {
-    res.json({
-        message: "The updated main.js is running"
-    });
-});
 
 
 
