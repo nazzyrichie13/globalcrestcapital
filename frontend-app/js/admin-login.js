@@ -47,52 +47,43 @@ email,
 password
 })
 });
+
 const result = await response.json();
 
-console.log("STATUS:", response.status);
-console.log("BACKEND RESPONSE:", result);
 
+console.log("FULL ADMIN LOGIN RESPONSE:", result);
 if (!response.ok) {
-    loginMessage.textContent =
-        result.message || "Login failed.";
-    return;
+  loginMessage.textContent =
+    result.message || "Invalid admin credentials.";
+  return;
 }
-// const result = await response.json();
+
+if (!result.token) {
+  loginMessage.textContent = "Login succeeded, but no token was returned.";
+  return;
+}
+
+localStorage.setItem("adminToken", result.token);
+
+if (result.admin) {
+  localStorage.setItem("admin", JSON.stringify(result.admin));
+}
+
+loginMessage.textContent = "Login successful.";
+
+window.location.href = "admin-dashboard.html";
 
 
-// console.log("FULL ADMIN LOGIN RESPONSE:", result);
-// if (!response.ok) {
-//   loginMessage.textContent =
-//     result.message || "Invalid admin credentials.";
-//   return;
-// }
-
-// if (!result.token) {
-//   loginMessage.textContent = "Login succeeded, but no token was returned.";
-//   return;
-// }
-
-// localStorage.setItem("adminToken", result.token);
-
-// if (result.admin) {
-//   localStorage.setItem("admin", JSON.stringify(result.admin));
-// }
-
-// loginMessage.textContent = "Login successful.";
-
-// window.location.href = "admin-dashboard.html";
+} catch (error) {
+console.error("Admin login error:", error);
 
 
-// } catch (error) {
-// console.error("Admin login error:", error);
+loginMessage.textContent =
+  "Unable to connect to the server. Please try again.";
 
 
-// loginMessage.textContent =
-//   "Unable to connect to the server. Please try again.";
-
-
-// } finally {
-// loginButton.disabled = false;
-// loginButtonText.textContent = "Sign In";
-// }
-// });
+} finally {
+loginButton.disabled = false;
+loginButtonText.textContent = "Sign In";
+}
+});
