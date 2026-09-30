@@ -1,40 +1,39 @@
 const express = require("express");
 
-const auth = require("../middleware/auth");
-
-
-const {
-  getProfile,
-  getTransactions,
-  getTransaction
-} = require("../controllers/userController");
-
 const router = express.Router();
 
+const auth = require("../middleware/auth");
+const uploadProfile = require("../middleware/uploadProfile");
 
-// User profile
+const userController = require("../controllers/userController");
+
+// GET PROFILE
 router.get(
   "/profile",
   auth,
-  getProfile
+  userController.getProfile
 );
 
-
-// All user transactions
+// GET TRANSACTIONS
 router.get(
   "/transactions",
   auth,
-  getTransactions
+  userController.getTransactions
 );
 
-
-// One transaction / receipt
+// GET ONE TRANSACTION
 router.get(
   "/transactions/:id",
   auth,
-  getTransaction
+  userController.getTransaction
 );
 
+// UPDATE PROFILE PHOTO
+router.put(
+  "/profile/photo",
+  auth,
+  uploadProfile.single("profilePhoto"),
+  userController.updateProfilePhoto
+);
 
 module.exports = router;
-
