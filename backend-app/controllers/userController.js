@@ -126,11 +126,58 @@ const getTransaction = async (req, res) => {
 
   }
 };
+// ========================================
+// UPDATE PROFILE PHOTO
+// ========================================
+const updateProfilePhoto = async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({
+        message: "Please choose a profile photo"
+      });
+    }
 
+    const user = await User.findById(req.user._id);
+
+    if (!user) {
+      return res.status(404).json({
+        message: "User not found"
+      });
+    }
+
+    // Save the image URL/path in MongoDB
+    user.profilePhoto = `/uploads/profiles/${req.file.filename}`;
+
+    await user.save();
+
+    res.status(200).json({
+      success: true,
+      message: "Profile photo updated successfully",
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        accountNumber: user.accountNumber,
+        balance: user.balance,
+        tier: user.tier,
+        tierLimit: user.tierLimit,
+        profilePhoto: user.profilePhoto
+      }
+    });
+
+  } catch (error) {
+    console.error("PROFILE PHOTO ERROR:", error);
+
+    res.status(500).json({
+      message: "Could not update profile photo",
+      error: error.message
+    });
+  }
+};
 
 module.exports = {
   getProfile,
   getTransactions,
-  getTransaction
+  getTransaction,
+  updateProfilePhoto
 };
-

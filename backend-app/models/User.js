@@ -57,6 +57,12 @@ profilePhoto: {
     timestamps: true
   }
 );
+router.put(
+  "/profile/photo",
+  auth,
+  uploadProfile.single("profilePhoto"),
+  updateProfilePhoto
+);
 
 const User = mongoose.model("User", userSchema);
 

@@ -47,6 +47,7 @@ app.use(
   "/api/loans",
   loanRoutes
 );
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 app.use(
   "/api/transfers",
   accountVerificationRoutes
