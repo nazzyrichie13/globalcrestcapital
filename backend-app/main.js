@@ -1,15 +1,12 @@
 const dns = require("dns");
 dns.setServers(["8.8.8.8"]);
 
-
 require("dotenv").config();
-
-
-
 
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
+const path = require("path");
 
 const connectDB = require("./config/db");
 
@@ -19,11 +16,13 @@ const transferRoutes = require("./routes/transferRoutes");
 const userRoutes = require("./routes/userRoutes");
 const accountVerificationRoutes =
   require("./routes/accountVerificationRoutes");
-  const loanRoutes =
+const loanRoutes =
   require("./routes/loanRoutes");
 const cardApplicationRoutes =
   require("./routes/cardApplicationRoutes");
-  const adminRoutes = require("./routes/adminRoutes");
+const adminRoutes =
+  require("./routes/adminRoutes");
+
 const app = express();
 
 
@@ -32,31 +31,47 @@ connectDB();
 
 
 // MIDDLEWARE
+app.use(cors({
+  origin: "https://globalcrestc.com",
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"]
+}));
+
 app.use(express.json());
 
-app.use(cors());
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+
 
 // ROUTES
 app.use("/api/auth", authRoutes);
+
 app.use("/api/admin", adminRoutes);
+
 app.use(
   "/api/admin/deposit",
   depositRoutes
 );
+
 app.use(
   "/api/loans",
   loanRoutes
 );
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+
 app.use(
   "/api/transfers",
   accountVerificationRoutes
 );
-app.use("/api/users", userRoutes);
+
+app.use(
+  "/api/users",
+  userRoutes
+);
+
 app.use(
   "/api/transfers",
   transferRoutes
 );
+
 app.use(
   "/api/card-applications",
   cardApplicationRoutes
@@ -69,8 +84,6 @@ app.get("/", (req, res) => {
     message: "NEW SERVER TEST 123"
   });
 });
-
-
 
 
 // SERVER
