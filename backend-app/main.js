@@ -68,6 +68,13 @@ app.get("/", (req, res) => {
     message: "Bank API is running"
   });
 });
+app.get("/api/admin-test", (req, res) => {
+    res.json({
+        message: "The updated main.js is running"
+    });
+});
+
+
 
 
 // SERVER
