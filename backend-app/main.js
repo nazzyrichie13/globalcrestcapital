@@ -65,7 +65,7 @@ app.use(
 // TEST ROUTE
 app.get("/", (req, res) => {
   res.json({
-    message: "Bank API is running"
+    message: "NEW SERVER TEST 123"
   });
 });
 app.get("/api/admin-test", (req, res) => {
