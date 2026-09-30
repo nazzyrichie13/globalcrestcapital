@@ -307,7 +307,13 @@ async function getProfile() {
     const user =
       data.user;
 
+const profilePhoto = document.getElementById("profilePhoto");
 
+if (user.profilePhoto) {
+    profilePhoto.src = user.profilePhoto;
+} else {
+    profilePhoto.src = "default-profile.png";
+};
     // NAME
     if (userName) {
       userName.textContent =
