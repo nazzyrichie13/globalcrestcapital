@@ -27,6 +27,7 @@ isPassword ? "Hide password" : "Show password"
 // Admin login
 adminLoginForm.addEventListener("submit", async (event) => {
 event.preventDefault();
+ console.log("ADMIN LOGIN SCRIPT IS RUNNING");
 
 const email = emailInput.value.trim();
 const password = passwordInput.value;
