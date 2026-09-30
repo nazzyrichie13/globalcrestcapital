@@ -1,13 +1,15 @@
-const token = localStorage.getItem("token");
+const token = localStorage.getItem("adminToken");
 
 const adminUser =
-  JSON.parse(localStorage.getItem("user"));
+  JSON.parse(localStorage.getItem("admin") || "null");
 
-if (!token || !adminUser || adminUser.role !== "admin") {
+if (
+  !token ||
+  !adminUser ||
+  String(adminUser.role).toLowerCase() !== "admin"
+) {
   window.location.href = "admin-login.html";
-}
-
-
+}777
 const accountNumber =
   document.getElementById("accountNumber");
 
