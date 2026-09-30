@@ -1,16 +1,20 @@
 
-const token =
-  localStorage.getItem("token");
+// =========================
+// ADMIN AUTHENTICATION
+// =========================
 
-const storedUser =
-  localStorage.getItem("user");
+const adminToken =
+  localStorage.getItem("adminToken");
+
+const storedAdmin =
+  localStorage.getItem("admin");
 
 
-/* =========================
-   CHECK LOGIN
-========================= */
+// =========================
+// CHECK ADMIN LOGIN
+// =========================
 
-if (!token) {
+if (!adminToken) {
 
   window.location.href =
     "admin-login.html";
@@ -18,16 +22,16 @@ if (!token) {
 }
 
 
-/* =========================
-   ADMIN USER
-========================= */
+// =========================
+// GET ADMIN INFORMATION
+// =========================
 
 let adminUser = null;
 
 try {
 
   adminUser =
-    JSON.parse(storedUser);
+    JSON.parse(storedAdmin);
 
 } catch (error) {
 
@@ -36,13 +40,17 @@ try {
 }
 
 
+// =========================
+// CHECK ADMIN ROLE
+// =========================
+
 if (
   !adminUser ||
   adminUser.role !== "admin"
 ) {
 
-  localStorage.removeItem("token");
-  localStorage.removeItem("user");
+  localStorage.removeItem("adminToken");
+  localStorage.removeItem("admin");
 
   window.location.href =
     "admin-login.html";
@@ -50,28 +58,42 @@ if (
 }
 
 
-/* =========================
-   DISPLAY ADMIN
-========================= */
+// =========================
+// DISPLAY ADMIN
+// =========================
 
 if (adminUser) {
 
-  document.getElementById(
-    "adminName"
-  ).textContent =
-    adminUser.name || "Administrator";
+  const adminName =
+    document.getElementById("adminName");
 
-  document.getElementById(
-    "welcomeAdmin"
-  ).textContent =
-    `Welcome back, ${adminUser.name || "Administrator"}.`;
+  const welcomeAdmin =
+    document.getElementById("welcomeAdmin");
+
+
+  if (adminName) {
+
+    adminName.textContent =
+      adminUser.name || "Administrator";
+
+  }
+
+
+  if (welcomeAdmin) {
+
+    welcomeAdmin.textContent =
+      `Welcome back, ${
+        adminUser.name || "Administrator"
+      }.`;
+
+  }
 
 }
 
 
-/* =========================
-   LOAD PENDING TRANSFERS
-========================= */
+// =========================
+// LOAD PENDING TRANSFERS
+// =========================
 
 async function loadTransfers() {
 
@@ -88,7 +110,7 @@ async function loadTransfers() {
         {
           headers: {
             Authorization:
-              `Bearer ${token}`
+              `Bearer ${adminToken}`
           }
         }
       );
@@ -114,10 +136,18 @@ async function loadTransfers() {
       [];
 
 
-    document.getElementById(
-      "pendingTransfers"
-    ).textContent =
-      transfers.length;
+    const pendingTransfers =
+      document.getElementById(
+        "pendingTransfers"
+      );
+
+
+    if (pendingTransfers) {
+
+      pendingTransfers.textContent =
+        transfers.length;
+
+    }
 
 
     if (!transfers.length) {
@@ -135,7 +165,7 @@ async function loadTransfers() {
 
     container.innerHTML =
       transfers.map(
-        transfer => {
+        (transfer) => {
 
           const sender =
             transfer.sender?.name ||
@@ -145,10 +175,12 @@ async function loadTransfers() {
             transfer.receiver?.name ||
             "Unknown";
 
+
           return `
             <div class="transfer-row">
 
               <div>
+
                 <strong>
                   ${sender}
                 </strong>
@@ -156,13 +188,16 @@ async function loadTransfers() {
                 <small>
                   → ${receiver}
                 </small>
+
               </div>
+
 
               <strong>
                 ₦${Number(
-                  transfer.amount
+                  transfer.amount || 0
                 ).toLocaleString()}
               </strong>
+
 
               <div>
 
@@ -172,6 +207,7 @@ async function loadTransfers() {
                 >
                   Approve
                 </button>
+
 
                 <button
                   class="reject-button"
@@ -191,7 +227,11 @@ async function loadTransfers() {
 
   } catch (error) {
 
-    console.error(error);
+    console.error(
+      "Load transfers error:",
+      error
+    );
+
 
     container.innerHTML = `
       <div class="loading">
@@ -204,9 +244,9 @@ async function loadTransfers() {
 }
 
 
-/* =========================
-   APPROVE TRANSFER
-========================= */
+// =========================
+// APPROVE TRANSFER
+// =========================
 
 async function approveTransfer(id) {
 
@@ -220,7 +260,7 @@ async function approveTransfer(id) {
 
           headers: {
             Authorization:
-              `Bearer ${token}`
+              `Bearer ${adminToken}`
           }
         }
       );
@@ -242,7 +282,10 @@ async function approveTransfer(id) {
 
     await loadTransfers();
 
+
   } catch (error) {
+
+    console.error(error);
 
     alert(error.message);
 
@@ -251,9 +294,9 @@ async function approveTransfer(id) {
 }
 
 
-/* =========================
-   DECLINE TRANSFER
-========================= */
+// =========================
+// DECLINE TRANSFER
+// =========================
 
 async function declineTransfer(id) {
 
@@ -267,7 +310,7 @@ async function declineTransfer(id) {
 
           headers: {
             Authorization:
-              `Bearer ${token}`
+              `Bearer ${adminToken}`
           }
         }
       );
@@ -289,7 +332,10 @@ async function declineTransfer(id) {
 
     await loadTransfers();
 
+
   } catch (error) {
+
+    console.error(error);
 
     alert(error.message);
 
@@ -298,34 +344,48 @@ async function declineTransfer(id) {
 }
 
 
-/* =========================
-   REFRESH
-========================= */
+// =========================
+// REFRESH TRANSFERS
+// =========================
 
-document
-  .getElementById("refreshTransfers")
-  .addEventListener(
+const refreshButton =
+  document.getElementById(
+    "refreshTransfers"
+  );
+
+
+if (refreshButton) {
+
+  refreshButton.addEventListener(
     "click",
     loadTransfers
   );
 
+}
 
-/* =========================
-   LOGOUT
-========================= */
 
-document
-  .getElementById("logoutButton")
-  .addEventListener(
+// =========================
+// LOGOUT
+// =========================
+
+const logoutButton =
+  document.getElementById(
+    "logoutButton"
+  );
+
+
+if (logoutButton) {
+
+  logoutButton.addEventListener(
     "click",
     () => {
 
       localStorage.removeItem(
-        "token"
+        "adminToken"
       );
 
       localStorage.removeItem(
-        "user"
+        "admin"
       );
 
       window.location.href =
@@ -334,9 +394,11 @@ document
     }
   );
 
+}
 
-/* =========================
-   START
-========================= */
+
+// =========================
+// START DASHBOARD
+// =========================
 
 loadTransfers();
