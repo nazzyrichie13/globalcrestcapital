@@ -1,13 +1,21 @@
 const express = require("express");
-const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const bcrypt = require("bcryptjs");
 const Admin = require("../models/Admin");
 
 const router = express.Router();
 
-router.post("/login", async (req, res) => { 
+router.post("/login", async (req, res) => {
     try {
         const { email, password } = req.body;
+
+        // Check that both fields were provided
+        if (!email || !password) {
+            return res.status(400).json({
+                success: false,
+                message: "Email and password are required"
+            });
+        }
 
         // Find admin
         const admin = await Admin.findOne({ email });
@@ -15,7 +23,7 @@ router.post("/login", async (req, res) => {
         if (!admin) {
             return res.status(401).json({
                 success: false,
-                message: "Invalid email or password"
+                message: "Invalid admin credentials"
             });
         }
 
@@ -28,11 +36,11 @@ router.post("/login", async (req, res) => {
         if (!passwordMatch) {
             return res.status(401).json({
                 success: false,
-                message: "Invalid email or password"
+                message: "Invalid admin credentials"
             });
         }
 
-        // Create admin JWT
+        // Create JWT
         const token = jwt.sign(
             {
                 userId: admin._id,
@@ -44,16 +52,22 @@ router.post("/login", async (req, res) => {
             }
         );
 
-        res.json({
+        // Return token to your frontend
+        return res.status(200).json({
             success: true,
             message: "Admin login successful",
-            token: token
+            token: token,
+            admin: {
+                id: admin._id,
+                email: admin.email,
+                role: "admin"
+            }
         });
 
     } catch (error) {
-        console.error(error);
+        console.error("Admin login error:", error);
 
-        res.status(500).json({
+        return res.status(500).json({
             success: false,
             message: "Server error"
         });
