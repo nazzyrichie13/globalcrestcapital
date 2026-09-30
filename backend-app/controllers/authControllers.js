@@ -67,7 +67,7 @@ if (![1, 2, 3].includes(selectedTier)) {
       name,
       email,
       password: hashedPassword,
-      profilePhoto,
+      profilePhoto:"",
       accountNumber,
       tier: selectedTier,
   tierLimit: tiers[selectedTier].maxLimit
