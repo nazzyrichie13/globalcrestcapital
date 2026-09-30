@@ -126,7 +126,9 @@
  <section id="dashboardSection" style="display: none;">
 
     <div class="profile-card">
-
+    <button id="editProfileBtn">
+    Edit Profile
+   </button>
         <img
             id="profilePhoto"
             src="default-profile.png"
@@ -194,6 +196,46 @@
     <button id="logout">
         Logout
     </button>
+    <div id="editProfileModal" class="profile-modal" style="display: none;">
+
+    <div class="profile-modal-content">
+
+        <h2>Edit Profile</h2>
+
+        <form id="editProfileForm">
+
+            <label for="profilePhotoInput">
+                Profile Photo
+            </label>
+
+            <input
+                type="file"
+                id="profilePhotoInput"
+                name="profilePhoto"
+                accept="image/*"
+                required
+            >
+
+            <div id="photoPreview"></div>
+
+            <button type="submit" id="saveProfileBtn">
+                Upload Photo
+            </button>
+
+            <button
+                type="button"
+                id="closeProfileModal"
+            >
+                Cancel
+            </button>
+
+            <p id="profileMessage"></p>
+
+        </form>
+
+    </div>
+
+</div>
 
 </section>
  <div class="solidmenu" style="background-color: whitesmoke; height: 200px; border-radius: 35px; margin:0 30px; display: flex; justify-content: space-between; padding: 20px; align-items: center;">

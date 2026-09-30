@@ -3576,6 +3576,11 @@ footer {
   .menu-btn {
     display: block;
   }
+  .loginSection {
+  width: 50%;
+  max-width: 50%;
+  overflow: hidden;
+}
 
   .nav-links.show {
     position: absolute;

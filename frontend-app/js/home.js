@@ -98,6 +98,27 @@ const saveReceiptImage =
   document.getElementById(
     "saveReceiptImage"
   );
+  const editProfileBtn =
+    document.getElementById("editProfileBtn");
+
+const editProfileModal =
+    document.getElementById("editProfileModal");
+
+const closeProfileModal =
+    document.getElementById("closeProfileModal");
+
+const editProfileForm =
+    document.getElementById("editProfileForm");
+
+const profilePhotoInput =
+    document.getElementById("profilePhotoInput");
+
+const photoPreview =
+    document.getElementById("photoPreview");
+
+const profileMessage =
+    document.getElementById("profileMessage");
+
 setInterval(() => {
   index = (index + 1)% slide.length;
   slidecontainer.style.transform = 
@@ -1065,3 +1086,176 @@ if (token) {
     "none";
 
 }
+
+
+
+
+// ===============================
+// OPEN EDIT PROFILE
+// ===============================
+
+editProfileBtn.addEventListener("click", () => {
+
+    editProfileModal.style.display = "flex";
+
+});
+
+
+// ===============================
+// CLOSE EDIT PROFILE
+// ===============================
+
+closeProfileModal.addEventListener("click", () => {
+
+    editProfileModal.style.display = "none";
+
+    profileMessage.textContent = "";
+
+    photoPreview.innerHTML = "";
+
+    editProfileForm.reset();
+
+});
+
+
+// ===============================
+// PHOTO PREVIEW
+// ===============================
+
+profilePhotoInput.addEventListener(
+    "change",
+    () => {
+
+        const file =
+            profilePhotoInput.files[0];
+
+        if (!file) {
+            return;
+        }
+
+        const imageUrl =
+            URL.createObjectURL(file);
+
+        photoPreview.innerHTML = `
+            <img
+                src="${imageUrl}"
+                alt="Photo preview"
+                style="
+                    width:120px;
+                    height:120px;
+                    object-fit:cover;
+                    border-radius:50%;
+                "
+            >
+        `;
+
+    }
+);
+
+
+// ===============================
+// UPLOAD PROFILE PHOTO
+// ===============================
+
+editProfileForm.addEventListener(
+    "submit",
+    async (event) => {
+
+        event.preventDefault();
+
+        const file =
+            profilePhotoInput.files[0];
+
+        if (!file) {
+
+            profileMessage.textContent =
+                "Please choose a photo.";
+
+            return;
+        }
+const API ="https://api.globalcrestc.com/api";
+
+        const formData =
+            new FormData();
+
+        formData.append(
+            "profilePhoto",
+            file
+        );
+
+
+        try {
+
+            profileMessage.textContent =
+                "Uploading...";
+
+
+            const response =
+                await fetch(
+                    `${API_URL}/api/users/profile/photo`,
+                    {
+                        method: "PUT",
+
+                        headers: {
+                            Authorization:
+                                `Bearer ${token}`
+                        },
+
+                        body: formData
+                    }
+                );
+
+
+            const data =
+                await response.json();
+
+
+            if (!response.ok) {
+
+                profileMessage.textContent =
+                    data.message ||
+                    "Upload failed.";
+
+                return;
+            }
+
+
+            profileMessage.textContent =
+                "Profile photo uploaded successfully!";
+
+
+            // Update photo immediately
+            if (data.user?.profilePhoto) {
+
+                profilePhoto.src =
+                    data.user.profilePhoto;
+
+            }
+
+
+            setTimeout(() => {
+
+                editProfileModal.style.display =
+                    "none";
+
+                profileMessage.textContent = "";
+
+                editProfileForm.reset();
+
+            }, 1500);
+
+
+        } catch (error) {
+
+            console.error(
+                "Profile upload error:",
+                error
+            );
+
+            profileMessage.textContent =
+                "Could not connect to server.";
+
+        }
+
+    }
+);
