@@ -49,6 +49,8 @@ password
 
 const result = await response.json();
 
+
+console.log("FULL ADMIN LOGIN RESPONSE:", result);
 if (!response.ok) {
   loginMessage.textContent =
     result.message || "Invalid admin credentials.";
