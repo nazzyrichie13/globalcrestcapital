@@ -1,15 +1,24 @@
+
 const token = localStorage.getItem("adminToken");
 
-const adminUser =
-  JSON.parse(localStorage.getItem("admin") || "null");
+const adminUser = JSON.parse(
+  localStorage.getItem("admin") || "null"
+);
 
+// Check admin authentication
 if (
   !token ||
   !adminUser ||
   String(adminUser.role).toLowerCase() !== "admin"
 ) {
   window.location.href = "admin-login.html";
-}777
+}
+
+
+// ===============================
+// GET HTML ELEMENTS
+// ===============================
+
 const accountNumber =
   document.getElementById("accountNumber");
 
@@ -41,6 +50,10 @@ const depositMessage =
   document.getElementById("depositMessage");
 
 
+// ===============================
+// VERIFY CUSTOMER ACCOUNT
+// ===============================
+
 verifyAccount.addEventListener(
   "click",
   async () => {
@@ -49,14 +62,19 @@ verifyAccount.addEventListener(
       accountNumber.value.trim();
 
     if (!number) {
+
       depositMessage.textContent =
         "Enter an account number.";
+
+      accountBox.style.display = "none";
 
       return;
     }
 
     verifyAccount.disabled = true;
     verifyAccount.textContent = "Checking...";
+
+    depositMessage.textContent = "";
 
     try {
 
@@ -81,42 +99,67 @@ verifyAccount.addEventListener(
         await response.json();
 
       if (!response.ok) {
+
         throw new Error(
           result.message ||
           "Account not found."
         );
       }
 
+      // Make sure user exists in response
+      if (!result.user) {
+
+        throw new Error(
+          "Customer information was not returned."
+        );
+      }
+
       accountName.textContent =
-        result.user.name;
+        result.user.name || "N/A";
 
       verifiedAccountNumber.textContent =
-        result.user.accountNumber;
+        result.user.accountNumber || number;
 
       currentBalance.textContent =
-        `₦${Number(result.user.balance).toLocaleString()}`;
+        `₦${Number(
+          result.user.balance || 0
+        ).toLocaleString()}`;
 
-      accountBox.style.display = "block";
+      accountBox.style.display =
+        "block";
 
       depositMessage.textContent =
         "Account verified successfully.";
 
     } catch (error) {
 
-      accountBox.style.display = "none";
+      accountBox.style.display =
+        "none";
 
       depositMessage.textContent =
-        error.message;
+        error.message ||
+        "Unable to verify account.";
+
+      console.error(
+        "Account verification error:",
+        error
+      );
 
     } finally {
 
-      verifyAccount.disabled = false;
-      verifyAccount.textContent = "Verify";
+      verifyAccount.disabled =
+        false;
 
+      verifyAccount.textContent =
+        "Verify";
     }
   }
 );
 
+
+// ===============================
+// DEPOSIT FUNDS
+// ===============================
 
 depositForm.addEventListener(
   "submit",
@@ -130,23 +173,35 @@ depositForm.addEventListener(
     const depositAmount =
       Number(amount.value);
 
+    // Check account
     if (!number) {
+
       depositMessage.textContent =
         "Verify the customer account first.";
 
       return;
     }
 
-    if (!depositAmount || depositAmount <= 0) {
+    // Check amount
+    if (
+      !depositAmount ||
+      depositAmount <= 0
+    ) {
+
       depositMessage.textContent =
         "Enter a valid deposit amount.";
 
       return;
     }
 
-    depositButton.disabled = true;
+    depositButton.disabled =
+      true;
+
     depositButton.textContent =
       "Processing...";
+
+    depositMessage.textContent =
+      "";
 
     try {
 
@@ -172,36 +227,58 @@ depositForm.addEventListener(
         await response.json();
 
       if (!response.ok) {
+
         throw new Error(
           result.message ||
           "Deposit failed."
         );
       }
 
-      depositMessage.textContent =
-        `Deposit successful. New balance: ₦${Number(
-          result.user.balance
-        ).toLocaleString()}`;
+      // Make sure backend returned updated user
+      if (!result.user) {
 
+        throw new Error(
+          "Deposit completed, but updated account information was not returned."
+        );
+      }
+
+      // Update displayed balance
       currentBalance.textContent =
         `₦${Number(
-          result.user.balance
+          result.user.balance || 0
         ).toLocaleString()}`;
 
+      // Success message
+      depositMessage.textContent =
+        `Deposit successful. New balance: ₦${Number(
+          result.user.balance || 0
+        ).toLocaleString()}`;
+
+      // Clear amount
       amount.value = "";
+
+      // Keep account box visible
+      accountBox.style.display =
+        "block";
 
     } catch (error) {
 
       depositMessage.textContent =
-        error.message;
+        error.message ||
+        "Deposit failed.";
+
+      console.error(
+        "Deposit error:",
+        error
+      );
 
     } finally {
 
-      depositButton.disabled = false;
+      depositButton.disabled =
+        false;
 
       depositButton.innerHTML =
         '<i class="fa-solid fa-plus"></i> Deposit Funds';
-
     }
   }
 );

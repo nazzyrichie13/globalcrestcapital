@@ -351,6 +351,8 @@ if (user.profilePhoto) {
           user.tierLimit || 0
         ).toLocaleString()}`;
     }
+const API_URL = "https://api.globalcrestc.com";
+
 
 
     // PROFILE PHOTO

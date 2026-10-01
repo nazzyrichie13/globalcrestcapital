@@ -1,6 +1,56 @@
+
 const mongoose = require("mongoose");
 const User = require("../models/User");
 const Transaction = require("../models/Transaction");
+
+
+// ========================================
+// VERIFY CUSTOMER ACCOUNT
+// ========================================
+
+const verifyAccount = async (req, res) => {
+  try {
+    const { accountNumber } = req.body;
+
+    if (!accountNumber) {
+      return res.status(400).json({
+        message: "Account number is required"
+      });
+    }
+
+    const user = await User.findOne({
+      accountNumber: accountNumber.trim()
+    });
+
+    if (!user) {
+      return res.status(404).json({
+        message: "Account not found"
+      });
+    }
+
+    res.status(200).json({
+      message: "Account verified",
+      user: {
+        name: user.name,
+        accountNumber: user.accountNumber,
+        balance: Number(user.balance || 0)
+      }
+    });
+
+  } catch (error) {
+    console.error("Verify account error:", error);
+
+    res.status(500).json({
+      message: "Unable to verify account",
+      error: error.message
+    });
+  }
+};
+
+
+// ========================================
+// DEPOSIT
+// ========================================
 
 const deposit = async (req, res) => {
   const session = await mongoose.startSession();
@@ -25,7 +75,7 @@ const deposit = async (req, res) => {
     session.startTransaction();
 
     const user = await User.findOne({
-      accountNumber
+      accountNumber: accountNumber.trim()
     }).session(session);
 
     if (!user) {
@@ -36,7 +86,9 @@ const deposit = async (req, res) => {
       });
     }
 
-    user.balance += depositAmount;
+    // Make sure balance is a number
+    user.balance =
+      Number(user.balance || 0) + depositAmount;
 
     await user.save({ session });
 
@@ -57,21 +109,36 @@ const deposit = async (req, res) => {
 
     res.status(201).json({
       message: "Deposit successful",
-      balance: user.balance,
+
+      user: {
+        name: user.name,
+        accountNumber: user.accountNumber,
+        balance: user.balance
+      },
+
       transaction: transaction[0]
     });
+
   } catch (error) {
-    await session.abortTransaction();
+
+    if (session.inTransaction()) {
+      await session.abortTransaction();
+    }
+
+    console.error("Deposit error:", error);
 
     res.status(500).json({
       message: "Deposit failed",
       error: error.message
     });
+
   } finally {
-    session.endSession();
+    await session.endSession();
   }
 };
 
+
 module.exports = {
-  deposit
+  deposit,
+  verifyAccount
 };
