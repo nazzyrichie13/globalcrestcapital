@@ -2,44 +2,51 @@ const mongoose = require("mongoose");
 
 const transactionSchema = new mongoose.Schema(
   {
-    reference: {
-      type: String,
-      required: true,
-      unique: true
-    },
-
     type: {
       type: String,
-      enum: ["deposit", "transfer"],
+      enum: [
+        "deposit",
+        "withdrawal",
+        "transfer",
+        "loan",
+        "payment"
+      ],
       required: true
     },
 
     sender: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "User"
+      ref: "User",
+      default: null
     },
 
     receiver: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
-      required: true
+      default: null
     },
 
     amount: {
       type: Number,
       required: true,
-      min: 1
+      min: 0
     },
 
     status: {
       type: String,
-      enum: ["pending", "approved", "declined"],
+      enum: [
+        "pending",
+        "approved",
+        "rejected",
+        "completed"
+      ],
       default: "pending"
     },
 
     approvedBy: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "User"
+      ref: "Admin",
+      default: null
     }
   },
   {
@@ -47,9 +54,10 @@ const transactionSchema = new mongoose.Schema(
   }
 );
 
-const Transaction = mongoose.model(
-  "Transaction",
-  transactionSchema
-);
+const Transaction =
+  mongoose.model(
+    "Transaction",
+    transactionSchema
+  );
 
 module.exports = Transaction;

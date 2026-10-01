@@ -1,5 +1,6 @@
 
 const mongoose = require("mongoose");
+
 const User = require("../models/User");
 const Transaction = require("../models/Transaction");
 
@@ -9,42 +10,69 @@ const Transaction = require("../models/Transaction");
 // ========================================
 
 const verifyAccount = async (req, res) => {
+
   try {
+
     const { accountNumber } = req.body;
 
+
     if (!accountNumber) {
+
       return res.status(400).json({
+        success: false,
         message: "Account number is required"
       });
+
     }
+
 
     const user = await User.findOne({
       accountNumber: accountNumber.trim()
     });
 
+
     if (!user) {
+
       return res.status(404).json({
+        success: false,
         message: "Account not found"
       });
+
     }
 
-    res.status(200).json({
+
+    return res.status(200).json({
+
+      success: true,
+
       message: "Account verified",
+
       user: {
         name: user.name,
-        accountNumber: user.accountNumber,
-        balance: Number(user.balance || 0)
+
+        accountNumber:
+          user.accountNumber,
+
+        balance:
+          Number(user.balance || 0)
       }
+
     });
 
   } catch (error) {
-    console.error("Verify account error:", error);
 
-    res.status(500).json({
-      message: "Unable to verify account",
-      error: error.message
+    console.error(
+      "Verify account error:",
+      error
+    );
+
+    return res.status(500).json({
+      success: false,
+      message: "Unable to verify account"
     });
+
   }
+
 };
 
 
@@ -53,88 +81,208 @@ const verifyAccount = async (req, res) => {
 // ========================================
 
 const deposit = async (req, res) => {
-  const session = await mongoose.startSession();
+
+  const session =
+    await mongoose.startSession();
 
   try {
-    const { accountNumber, amount } = req.body;
 
-    const depositAmount = Number(amount);
+    const {
+      accountNumber,
+      amount
+    } = req.body;
 
-    if (!accountNumber || !Number.isFinite(depositAmount)) {
+
+    const depositAmount =
+      Number(amount);
+
+
+    // ====================================
+    // VALIDATE ACCOUNT NUMBER
+    // ====================================
+
+    if (!accountNumber) {
+
       return res.status(400).json({
-        message: "Account number and valid amount are required"
+        success: false,
+        message: "Account number is required"
       });
+
     }
 
-    if (depositAmount <= 0) {
+
+    // ====================================
+    // VALIDATE AMOUNT
+    // ====================================
+
+    if (
+      !Number.isFinite(depositAmount) ||
+      depositAmount <= 0
+    ) {
+
       return res.status(400).json({
+        success: false,
         message: "Amount must be greater than zero"
       });
+
     }
+
+
+    // ====================================
+    // START DATABASE TRANSACTION
+    // ====================================
 
     session.startTransaction();
 
-    const user = await User.findOne({
-      accountNumber: accountNumber.trim()
-    }).session(session);
+
+    // ====================================
+    // FIND USER BY ACCOUNT NUMBER
+    // ====================================
+
+    const user =
+      await User.findOne({
+
+        accountNumber:
+          accountNumber.trim()
+
+      }).session(session);
+
 
     if (!user) {
+
       await session.abortTransaction();
 
       return res.status(404).json({
+        success: false,
         message: "Account not found"
       });
+
     }
 
-    // Make sure balance is a number
+
+    // ====================================
+    // GET CURRENT BALANCE
+    // ====================================
+
+    const balanceBefore =
+      Number(user.balance || 0);
+
+
+    // ====================================
+    // INCREASE BALANCE
+    // ====================================
+
     user.balance =
-      Number(user.balance || 0) + depositAmount;
+      balanceBefore + depositAmount;
 
-    await user.save({ session });
 
-    const transaction = await Transaction.create(
-      [
+    // ====================================
+    // SAVE USER
+    // ====================================
+
+    await user.save({
+      session
+    });
+
+
+    // ====================================
+    // CREATE TRANSACTION RECORD
+    // ====================================
+
+    const transaction =
+      await Transaction.create(
+        [
+          {
+            type: "deposit",
+
+            receiver:
+              user._id,
+
+            amount:
+              depositAmount,
+
+            status:
+              "approved",
+
+            approvedBy:
+              req.user.userId
+          }
+        ],
         {
-          type: "deposit",
-          receiver: user._id,
-          amount: depositAmount,
-          status: "approved",
-          approvedBy: req.user._id
+          session
         }
-      ],
-      { session }
-    );
+      );
+
+
+    // ====================================
+    // COMMIT DATABASE CHANGES
+    // ====================================
 
     await session.commitTransaction();
 
-    res.status(201).json({
+
+    // ====================================
+    // SUCCESS RESPONSE
+    // ====================================
+
+    return res.status(201).json({
+
+      success: true,
+
       message: "Deposit successful",
 
       user: {
-        name: user.name,
-        accountNumber: user.accountNumber,
-        balance: user.balance
+
+        name:
+          user.name,
+
+        accountNumber:
+          user.accountNumber,
+
+        balance:
+          user.balance
+
       },
 
-      transaction: transaction[0]
+      transaction:
+        transaction[0]
+
     });
+
 
   } catch (error) {
 
     if (session.inTransaction()) {
+
       await session.abortTransaction();
+
     }
 
-    console.error("Deposit error:", error);
 
-    res.status(500).json({
+    console.error(
+      "Deposit error:",
+      error
+    );
+
+
+    return res.status(500).json({
+
+      success: false,
+
       message: "Deposit failed",
-      error: error.message
+
+      error:
+        error.message
+
     });
 
+
   } finally {
+
     await session.endSession();
+
   }
+
 };
 
 

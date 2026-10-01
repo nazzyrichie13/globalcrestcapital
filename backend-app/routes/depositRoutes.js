@@ -1,13 +1,35 @@
 const express = require("express");
 
-const auth = require("../middleware/auth");
-const adminOnly = require("../middleware/adminOnly");
+const auth =
+  require("../middleware/auth");
+
+const adminOnly =
+  require("../middleware/adminOnly");
 
 const {
-  deposit
+  deposit,
+  verifyAccount
 } = require("../controllers/depositController");
 
-const router = express.Router();
+const router =
+  express.Router();
+
+
+// ========================================
+// VERIFY CUSTOMER ACCOUNT
+// ========================================
+
+router.post(
+  "/verify",
+  auth,
+  adminOnly,
+  verifyAccount
+);
+
+
+// ========================================
+// DEPOSIT FUNDS
+// ========================================
 
 router.post(
   "/",
@@ -15,5 +37,6 @@ router.post(
   adminOnly,
   deposit
 );
+
 
 module.exports = router;
