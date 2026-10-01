@@ -2,7 +2,7 @@ const express = require("express");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
-const User = require("../models/User");
+const Admin = require("../models/Admin");
 
 const auth = require("../middleware/auth");
 const adminOnly = require("../middleware/adminOnly");
@@ -10,7 +10,6 @@ const adminOnly = require("../middleware/adminOnly");
 const {
     getUsers
 } = require("../controllers/userController");
-
 
 const router = express.Router();
 
@@ -29,7 +28,9 @@ router.post("/login", async (req, res) => {
         } = req.body;
 
 
-        // Check fields
+        // ==================================
+        // CHECK FIELDS
+        // ==================================
 
         if (!email || !password) {
 
@@ -43,17 +44,19 @@ router.post("/login", async (req, res) => {
 
 
         // ==================================
-        // FIND ADMIN IN USERS COLLECTION
+        // FIND ADMIN IN ADMINS COLLECTION
         // ==================================
 
         const admin =
-            await User.findOne({
+            await Admin.findOne({
                 email:
                     email.trim().toLowerCase()
             });
 
 
-        // Admin not found
+        // ==================================
+        // ADMIN NOT FOUND
+        // ==================================
 
         if (!admin) {
 
@@ -61,21 +64,6 @@ router.post("/login", async (req, res) => {
                 success: false,
                 message:
                     "Invalid admin credentials"
-            });
-
-        }
-
-
-        // ==================================
-        // CHECK ADMIN ROLE
-        // ==================================
-
-        if (admin.role !== "admin") {
-
-            return res.status(403).json({
-                success: false,
-                message:
-                    "Admin access denied"
             });
 
         }
@@ -164,9 +152,6 @@ router.post("/login", async (req, res) => {
 
                 email:
                     admin.email,
-
-                accountNumber:
-                    admin.accountNumber,
 
                 role:
                     admin.role
