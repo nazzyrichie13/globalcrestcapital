@@ -358,8 +358,8 @@ if (user.profilePhoto) {
 
       if (user.profilePhoto) {
 
-        profilePhoto.src =
-          user.profilePhoto;
+      profilePhoto.src =
+  `${API}${data.user.profilePhoto}`;
 
       } else {
 
@@ -1685,15 +1685,15 @@ if (editProfileForm) {
 
 
         // UPDATE PHOTO IMMEDIATELY
-        if (
-          data.user?.profilePhoto &&
-          profilePhoto
-        ) {
+if (
+  data.user?.profilePhoto &&
+  profilePhoto
+) {
 
-          profilePhoto.src =
-            data.user.profilePhoto;
+  profilePhoto.src =
+    `${API}${data.user.profilePhoto}`;
 
-        }
+}
 
 
         setTimeout(

@@ -4,10 +4,9 @@
 
 const token = localStorage.getItem("adminToken");
 
-const adminUser =
-  JSON.parse(
-    localStorage.getItem("admin") || "null"
-  );
+const adminUser = JSON.parse(
+  localStorage.getItem("admin") || "null"
+);
 
 
 // ============================
@@ -58,14 +57,12 @@ async function loadUsers() {
         method: "GET",
 
         headers: {
-          Authorization:
-            `Bearer ${token}`
+          Authorization: `Bearer ${token}`
         }
       }
     );
 
-    const result =
-      await response.json();
+    const result = await response.json();
 
     if (!response.ok) {
       throw new Error(
@@ -74,16 +71,17 @@ async function loadUsers() {
       );
     }
 
-    const users =
-      result.users || [];
+    const users = result.users || [];
 
+    // Total registered users
     totalUsers.textContent =
-      users.length;
+      result.totalUsers ?? users.length;
 
+    // IMPORTANT:
+    // Backend uses isActive, NOT status
     activeUsers.textContent =
-      users.filter(
-        user => user.status === "active"
-      ).length;
+      result.activeUsers ??
+      users.filter(user => user.isActive === true).length;
 
     displayUsers(users);
 
@@ -115,7 +113,7 @@ function displayUsers(users) {
   if (!users.length) {
 
     usersContainer.innerHTML = `
-      <p>No users found.</p>
+      <p>No registered users found.</p>
     `;
 
     return;
@@ -123,6 +121,16 @@ function displayUsers(users) {
 
   usersContainer.innerHTML = users
     .map(user => {
+
+      const status =
+        user.isActive === true
+          ? "Active"
+          : "Inactive";
+
+      const statusClass =
+        user.isActive === true
+          ? "active"
+          : "inactive";
 
       return `
         <div class="user-card">
@@ -135,7 +143,6 @@ function displayUsers(users) {
 
             <h3>
               ${escapeHtml(
-                user.fullName ||
                 user.name ||
                 "Unknown User"
               )}
@@ -156,9 +163,16 @@ function displayUsers(users) {
             </p>
 
             <p>
-              Phone:
+              Balance:
+              $${Number(
+                user.balance || 0
+              ).toLocaleString()}
+            </p>
+
+            <p>
+              Tier:
               ${escapeHtml(
-                user.phone || "N/A"
+                user.tier || "1"
               )}
             </p>
 
@@ -166,10 +180,8 @@ function displayUsers(users) {
 
           <div class="user-status">
 
-            <span>
-              ${escapeHtml(
-                user.status || "active"
-              )}
+            <span class="${statusClass}">
+              ${status}
             </span>
 
           </div>

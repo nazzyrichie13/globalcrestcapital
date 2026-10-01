@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="en">
 
 <head>
@@ -22,361 +21,366 @@
 <body>
 
   <!-- HEADER -->
-
   <header class="topbar">
 
-```
-<div class="brand">
+    <div class="brand">
 
-  <div class="brand-icon">
-    <i class="fa-solid fa-shield-halved"></i>
-  </div>
+      <div class="brand-icon">
+        <i class="fa-solid fa-shield-halved"></i>
+      </div>
 
-  <div>
-    <h2>GlobalCrest</h2>
-    <span>Admin Portal</span>
-  </div>
+      <div>
+        <h2>GlobalCrest</h2>
+        <span>Admin Portal</span>
+      </div>
 
-</div>
+    </div>
 
-<a href="admin-dashboard.html" class="back-btn">
-  <i class="fa-solid fa-arrow-left"></i>
-  Dashboard
-</a>
-```
+    <a href="admin-dashboard.html" class="back-btn">
+      <i class="fa-solid fa-arrow-left"></i>
+      Dashboard
+    </a>
 
   </header>
 
-  <!-- MAIN -->
 
+  <!-- MAIN -->
   <main class="container">
 
-```
-<!-- PAGE HEADER -->
-<section class="page-header">
+    <!-- PAGE HEADER -->
+    <section class="page-header">
 
-  <div>
-    <p class="eyebrow">CUSTOMER MANAGEMENT</p>
+      <div>
+        <p class="eyebrow">CUSTOMER MANAGEMENT</p>
 
-    <h1>User Accounts</h1>
+        <h1>User Accounts</h1>
 
-    <p>
-      View and manage registered GlobalCrest Capital customers.
-    </p>
-  </div>
+        <p>
+          View and manage registered GlobalCrest Capital customers.
+        </p>
+      </div>
 
-  <button id="refreshBtn" class="refresh-btn">
-    <i class="fa-solid fa-rotate"></i>
-    Refresh
-  </button>
+      <button id="refreshBtn" class="refresh-btn">
+        <i class="fa-solid fa-rotate"></i>
+        Refresh
+      </button>
 
-</section>
-
-
-<!-- STATISTICS -->
-<section class="stats">
-
-  <div class="stat-card">
-
-    <div class="stat-icon blue">
-      <i class="fa-solid fa-users"></i>
-    </div>
-
-    <div>
-      <span>Total Users</span>
-      <strong id="totalUsers">0</strong>
-    </div>
-
-  </div>
+    </section>
 
 
-  <div class="stat-card">
+    <!-- STATISTICS -->
+    <section class="stats">
 
-    <div class="stat-icon green">
-      <i class="fa-solid fa-user-check"></i>
-    </div>
+      <!-- TOTAL USERS -->
+      <div class="stat-card">
 
-    <div>
-      <span>Active Users</span>
-      <strong id="activeUsers">0</strong>
-    </div>
+        <div class="stat-icon blue">
+          <i class="fa-solid fa-users"></i>
+        </div>
 
-  </div>
+        <div>
+          <span>Total Users</span>
+          <strong id="totalUsers">0</strong>
+        </div>
 
-
-  <div class="stat-card">
-
-    <div class="stat-icon purple">
-      <i class="fa-solid fa-layer-group"></i>
-    </div>
-
-    <div>
-      <span>Tier 1 Accounts</span>
-      <strong id="tierOneUsers">0</strong>
-    </div>
-
-  </div>
+      </div>
 
 
-  <div class="stat-card">
+      <!-- ACTIVE USERS -->
+      <div class="stat-card">
 
-    <div class="stat-icon gold">
-      <i class="fa-solid fa-wallet"></i>
-    </div>
+        <div class="stat-icon green">
+          <i class="fa-solid fa-user-check"></i>
+        </div>
 
-    <div>
-      <span>Total Balance</span>
-      <strong id="totalBalance">₦0.00</strong>
-    </div>
+        <div>
+          <span>Active Users</span>
+          <strong id="activeUsers">0</strong>
+        </div>
 
-  </div>
-
-</section>
+      </div>
 
 
-<!-- USERS -->
-<section class="users-section">
+      <!-- TIER 1 -->
+      <div class="stat-card">
 
-  <div class="section-header">
+        <div class="stat-icon purple">
+          <i class="fa-solid fa-layer-group"></i>
+        </div>
 
-    <div>
-      <p class="eyebrow">CUSTOMER DIRECTORY</p>
+        <div>
+          <span>Tier 1 Accounts</span>
+          <strong id="tierOneUsers">0</strong>
+        </div>
 
-      <h2>Registered Users</h2>
+      </div>
 
-      <p>
-        Account information for registered customers.
-      </p>
-    </div>
 
-    <div class="search-box">
+      <!-- TOTAL BALANCE -->
+      <div class="stat-card">
 
-      <i class="fa-solid fa-magnifying-glass"></i>
+        <div class="stat-icon gold">
+          <i class="fa-solid fa-wallet"></i>
+        </div>
 
-      <input
-        type="text"
-        id="searchInput"
-        placeholder="Search name, email or account number..."
+        <div>
+          <span>Total Balance</span>
+          <strong id="totalBalance">₦0.00</strong>
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- USERS -->
+    <section class="users-section">
+
+      <div class="section-header">
+
+        <div>
+          <p class="eyebrow">CUSTOMER DIRECTORY</p>
+
+          <h2>Registered Users</h2>
+
+          <p>
+            Account information for registered customers.
+          </p>
+        </div>
+
+        <div class="search-box">
+
+          <i class="fa-solid fa-magnifying-glass"></i>
+
+          <input
+            type="text"
+            id="searchInput"
+            placeholder="Search name, email or account number..."
+          >
+
+        </div>
+
+      </div>
+
+
+      <!-- TABLE -->
+      <div class="table-wrapper">
+
+        <table>
+
+          <thead>
+
+            <tr>
+
+              <th>Customer</th>
+
+              <th>Email</th>
+
+              <th>Account Number</th>
+
+              <th>Balance</th>
+
+              <th>Tier</th>
+
+              <th>Status</th>
+
+              <th>Joined</th>
+
+              <th>Action</th>
+
+            </tr>
+
+          </thead>
+
+          <tbody id="usersTableBody">
+
+            <tr>
+
+              <td colspan="8">
+
+                <div class="loading">
+
+                  <i class="fa-solid fa-spinner fa-spin"></i>
+
+                  Loading users...
+
+                </div>
+
+              </td>
+
+            </tr>
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+
+      <!-- EMPTY STATE -->
+      <div
+        id="emptyState"
+        class="empty-state"
+        style="display: none;"
       >
 
-    </div>
+        <div class="empty-icon">
+          <i class="fa-solid fa-users"></i>
+        </div>
 
-  </div>
+        <h3>No Users Found</h3>
 
+        <p>
+          There are currently no registered customer accounts.
+        </p>
 
-  <!-- TABLE -->
-  <div class="table-wrapper">
+      </div>
 
-    <table>
-
-      <thead>
-
-        <tr>
-
-          <th>Customer</th>
-
-          <th>Email</th>
-
-          <th>Account Number</th>
-
-          <th>Balance</th>
-
-          <th>Tier</th>
-
-          <th>Status</th>
-
-          <th>Joined</th>
-
-          <th>Action</th>
-
-        </tr>
-
-      </thead>
-
-      <tbody id="usersTableBody">
-
-        <tr>
-
-          <td colspan="8">
-
-            <div class="loading">
-
-              <i class="fa-solid fa-spinner fa-spin"></i>
-
-              Loading users...
-
-            </div>
-
-          </td>
-
-        </tr>
-
-      </tbody>
-
-    </table>
-
-  </div>
-
-
-  <!-- MOBILE / EMPTY STATE -->
-  <div
-    id="emptyState"
-    class="empty-state"
-    style="display: none;"
-  >
-
-    <div class="empty-icon">
-      <i class="fa-solid fa-users"></i>
-    </div>
-
-    <h3>No Users Found</h3>
-
-    <p>
-      There are currently no registered customer accounts.
-    </p>
-
-  </div>
-
-</section>
-```
+    </section>
 
   </main>
 
-  <!-- USER DETAILS MODAL -->
 
+  <!-- USER DETAILS MODAL -->
   <div
     id="userModal"
     class="modal"
     style="display: none;"
   >
 
-```
-<div class="modal-content">
+    <div class="modal-content">
 
-  <button
-    id="closeModal"
-    class="close-modal"
-  >
-    <i class="fa-solid fa-xmark"></i>
-  </button>
+      <button
+        id="closeModal"
+        class="close-modal"
+      >
+        <i class="fa-solid fa-xmark"></i>
+      </button>
 
-  <div class="modal-header">
 
-    <div
-      id="modalAvatar"
-      class="modal-avatar"
-    >
-      <i class="fa-solid fa-user"></i>
-    </div>
+      <div class="modal-header">
 
-    <div>
+        <div
+          id="modalAvatar"
+          class="modal-avatar"
+        >
+          <i class="fa-solid fa-user"></i>
+        </div>
 
-      <p class="eyebrow">CUSTOMER ACCOUNT</p>
+        <div>
 
-      <h2 id="modalName">
-        User
-      </h2>
+          <p class="eyebrow">CUSTOMER ACCOUNT</p>
 
-      <span id="modalStatus">
-        Active
-      </span>
+          <h2 id="modalName">
+            User
+          </h2>
+
+          <span id="modalStatus">
+            Active
+          </span>
+
+        </div>
+
+      </div>
+
+
+      <div class="details-grid">
+
+        <!-- EMAIL -->
+        <div class="detail-card">
+
+          <span>
+            <i class="fa-solid fa-envelope"></i>
+            Email
+          </span>
+
+          <strong id="modalEmail">
+            —
+          </strong>
+
+        </div>
+
+
+        <!-- ACCOUNT NUMBER -->
+        <div class="detail-card">
+
+          <span>
+            <i class="fa-solid fa-credit-card"></i>
+            Account Number
+          </span>
+
+          <strong id="modalAccountNumber">
+            —
+          </strong>
+
+        </div>
+
+
+        <!-- BALANCE -->
+        <div class="detail-card">
+
+          <span>
+            <i class="fa-solid fa-wallet"></i>
+            Balance
+          </span>
+
+          <strong id="modalBalance">
+            ₦0.00
+          </strong>
+
+        </div>
+
+
+        <!-- TIER -->
+        <div class="detail-card">
+
+          <span>
+            <i class="fa-solid fa-layer-group"></i>
+            Account Tier
+          </span>
+
+          <strong id="modalTier">
+            Tier 1
+          </strong>
+
+        </div>
+
+
+        <!-- JOINED -->
+        <div class="detail-card">
+
+          <span>
+            <i class="fa-solid fa-calendar"></i>
+            Date Joined
+          </span>
+
+          <strong id="modalJoined">
+            —
+          </strong>
+
+        </div>
+
+
+        <!-- UPDATED -->
+        <div class="detail-card">
+
+          <span>
+            <i class="fa-solid fa-clock"></i>
+            Last Updated
+          </span>
+
+          <strong id="modalUpdated">
+            —
+          </strong>
+
+        </div>
+
+      </div>
 
     </div>
 
   </div>
 
-
-  <div class="details-grid">
-
-    <div class="detail-card">
-
-      <span>
-        <i class="fa-solid fa-envelope"></i>
-        Email
-      </span>
-
-      <strong id="modalEmail">
-        —
-      </strong>
-
-    </div>
-
-
-    <div class="detail-card">
-
-      <span>
-        <i class="fa-solid fa-credit-card"></i>
-        Account Number
-      </span>
-
-      <strong id="modalAccountNumber">
-        —
-      </strong>
-
-    </div>
-
-
-    <div class="detail-card">
-
-      <span>
-        <i class="fa-solid fa-wallet"></i>
-        Balance
-      </span>
-
-      <strong id="modalBalance">
-        ₦0.00
-      </strong>
-
-    </div>
-
-
-    <div class="detail-card">
-
-      <span>
-        <i class="fa-solid fa-layer-group"></i>
-        Account Tier
-      </span>
-
-      <strong id="modalTier">
-        Tier 1
-      </strong>
-
-    </div>
-
-
-    <div class="detail-card">
-
-      <span>
-        <i class="fa-solid fa-calendar"></i>
-        Date Joined
-      </span>
-
-      <strong id="modalJoined">
-        —
-      </strong>
-
-    </div>
-
-
-    <div class="detail-card">
-
-      <span>
-        <i class="fa-solid fa-clock"></i>
-        Last Updated
-      </span>
-
-      <strong id="modalUpdated">
-        —
-      </strong>
-
-    </div>
-
-  </div>
-
-</div>
-```
-
-  </div>
 
   <script src="./js/admin-users.js"></script>
 
