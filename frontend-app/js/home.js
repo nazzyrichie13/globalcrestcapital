@@ -277,7 +277,6 @@ async function getProfile() {
     return;
   }
 
-
   try {
 
     const response =
@@ -291,10 +290,8 @@ async function getProfile() {
         }
       );
 
-
     const data =
       await response.json();
-
 
     if (!response.ok) {
       throw new Error(
@@ -303,65 +300,24 @@ async function getProfile() {
       );
     }
 
-
     const user =
       data.user;
 
-const profilePhoto = document.getElementById("profilePhoto");
-
-if (user.profilePhoto) {
-    profilePhoto.src = user.profilePhoto;
-} else {
-    profilePhoto.src = "default-profile.png";
-};
-    // NAME
-    if (userName) {
-      userName.textContent =
-        user.name || "";
-    }
-
-
-    // ACCOUNT NUMBER
-    if (accountNumber) {
-      accountNumber.textContent =
-        user.accountNumber || "";
-    }
-
-
-    // BALANCE
-    if (balance) {
-      balance.textContent =
-        Number(
-          user.balance || 0
-        ).toLocaleString();
-    }
-
-
-    // TIER
-    if (userTier) {
-      userTier.textContent =
-        `Tier ${user.tier || 1}`;
-    }
-
-
-    // TIER LIMIT
-    if (tierLimit) {
-      tierLimit.textContent =
-        `$${Number(
-          user.tierLimit || 0
-        ).toLocaleString()}`;
-    }
-const API_URL = "https://api.globalcrestc.com";
-
-
-
+    // ==============================
     // PROFILE PHOTO
+    // ==============================
+
+    const profilePhoto =
+      document.getElementById(
+        "profilePhoto"
+      );
+
     if (profilePhoto) {
 
       if (user.profilePhoto) {
 
-      profilePhoto.src =
-  `${API}${data.user.profilePhoto}`;
+        profilePhoto.src =
+          `${API}${user.profilePhoto}`;
 
       } else {
 
@@ -370,6 +326,55 @@ const API_URL = "https://api.globalcrestc.com";
 
       }
 
+    }
+
+    // ==============================
+    // NAME
+    // ==============================
+
+    if (userName) {
+      userName.textContent =
+        user.name || "";
+    }
+
+    // ==============================
+    // ACCOUNT NUMBER
+    // ==============================
+
+    if (accountNumber) {
+      accountNumber.textContent =
+        user.accountNumber || "";
+    }
+
+    // ==============================
+    // BALANCE
+    // ==============================
+
+    if (balance) {
+      balance.textContent =
+        Number(
+          user.balance || 0
+        ).toLocaleString();
+    }
+
+    // ==============================
+    // TIER
+    // ==============================
+
+    if (userTier) {
+      userTier.textContent =
+        `Tier ${user.tier || 1}`;
+    }
+
+    // ==============================
+    // TIER LIMIT
+    // ==============================
+
+    if (tierLimit) {
+      tierLimit.textContent =
+        `$${Number(
+          user.tierLimit || 0
+        ).toLocaleString()}`;
     }
 
   } catch (error) {
@@ -643,7 +648,7 @@ if (verifySameBank) {
 
         if (verificationStatus) {
           verificationStatus.textContent =
-            "✓ GlobalCrest account verified";
+            "✓ GlobalCrestcapital account verified";
         }
 
       } catch (error) {
