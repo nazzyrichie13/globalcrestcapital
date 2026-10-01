@@ -21,7 +21,7 @@ const verifySameBankAccount = async (req, res) => {
     if (!user) {
 
       return res.status(404).json({
-        message: "NexaTrust account not found"
+        message: "GlobalcrestCapital account not found"
       });
 
     }
