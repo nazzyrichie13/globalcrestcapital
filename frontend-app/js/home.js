@@ -317,13 +317,13 @@ async function getProfile() {
       if (user.profilePhoto) {
 
         profilePhoto.src =
-          `${API}${user.profilePhoto}`;
-
+          "default-profile.png";
       } else {
 
         profilePhoto.src =
-          "default-profile.png";
-
+          
+   `${API}${user.profilePhoto}`;
+ 
       }
 
     }
