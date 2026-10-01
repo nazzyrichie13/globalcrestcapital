@@ -10,7 +10,9 @@ const getUsers = async (req, res) => {
     try {
         const users = await User.find({
             role: "user"
-        }).select("name email accountNumber balance isActive");
+        }).select(
+            "name email accountNumber balance tier tierLimit profilePhoto isActive createdAt updatedAt"
+        );
 
         const activeUsers = users.filter(
             user => user.isActive === true
