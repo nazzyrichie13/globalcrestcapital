@@ -2,14 +2,20 @@ const API_URL =
   "https://api.globalcrestc.com";
 
 const token =
-  localStorage.getItem("token");
+  localStorage.getItem("adminToken");
 
+const adminUser =
+  JSON.parse(
+    localStorage.getItem("admin") || "null"
+  );
 
-if (!token) {
-
+if (
+  !token ||
+  !adminUser ||
+  String(adminUser.role).toLowerCase() !== "admin"
+) {
   window.location.href =
-    "login.html";
-
+    "admin-login.html";
 }
 
 
@@ -816,3 +822,4 @@ function escapeHtml(value) {
 // =============================
 
 loadPendingLoans();
+

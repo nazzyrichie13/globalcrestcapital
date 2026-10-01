@@ -1,21 +1,15 @@
-const menuBtn =
-  document.getElementById("menuBtn");
-
-const navLinks =
-  document.getElementById("navLinks");
+const menuBtn = document.getElementById("menuBtn");
+const navLinks = document.getElementById("navLinks");
 
 
-if (menuBtn) {
+// ==============================
+// MOBILE MENU
+// ==============================
 
-  menuBtn.addEventListener(
-    "click",
-    () => {
-
-      navLinks.classList.toggle("show");
-
-    }
-  );
-
+if (menuBtn && navLinks) {
+  menuBtn.addEventListener("click", () => {
+    navLinks.classList.toggle("show");
+  });
 }
 
 
@@ -23,204 +17,206 @@ if (menuBtn) {
 // CARD APPLICATION
 // ==============================
 
-const form =
-  document.getElementById(
-    "cardApplicationForm"
-  );
-
-const successSection =
-  document.getElementById(
-    "successSection"
-  );
-
-const formMessage =
-  document.getElementById(
-    "formMessage"
-  );
-
-const applicationReference =
-  document.getElementById(
-    "applicationReference"
-  );
+const form = document.getElementById("cardApplicationForm");
+const successSection = document.getElementById("successSection");
+const formMessage = document.getElementById("formMessage");
+const applicationReference = document.getElementById(
+  "applicationReference"
+);
 
 
 if (form) {
 
+  form.addEventListener("submit", async (event) => {
+
+    event.preventDefault();
 
 
-        const form =
-  document.getElementById(
-    "cardApplicationForm"
-  );
+    // ==============================
+    // GET AUTHENTICATED TOKEN
+    // ==============================
 
-const successSection =
-  document.getElementById(
-    "successSection"
-  );
+    const adminToken = localStorage.getItem("adminToken");
+    const userToken = localStorage.getItem("token");
 
-const formMessage =
-  document.getElementById(
-    "formMessage"
-  );
+    const adminUser = JSON.parse(
+      localStorage.getItem("admin") || "null"
+    );
 
-const applicationReference =
-  document.getElementById(
-    "applicationReference"
-  );
+    let token = null;
 
 
-if (form) {
+    // Admin login
+    if (
+      adminToken &&
+      adminUser &&
+      String(adminUser.role).toLowerCase() === "admin"
+    ) {
 
-  form.addEventListener(
-    "submit",
-    async (event) => {
+      token = adminToken;
 
-      event.preventDefault();
+    }
 
-      const token =
-        localStorage.getItem("token");
+    // Normal customer login
+    else if (userToken) {
 
-      if (!token) {
-        window.location.href =
-          "home.html";
+      token = userToken;
 
-        return;
+    }
+
+
+    // No authenticated session
+    if (!token) {
+
+      window.location.href = "home.html";
+
+      return;
+    }
+
+
+    // ==============================
+    // SUBMIT BUTTON
+    // ==============================
+
+    const submitButton =
+      form.querySelector(".submit-btn");
+
+
+    // ==============================
+    // FORM DATA
+    // ==============================
+
+    const formData = new FormData(form);
+
+    const cardType =
+      formData.get("cardType");
+
+    const fullName =
+      formData.get("fullName");
+
+    const email =
+      formData.get("email");
+
+    const phone =
+      formData.get("phone");
+
+    const deliveryMethod =
+      formData.get("deliveryMethod");
+
+    const deliveryAddress =
+      formData.get("deliveryAddress");
+
+
+    // ==============================
+    // LOADING STATE
+    // ==============================
+
+    submitButton.disabled = true;
+
+    submitButton.innerHTML = `
+      <i class="fa-solid fa-spinner fa-spin"></i>
+      Processing...
+    `;
+
+
+    try {
+
+      // ==============================
+      // SEND APPLICATION
+      // ==============================
+
+      const response = await fetch(
+        "https://api.globalcrestc.com/api/card-applications",
+        {
+          method: "POST",
+
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
+          },
+
+          body: JSON.stringify({
+            cardType,
+            fullName,
+            email,
+            phone,
+            deliveryMethod,
+            deliveryAddress
+          })
+        }
+      );
+
+
+      const result = await response.json();
+
+
+      // ==============================
+      // HANDLE ERROR
+      // ==============================
+
+      if (!response.ok) {
+
+        throw new Error(
+          result.message ||
+          "Card application failed."
+        );
+
       }
 
 
-      const submitButton =
-        form.querySelector(
-          ".submit-btn"
-        );
+      // ==============================
+      // CREATE APPLICATION REFERENCE
+      // ==============================
+
+      const reference =
+        "NT-CARD-" +
+        result.application.id
+          .slice(-8)
+          .toUpperCase();
 
 
-      const formData =
-        new FormData(form);
+      applicationReference.textContent =
+        reference;
 
 
-      const cardType =
-        formData.get("cardType");
+      // ==============================
+      // SHOW SUCCESS
+      // ==============================
 
-      const fullName =
-        formData.get("fullName");
+      form.style.display = "none";
 
-      const email =
-        formData.get("email");
+      successSection.classList.add("show");
 
-      const phone =
-        formData.get("phone");
-
-      const deliveryMethod =
-        formData.get(
-          "deliveryMethod"
-        );
-
-      const deliveryAddress =
-        formData.get(
-          "deliveryAddress"
-        );
+      successSection.scrollIntoView({
+        behavior: "smooth"
+      });
 
 
-      submitButton.disabled =
-        true;
+    } catch (error) {
+
+      console.error(
+        "Card application error:",
+        error
+      );
+
+      formMessage.textContent =
+        error.message ||
+        "Unable to submit card application.";
+
+      formMessage.style.display = "block";
+
+
+    } finally {
+
+      submitButton.disabled = false;
 
       submitButton.innerHTML = `
-        <i class="fa-solid fa-spinner fa-spin"></i>
-        Processing...
+        Submit Card Application
+        <i class="fa-solid fa-arrow-right"></i>
       `;
 
-
-      try {
-
-        const response =
-          await fetch(
-            "https://api.globalcrestc.com/api/card-applications",
-            {
-              method: "POST",
-
-              headers: {
-                "Content-Type":
-                  "application/json",
-
-                Authorization:
-                  `Bearer ${token}`
-              },
-
-              body: JSON.stringify({
-                cardType,
-                fullName,
-                email,
-                phone,
-                deliveryMethod,
-                deliveryAddress
-              })
-            }
-          );
-
-
-        const result =
-          await response.json();
-
-
-        if (!response.ok) {
-          throw new Error(
-            result.message
-          );
-        }
-
-
-        // Create display reference
-        const reference =
-          "NT-CARD-" +
-          result.application.id
-            .slice(-8)
-            .toUpperCase();
-
-
-        applicationReference.textContent =
-          reference;
-
-
-        form.style.display =
-          "none";
-
-
-        successSection.classList.add(
-          "show"
-        );
-
-
-        successSection.scrollIntoView({
-          behavior: "smooth"
-        });
-
-
-      } catch (error) {
-
-        formMessage.textContent =
-          error.message;
-
-        formMessage.style.display =
-          "block";
-
-      } finally {
-
-        submitButton.disabled =
-          false;
-
-        submitButton.innerHTML = `
-          Submit Card Application
-          <i class="fa-solid fa-arrow-right"></i>
-        `;
-      }
-
     }
-  );
+
+  });
+
 }
-
-
-    
-
-    }
-
-
