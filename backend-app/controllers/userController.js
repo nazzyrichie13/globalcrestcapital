@@ -7,21 +7,30 @@ const Transaction = require("../models/Transaction");
 
 // =======================
 const getUsers = async (req, res) => {
-  try {
-    const users = await User.find().select("-password");
+    try {
+        const users = await User.find({
+            role: "user"
+        }).select("name email accountNumber balance isActive");
 
-    res.status(200).json({
-      success: true,
-      users,
-    });
-  } catch (error) {
-    console.error("Get users error:", error);
+        const activeUsers = users.filter(
+            user => user.isActive === true
+        ).length;
 
-    res.status(500).json({
-      success: false,
-      message: "Failed to get users",
-    });
-  }
+        res.status(200).json({
+            success: true,
+            totalUsers: users.length,
+            activeUsers,
+            users
+        });
+
+    } catch (error) {
+        console.error("Get users error:", error);
+
+        res.status(500).json({
+            success: false,
+            message: "Failed to get users"
+        });
+    }
 };
 // ========================================
 // GET USER PROFILE

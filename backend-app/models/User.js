@@ -32,7 +32,8 @@ const userSchema = new mongoose.Schema(
       default: 0,
       min: 0
     },
-     tier: {
+
+    tier: {
       type: Number,
       enum: [1, 2, 3],
       default: 1
@@ -43,21 +44,26 @@ const userSchema = new mongoose.Schema(
       default: 5000
     },
 
-profilePhoto: {
-  type: String,
-  default: ""
-},
+    profilePhoto: {
+      type: String,
+      default: ""
+    },
+
     role: {
       type: String,
       enum: ["user", "admin"],
       default: "user"
+    },
+
+    isActive: {
+      type: Boolean,
+      default: false
     }
   },
   {
     timestamps: true
   }
 );
-
 
 const User = mongoose.model("User", userSchema);
 
