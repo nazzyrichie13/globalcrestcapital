@@ -4035,9 +4035,9 @@ footer {
 
     margin: 18px 0 !important;
 
-    padding: 14px 20px !important;
+    padding: 20px 20px !important;
 
-    background: #0b3a6f !important;
+    background-color: #063d99; color: #0b3a6f !important;
 
     color: #ffffff !important;
 
@@ -4047,7 +4047,7 @@ footer {
 
     text-align: center !important;
 
-    font-size: 16px !important;
+    font-size: 20px !important;
 
     font-weight: 700 !important;
 
@@ -4182,19 +4182,190 @@ footer {
     padding-right: 12px !important;
   }
 
-  .profile-card img#profilePhoto,
-  #profilePhoto {
-    width: 85px !important;
-    height: 85px !important;
-
-    min-width: 85px !important;
-    min-height: 85px !important;
-
-    max-width: 85px !important;
-    max-height: 85px !important;
-  }
+ 
 
   .balance-card h1 {
     font-size: 26px !important;
   }
+}
+/* ================================
+   PROFILE CARD
+================================ */
+
+.profile-card {
+    position: relative;
+    width: 100%;
+    box-sizing: border-box;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+
+    padding: 25px 20px;
+    gap: 10px;
+
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
+
+    overflow: visible;
+}
+
+
+/* PROFILE PHOTO */
+
+#profilePhoto {
+    display: block;
+
+    width: 90px !important;
+    height: 90px !important;
+
+    min-width: 90px;
+    min-height: 90px;
+
+    border-radius: 50%;
+
+    object-fit: cover;
+
+    background: #e8eef7;
+
+    border: 3px solid #ffffff;
+
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.12);
+
+    flex-shrink: 0;
+}
+
+
+/* NAME */
+
+.profile-card h2 {
+    width: 100%;
+    margin: 5px 0;
+
+    font-size: 21px;
+    line-height: 1.4;
+
+    word-break: break-word;
+}
+
+
+/* ACCOUNT NUMBER */
+
+.profile-card p {
+    width: 100%;
+    margin: 0;
+
+    font-size: 14px;
+    line-height: 1.6;
+
+    color: #555;
+
+    overflow: visible;
+    white-space: normal;
+    word-break: break-word;
+}
+
+
+/* ACCOUNT NUMBER ITSELF */
+
+#accountNumber {
+    display: inline-block;
+
+    font-weight: 600;
+    color: #222;
+
+    word-break: break-all;
+}
+
+
+/* EDIT BUTTON */
+
+#editProfileBtn {
+    align-self: flex-end;
+
+    padding: 8px 14px;
+
+    border: none;
+    border-radius: 8px;
+
+    background: #315a8a;
+    color: white;
+
+    cursor: pointer;
+}
+
+
+/* ================================
+   MOBILE
+================================ */
+
+@media (max-width: 600px) {
+
+    .profile-card {
+        width: 100%;
+        padding: 20px 15px;
+        gap: 8px;
+    }
+
+    #profilePhoto {
+        width: 90px !important;
+        height: 90px !important;
+
+        min-width: 90px;
+        min-height: 90px;
+    }
+
+    .profile-card h2 {
+        font-size: 19px;
+    }
+
+    .profile-card p {
+        font-size: 13px;
+
+        width: 100%;
+        overflow: visible;
+    }
+
+    #accountNumber {
+        display: inline-block;
+
+        max-width: 100%;
+
+        word-break: break-all;
+        overflow-wrap: anywhere;
+    }
+
+    #editProfileBtn {
+        align-self: flex-end;
+        font-size: 12px;
+        padding: 7px 11px;
+    }
+}
+
+
+/* VERY SMALL PHONES */
+
+@media (max-width: 380px) {
+
+    .profile-card {
+        padding: 18px 10px;
+    }
+
+    #profilePhoto {
+        width: 80px !important;
+        height: 80px !important;
+
+        min-width: 80px;
+        min-height: 80px;
+    }
+
+    .profile-card h2 {
+        font-size: 17px;
+    }
+
+    .profile-card p {
+        font-size: 12px;
+    }
 }
