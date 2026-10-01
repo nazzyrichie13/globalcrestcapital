@@ -82,6 +82,27 @@ app.use(
 );
 
 
+// ======================================
+// DEPOSIT TEST ROUTE
+// ======================================
+
+app.get(
+  "/api/admin/deposit/test",
+  (req, res) => {
+
+    res.json({
+      success: true,
+      message: "NEW DEPOSIT SERVER IS LIVE"
+    });
+
+  }
+);
+
+
+// ======================================
+// ADMIN DEPOSIT ROUTES
+// ======================================
+
 app.use(
   "/api/admin/deposit",
   depositRoutes
@@ -119,7 +140,7 @@ app.use(
 
 
 // ======================================
-// TEST ROUTE
+// MAIN TEST ROUTE
 // ======================================
 
 app.get("/", (req, res) => {
