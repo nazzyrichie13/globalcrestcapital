@@ -2,8 +2,21 @@ const express = require("express");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const Admin = require("../models/Admin");
+const auth =
+  require("../middleware/auth");
+
+const adminOnly =
+  require("../middleware/adminOnly");
+
+const { getUsers } = require("../controllers/userController");
 
 const router = express.Router();
+
+
+
+
+
+router.get("/users", auth, adminOnly, getUsers);
 
 router.post("/login", async (req, res) => {
     try {
