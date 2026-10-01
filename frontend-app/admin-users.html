@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Users - GlobalCrest Capital</title>
+
+  <link
+    rel="stylesheet"
+    href="admin-users.css"
+  >
+
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+  >
+</head>
+
+<body>
+
+  <header>
+    <div>
+      <h2>GlobalCrest</h2>
+      <span>Admin Portal</span>
+    </div>
+  </header>
+
+  <main>
+
+    <div class="page-header">
+      <div>
+        <h1>Users</h1>
+        <p>View registered GlobalCrest customers.</p>
+      </div>
+
+      <button id="refreshBtn">
+        <i class="fa-solid fa-rotate"></i>
+        Refresh
+      </button>
+    </div>
+
+    <div class="stats">
+
+      <div class="stat-card">
+        <span>Total Users</span>
+        <strong id="totalUsers">0</strong>
+      </div>
+
+      <div class="stat-card">
+        <span>Active Users</span>
+        <strong id="activeUsers">0</strong>
+      </div>
+
+    </div>
+
+    <section class="users-section">
+
+      <div id="usersContainer">
+        <p>Loading users...</p>
+      </div>
+
+    </section>
+
+  </main>
+
+  <script src="./js/admin-users.js"></script>
+
+</body>
+</html>
