@@ -1,5 +1,33 @@
+// ============================
+// ADMIN AUTHENTICATION
+// ============================
+
 const token =
-  localStorage.getItem("token");
+  localStorage.getItem("adminToken");
+
+const adminUser =
+  JSON.parse(
+    localStorage.getItem("admin") || "null"
+  );
+
+
+// ============================
+// CHECK ADMIN LOGIN
+// ============================
+
+if (
+  !token ||
+  !adminUser ||
+  String(adminUser.role).toLowerCase() !== "admin"
+) {
+  window.location.href =
+    "admin-login.html";
+}
+
+
+// ============================
+// ELEMENTS
+// ============================
 
 const applicationsContainer =
   document.getElementById(
@@ -33,18 +61,6 @@ const refreshBtn =
 
 
 // ============================
-// CHECK LOGIN
-// ============================
-
-if (!token) {
-
-  window.location.href =
-    "home.html";
-
-}
-
-
-// ============================
 // LOAD APPLICATIONS
 // ============================
 
@@ -64,6 +80,8 @@ async function loadApplications() {
       await fetch(
         "https://api.globalcrestc.com/api/card-applications/admin/all",
         {
+          method: "GET",
+
           headers: {
             Authorization:
               `Bearer ${token}`
@@ -79,14 +97,15 @@ async function loadApplications() {
     if (!response.ok) {
 
       throw new Error(
-        result.message
+        result.message ||
+        "Unable to load card applications."
       );
 
     }
 
 
     const applications =
-      result.applications;
+      result.applications || [];
 
 
     updateStats(
@@ -101,9 +120,20 @@ async function loadApplications() {
 
   } catch (error) {
 
+    console.error(
+      "Load applications error:",
+      error
+    );
+
+
     applicationsContainer.innerHTML = `
       <div class="empty">
-        <p>${error.message}</p>
+        <p>
+          ${escapeHtml(
+            error.message ||
+            "Unable to load applications."
+          )}
+        </p>
       </div>
     `;
 
@@ -159,8 +189,13 @@ function displayApplications(
 
     applicationsContainer.innerHTML = `
       <div class="empty">
+
         <i class="fa-regular fa-credit-card"></i>
-        <p>No card applications yet.</p>
+
+        <p>
+          No card applications yet.
+        </p>
+
       </div>
     `;
 
@@ -169,17 +204,19 @@ function displayApplications(
 
 
   applicationsContainer.innerHTML =
-    applications.map(
-      app => {
+    applications
+      .map(app => {
 
         const applicant =
           app.applicant || {};
 
 
         const date =
-          new Date(
-            app.createdAt
-          ).toLocaleString();
+          app.createdAt
+            ? new Date(
+                app.createdAt
+              ).toLocaleString()
+            : "N/A";
 
 
         return `
@@ -192,7 +229,8 @@ function displayApplications(
 
                 <div class="customer-name">
                   ${escapeHtml(
-                    app.fullName
+                    app.fullName ||
+                    "Unknown Customer"
                   )}
                 </div>
 
@@ -208,8 +246,14 @@ function displayApplications(
 
 
               <span
-                class="status ${app.status}">
-                ${app.status}
+                class="status ${escapeHtml(
+                  app.status || "pending"
+                )}">
+
+                ${escapeHtml(
+                  app.status || "pending"
+                )}
+
               </span>
 
             </div>
@@ -218,61 +262,97 @@ function displayApplications(
             <div class="application-grid">
 
               <div class="detail">
-                <span>Card Type</span>
+
+                <span>
+                  Card Type
+                </span>
+
                 <strong>
                   ${escapeHtml(
-                    app.cardType
+                    app.cardType ||
+                    "N/A"
                   )}
                 </strong>
+
               </div>
 
 
               <div class="detail">
-                <span>Email</span>
+
+                <span>
+                  Email
+                </span>
+
                 <strong>
                   ${escapeHtml(
-                    app.email
+                    app.email ||
+                    "N/A"
                   )}
                 </strong>
+
               </div>
 
 
               <div class="detail">
-                <span>Phone</span>
+
+                <span>
+                  Phone
+                </span>
+
                 <strong>
                   ${escapeHtml(
-                    app.phone
+                    app.phone ||
+                    "N/A"
                   )}
                 </strong>
+
               </div>
 
 
               <div class="detail">
-                <span>Delivery</span>
+
+                <span>
+                  Delivery
+                </span>
+
                 <strong>
                   ${escapeHtml(
-                    app.deliveryMethod
+                    app.deliveryMethod ||
+                    "N/A"
                   )}
                 </strong>
+
               </div>
 
 
               <div class="detail">
-                <span>Address</span>
+
+                <span>
+                  Address
+                </span>
+
                 <strong>
                   ${escapeHtml(
                     app.deliveryAddress ||
                     "N/A"
                   )}
                 </strong>
+
               </div>
 
 
               <div class="detail">
-                <span>Submitted</span>
+
+                <span>
+                  Submitted
+                </span>
+
                 <strong>
-                  ${date}
+                  ${escapeHtml(
+                    date
+                  )}
                 </strong>
+
               </div>
 
             </div>
@@ -286,6 +366,7 @@ function displayApplications(
                     class="application-actions">
 
                     <button
+                      type="button"
                       class="approve-btn"
                       onclick="approveApplication('${app._id}')">
 
@@ -299,6 +380,7 @@ function displayApplications(
 
 
                     <button
+                      type="button"
                       class="reject-btn"
                       onclick="rejectApplication('${app._id}')">
 
@@ -320,14 +402,14 @@ function displayApplications(
 
         `;
 
-      }
-    ).join("");
+      })
+      .join("");
 
 }
 
 
 // ============================
-// APPROVE
+// APPROVE APPLICATION
 // ============================
 
 async function approveApplication(
@@ -368,7 +450,8 @@ async function approveApplication(
     if (!response.ok) {
 
       throw new Error(
-        result.message
+        result.message ||
+        "Unable to approve application."
       );
 
     }
@@ -379,12 +462,19 @@ async function approveApplication(
     );
 
 
-    loadApplications();
+    await loadApplications();
 
 
   } catch (error) {
 
-    alert(error.message);
+    console.error(
+      "Approve application error:",
+      error
+    );
+
+    alert(
+      error.message
+    );
 
   }
 
@@ -392,7 +482,7 @@ async function approveApplication(
 
 
 // ============================
-// REJECT
+// REJECT APPLICATION
 // ============================
 
 async function rejectApplication(
@@ -413,9 +503,6 @@ async function rejectApplication(
   try {
 
     const response =
-
-
-    
       await fetch(
         `https://api.globalcrestc.com/api/card-applications/admin/${id}/reject`,
         {
@@ -430,7 +517,8 @@ async function rejectApplication(
           },
 
           body: JSON.stringify({
-            adminNote
+            adminNote:
+              adminNote.trim()
           })
         }
       );
@@ -443,7 +531,8 @@ async function rejectApplication(
     if (!response.ok) {
 
       throw new Error(
-        result.message
+        result.message ||
+        "Unable to reject application."
       );
 
     }
@@ -454,12 +543,19 @@ async function rejectApplication(
     );
 
 
-    loadApplications();
+    await loadApplications();
 
 
   } catch (error) {
 
-    alert(error.message);
+    console.error(
+      "Reject application error:",
+      error
+    );
+
+    alert(
+      error.message
+    );
 
   }
 
@@ -470,14 +566,31 @@ async function rejectApplication(
 // SECURITY
 // ============================
 
-function escapeHtml(value) {
+function escapeHtml(
+  value
+) {
 
   return String(value)
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#039;");
+    .replaceAll(
+      "&",
+      "&amp;"
+    )
+    .replaceAll(
+      "<",
+      "&lt;"
+    )
+    .replaceAll(
+      ">",
+      "&gt;"
+    )
+    .replaceAll(
+      '"',
+      "&quot;"
+    )
+    .replaceAll(
+      "'",
+      "&#039;"
+    );
 
 }
 
@@ -486,11 +599,18 @@ function escapeHtml(value) {
 // REFRESH
 // ============================
 
-refreshBtn.addEventListener(
-  "click",
-  loadApplications
-);
+if (refreshBtn) {
+
+  refreshBtn.addEventListener(
+    "click",
+    loadApplications
+  );
+
+}
 
 
-// Initial load
+// ============================
+// INITIAL LOAD
+// ============================
+
 loadApplications();
