@@ -1,4 +1,5 @@
 
+
 const mongoose = require("mongoose");
 
 const User = require("../models/User");
@@ -16,87 +17,6 @@ const verifyAccount = async (req, res) => {
     const { accountNumber } = req.body;
 
 
-    if (!accountNumber) {
-
-      return res.status(400).json({
-        success: false,
-        message: "Account number is required"
-      });
-
-    }
-
-
-    const user = await User.findOne({
-      accountNumber: accountNumber.trim()
-    });
-
-
-    if (!user) {
-
-      return res.status(404).json({
-        success: false,
-        message: "Account not found"
-      });
-
-    }
-
-
-    return res.status(200).json({
-
-      success: true,
-
-      message: "Account verified",
-
-      user: {
-        name: user.name,
-
-        accountNumber:
-          user.accountNumber,
-
-        balance:
-          Number(user.balance || 0)
-      }
-
-    });
-
-  } catch (error) {
-
-    console.error(
-      "Verify account error:",
-      error
-    );
-
-    return res.status(500).json({
-      success: false,
-      message: "Unable to verify account"
-    });
-
-  }
-
-};
-
-
-// ========================================
-// DEPOSIT
-// ========================================
-
-const deposit = async (req, res) => {
-
-  const session =
-    await mongoose.startSession();
-
-  try {
-
-    const {
-      accountNumber,
-      amount
-    } = req.body;
-
-
-    const depositAmount =
-      Number(amount);
-
-
     // ====================================
     // VALIDATE ACCOUNT NUMBER
     // ====================================
@@ -112,6 +32,123 @@ const deposit = async (req, res) => {
 
 
     // ====================================
+    // FIND CUSTOMER
+    // ====================================
+
+    const user = await User.findOne({
+      accountNumber: accountNumber.trim()
+    });
+
+
+    // ====================================
+    // ACCOUNT NOT FOUND
+    // ====================================
+
+    if (!user) {
+
+      return res.status(404).json({
+        success: false,
+        message: "Account not found"
+      });
+
+    }
+
+
+    // ====================================
+    // RETURN CUSTOMER INFORMATION
+    // ====================================
+
+    return res.status(200).json({
+
+      success: true,
+
+      message: "Account verified",
+
+      user: {
+
+        name:
+          user.name,
+
+        accountNumber:
+          user.accountNumber,
+
+        balance:
+          Number(user.balance || 0)
+
+      }
+
+    });
+
+
+  } catch (error) {
+
+    console.error(
+      "Verify account error:",
+      error
+    );
+
+    return res.status(500).json({
+
+      success: false,
+
+      message:
+        "Unable to verify account"
+
+    });
+
+  }
+
+};
+
+
+// ========================================
+// DEPOSIT FUNDS
+// ========================================
+
+const deposit = async (req, res) => {
+
+  const session =
+    await mongoose.startSession();
+
+
+  try {
+
+    const {
+      accountNumber,
+      amount
+    } = req.body;
+
+
+    // ====================================
+    // CONVERT AMOUNT TO NUMBER
+    // ====================================
+
+    const depositAmount =
+      Number(amount);
+
+
+    // ====================================
+    // VALIDATE ACCOUNT NUMBER
+    // ====================================
+
+    if (
+      !accountNumber ||
+      typeof accountNumber !== "string"
+    ) {
+
+      return res.status(400).json({
+
+        success: false,
+
+        message:
+          "Account number is required"
+
+      });
+
+    }
+
+
+    // ====================================
     // VALIDATE AMOUNT
     // ====================================
 
@@ -121,8 +158,12 @@ const deposit = async (req, res) => {
     ) {
 
       return res.status(400).json({
+
         success: false,
-        message: "Amount must be greater than zero"
+
+        message:
+          "Amount must be greater than zero"
+
       });
 
     }
@@ -136,7 +177,7 @@ const deposit = async (req, res) => {
 
 
     // ====================================
-    // FIND USER BY ACCOUNT NUMBER
+    // FIND CUSTOMER
     // ====================================
 
     const user =
@@ -148,13 +189,21 @@ const deposit = async (req, res) => {
       }).session(session);
 
 
+    // ====================================
+    // CUSTOMER NOT FOUND
+    // ====================================
+
     if (!user) {
 
       await session.abortTransaction();
 
       return res.status(404).json({
+
         success: false,
-        message: "Account not found"
+
+        message:
+          "Account not found"
+
       });
 
     }
@@ -169,7 +218,7 @@ const deposit = async (req, res) => {
 
 
     // ====================================
-    // INCREASE BALANCE
+    // UPDATE BALANCE
     // ====================================
 
     user.balance =
@@ -177,7 +226,7 @@ const deposit = async (req, res) => {
 
 
     // ====================================
-    // SAVE USER
+    // SAVE UPDATED USER
     // ====================================
 
     await user.save({
@@ -186,26 +235,48 @@ const deposit = async (req, res) => {
 
 
     // ====================================
-    // CREATE TRANSACTION RECORD
+    // GENERATE UNIQUE REFERENCE
+    // ====================================
+
+    const reference =
+      `DEP-${Date.now()}-${Math.floor(
+        Math.random() * 1000000
+      )}`;
+
+
+    // ====================================
+    // CREATE TRANSACTION
     // ====================================
 
     const transaction =
       await Transaction.create(
         [
           {
-            type: "deposit",
+
+            reference:
+
+              reference,
+
+            type:
+
+              "deposit",
 
             receiver:
+
               user._id,
 
             amount:
+
               depositAmount,
 
             status:
+
               "approved",
 
             approvedBy:
+
               req.user.userId
+
           }
         ],
         {
@@ -215,7 +286,7 @@ const deposit = async (req, res) => {
 
 
     // ====================================
-    // COMMIT DATABASE CHANGES
+    // COMMIT DATABASE TRANSACTION
     // ====================================
 
     await session.commitTransaction();
@@ -229,7 +300,8 @@ const deposit = async (req, res) => {
 
       success: true,
 
-      message: "Deposit successful",
+      message:
+        "Deposit successful",
 
       user: {
 
@@ -252,6 +324,11 @@ const deposit = async (req, res) => {
 
   } catch (error) {
 
+
+    // ====================================
+    // ROLLBACK IF TRANSACTION IS ACTIVE
+    // ====================================
+
     if (session.inTransaction()) {
 
       await session.abortTransaction();
@@ -269,7 +346,8 @@ const deposit = async (req, res) => {
 
       success: false,
 
-      message: "Deposit failed",
+      message:
+        "Deposit failed",
 
       error:
         error.message
@@ -279,6 +357,10 @@ const deposit = async (req, res) => {
 
   } finally {
 
+    // ====================================
+    // CLOSE DATABASE SESSION
+    // ====================================
+
     await session.endSession();
 
   }
@@ -286,7 +368,15 @@ const deposit = async (req, res) => {
 };
 
 
+// ========================================
+// EXPORT
+// ========================================
+
 module.exports = {
+
   deposit,
+
   verifyAccount
+
 };
+

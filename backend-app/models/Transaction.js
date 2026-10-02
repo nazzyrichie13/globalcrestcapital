@@ -2,6 +2,13 @@ const mongoose = require("mongoose");
 
 const transactionSchema = new mongoose.Schema(
   {
+    reference: {
+      type: String,
+      unique: true,
+      required: true,
+      trim: true
+    },
+
     type: {
       type: String,
       enum: [
