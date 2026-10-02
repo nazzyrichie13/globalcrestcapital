@@ -1,10 +1,24 @@
 // ========================================
+// HOME JS CONNECTED
+// ========================================
+
+console.log("home is CONNECTED");
+
+
+// ========================================
 // ELEMENTS
 // ========================================
-console.log("home is CONNECTED")
-const slidecontainer = document.querySelector(".slides");
-const slide = document.querySelectorAll(".slide");
+
+const slidecontainer =
+  document.querySelector(".slides");
+
+const slide =
+  document.querySelectorAll(".slide");
+
 let index = 0;
+
+
+// LOGIN
 const loginSection =
   document.getElementById("loginSection");
 
@@ -14,15 +28,47 @@ const dashboardSection =
 const loginForm =
   document.getElementById("loginForm");
 
-const transferForm =
-  document.getElementById("transferForm");
-
 const message =
   document.getElementById("message");
 
+
+// LOGOUT
 const logoutButton =
   document.getElementById("logout");
-// transfer
+
+
+// PROFILE
+const profilePhoto =
+  document.getElementById("profilePhoto");
+
+const userName =
+  document.getElementById("userName");
+
+const accountNumber =
+  document.getElementById("accountNumber");
+
+const balance =
+  document.getElementById("balance");
+
+const userTier =
+  document.getElementById("userTier");
+
+const tierLimit =
+  document.getElementById("tierLimit");
+
+
+// TRANSACTIONS
+const transactionsContainer =
+  document.getElementById("transactions");
+
+
+// ========================================
+// TRANSFER ELEMENTS
+// ========================================
+
+const transferForm =
+  document.getElementById("transferForm");
+
 const transferType =
   document.getElementById("transferType");
 
@@ -47,40 +93,19 @@ const verifiedAccountName =
 const verificationStatus =
   document.getElementById("verificationStatus");
 
-// PROFILE
-const profilePhoto =
-  document.getElementById("profilePhoto");
 
-const userName =
-  document.getElementById("userName");
-
-const accountNumber =
-  document.getElementById("accountNumber");
-
-const balance =
-  document.getElementById("balance");
-
-const transactionsContainer =
-  document.getElementById("transactions");
-
-document.getElementById("userTier").textContent =
-  `Tier ${user.tier}`;
-
-document.getElementById("tierLimit").textContent =
-  `$${Number(user.tierLimit).toLocaleString()}`;
+// ========================================
 // TRANSFER RESULT
+// ========================================
+
 const transferResult =
   document.getElementById("transferResult");
 
 const transferStatusTitle =
-  document.getElementById(
-    "transferStatusTitle"
-  );
+  document.getElementById("transferStatusTitle");
 
 const transferStatusMessage =
-  document.getElementById(
-    "transferStatusMessage"
-  );
+  document.getElementById("transferStatusMessage");
 
 const receiptButtons =
   document.getElementById("receiptButtons");
@@ -95,14 +120,8 @@ const downloadReceipt =
   document.getElementById("downloadReceipt");
 
 const saveReceiptImage =
-  document.getElementById(
-    "saveReceiptImage"
-  );
-setInterval(() => {
-  index = (index + 1)% slide.length;
-  slidecontainer.style.transform = 
-  ` translateX(-${index *  100}%)`;
-}, 3000);
+  document.getElementById("saveReceiptImage");
+
 
 // ========================================
 // TOKEN
@@ -120,89 +139,146 @@ let transferCheckInterval = null;
 
 
 // ========================================
+// SLIDER
+// ========================================
+
+if (
+  slidecontainer &&
+  slide.length > 0
+) {
+
+  setInterval(() => {
+
+    index =
+      (index + 1) % slide.length;
+
+    slidecontainer.style.transform =
+      `translateX(-${index * 100}%)`;
+
+  }, 3000);
+
+}
+
+
+// ========================================
 // LOGIN
 // ========================================
 
-loginForm.addEventListener(
-  "submit",
-  async (e) => {
+if (loginForm) {
 
-    e.preventDefault();
+  loginForm.addEventListener(
+    "submit",
+    async (e) => {
 
-    const formData =
-      new FormData(loginForm);
+      e.preventDefault();
 
-    const email =
-      formData.get("email");
+      const formData =
+        new FormData(loginForm);
 
-    const password =
-      formData.get("password");
+      const email =
+        formData.get("email");
+
+      const password =
+        formData.get("password");
 
 
-    try {
+      try {
 
-      const response =
-        await fetch(
-          "https://api.globalcrestc.com/api/auth/login",
-          {
-            method: "POST",
+        const response =
+          await fetch(
+            "https://api.globalcrestc.com/api/auth/login",
+            {
+              method: "POST",
 
-            headers: {
-              "Content-Type":
-                "application/json"
-            },
+              headers: {
+                "Content-Type":
+                  "application/json"
+              },
 
-            body: JSON.stringify({
-              email,
-              password
-            })
-          }
+              body: JSON.stringify({
+                email,
+                password
+              })
+            }
+          );
+
+
+        const data =
+          await response.json();
+
+
+        if (!response.ok) {
+
+          throw new Error(
+            data.message ||
+            "Login failed"
+          );
+
+        }
+
+
+        // SAVE TOKEN
+        localStorage.setItem(
+          "token",
+          data.token
         );
 
+        token =
+          data.token;
 
-      const data =
-        await response.json();
+
+        // SHOW DASHBOARD
+        if (loginSection) {
+
+          loginSection.style.display =
+            "none";
+
+        }
 
 
-      if (!response.ok) {
-        throw new Error(data.message);
+        if (dashboardSection) {
+
+          dashboardSection.style.display =
+            "block";
+
+        }
+
+
+        if (message) {
+
+          message.textContent =
+            "";
+
+        }
+
+
+        // LOAD USER DATA
+        getProfile();
+
+        getTransactions();
+
+
+      } catch (error) {
+
+        console.error(
+          "Login error:",
+          error
+        );
+
+        if (message) {
+
+          message.textContent =
+            error.message ||
+            "Login failed";
+
+        }
+
       }
 
-
-      // SAVE TOKEN
-      localStorage.setItem(
-        "token",
-        data.token
-      );
-
-      token = data.token;
-
-
-      // SHOW DASHBOARD
-      loginSection.style.display =
-        "none";
-
-      dashboardSection.style.display =
-        "block";
-
-
-      message.textContent = "";
-
-
-      // LOAD USER DATA
-      getProfile();
-
-      getTransactions();
-
-    } catch (error) {
-
-      message.textContent =
-        error.message;
-
     }
+  );
 
-  }
-);
+}
 
 
 // ========================================
@@ -210,6 +286,13 @@ loginForm.addEventListener(
 // ========================================
 
 async function getProfile() {
+
+  if (!token) {
+
+    return;
+
+  }
+
 
   try {
 
@@ -230,7 +313,12 @@ async function getProfile() {
 
 
     if (!response.ok) {
-      throw new Error(data.message);
+
+      throw new Error(
+        data.message ||
+        "Unable to load profile"
+      );
+
     }
 
 
@@ -238,28 +326,128 @@ async function getProfile() {
       data.user;
 
 
-    userName.textContent =
-      user.name;
+    if (!user) {
 
-    accountNumber.textContent =
-      user.accountNumber;
-
-    balance.textContent =
-      Number(user.balance)
-        .toLocaleString();
-
-
-    if (user.profilePhoto) {
-
-      profilePhoto.src =
-        user.profilePhoto;
-
-    } else {
-
-      profilePhoto.src =
-        "default-profile.png";
+      throw new Error(
+        "User information was not returned"
+      );
 
     }
+
+
+    // NAME
+    if (userName) {
+
+      userName.textContent =
+        user.name || "Customer";
+
+    }
+
+
+    // ACCOUNT NUMBER
+    if (accountNumber) {
+
+      accountNumber.textContent =
+        user.accountNumber || "---";
+
+    }
+
+
+    // BALANCE
+    if (balance) {
+
+      balance.textContent =
+        Number(
+          user.balance || 0
+        ).toLocaleString();
+
+    }
+
+
+    // PROFILE PHOTO
+    if (profilePhoto) {
+
+      if (user.profilePhoto) {
+
+        profilePhoto.src =
+          user.profilePhoto;
+
+      } else {
+
+        profilePhoto.src =
+          "default-profile.png";
+
+      }
+
+    }
+
+
+    // ACCOUNT TIER
+    if (userTier) {
+
+      userTier.textContent =
+        `Tier ${user.tier || 1}`;
+
+    }
+
+
+    // TIER LIMIT
+    if (tierLimit) {
+
+      tierLimit.textContent =
+        `₦${Number(
+          user.tierLimit || 0
+        ).toLocaleString()}`;
+
+    }
+
+
+    // OTHER DASHBOARD NAME
+    const welcomeName =
+      document.getElementById(
+        "welcomeName"
+      );
+
+    if (welcomeName) {
+
+      welcomeName.textContent =
+        user.name || "Customer";
+
+    }
+
+
+    // CARD HOLDER
+    const cardHolderName =
+      document.getElementById(
+        "cardHolderName"
+      );
+
+    if (cardHolderName) {
+
+      cardHolderName.textContent =
+        user.name || "YOUR NAME";
+
+    }
+
+
+    // CONNECTED ACCOUNT
+    const connectedAccount =
+      document.getElementById(
+        "connectedAccount"
+      );
+
+    if (connectedAccount) {
+
+      const acc =
+        String(
+          user.accountNumber || ""
+        );
+
+      connectedAccount.textContent =
+        acc.slice(-4) || "----";
+
+    }
+
 
   } catch (error) {
 
@@ -278,6 +466,20 @@ async function getProfile() {
 // ========================================
 
 async function getTransactions() {
+
+  if (!token) {
+
+    return;
+
+  }
+
+
+  if (!transactionsContainer) {
+
+    return;
+
+  }
+
 
   try {
 
@@ -298,7 +500,12 @@ async function getTransactions() {
 
 
     if (!response.ok) {
-      throw new Error(data.message);
+
+      throw new Error(
+        data.message ||
+        "Unable to load transactions"
+      );
+
     }
 
 
@@ -306,11 +513,21 @@ async function getTransactions() {
       "<h2>Transactions</h2>";
 
 
-    data.transactions.forEach(
+    const transactions =
+      Array.isArray(
+        data.transactions
+      )
+        ? data.transactions
+        : [];
+
+
+    transactions.forEach(
       (transaction) => {
 
         const item =
-          document.createElement("div");
+          document.createElement(
+            "div"
+          );
 
 
         item.classList.add(
@@ -321,32 +538,38 @@ async function getTransactions() {
         item.innerHTML = `
           <p>
             <strong>
-              ${transaction.type.toUpperCase()}
+              ${String(
+                transaction.type || ""
+              ).toUpperCase()}
             </strong>
           </p>
 
           <p>
             Amount:
             ₦${Number(
-              transaction.amount
+              transaction.amount || 0
             ).toLocaleString()}
           </p>
 
           <p>
             Status:
-            ${transaction.status}
+            ${transaction.status || "---"}
           </p>
 
           <p>
             Reference:
-            ${transaction.reference}
+            ${transaction.reference || "---"}
           </p>
 
           <p>
             Date:
-            ${new Date(
+            ${
               transaction.createdAt
-            ).toLocaleString()}
+                ? new Date(
+                    transaction.createdAt
+                  ).toLocaleString()
+                : "---"
+            }
           </p>
         `;
 
@@ -357,6 +580,7 @@ async function getTransactions() {
 
       }
     );
+
 
   } catch (error) {
 
@@ -371,91 +595,57 @@ async function getTransactions() {
 
 
 // ========================================
-// TRANSFER
+// TRANSFER TYPE
 // ========================================
+
 if (transferType) {
 
-  transferType.addEventListener("change", () => {
+  transferType.addEventListener(
+    "change",
+    () => {
 
-    verifiedAccountBox.style.display = "none";
-
-    if (transferType.value === "same-bank") {
-
-      sameBankSection.style.display = "block";
-
-      externalBankSection.style.display = "none";
-
-    } else {
-
-      sameBankSection.style.display = "none";
-
-      externalBankSection.style.display = "block";
-
-    }
-
-  });
-
-}
-if (verifySameBank) {
-
-  verifySameBank.addEventListener(
-    "click",
-    async () => {
-
-      const accountNumber =
-        document.getElementById(
-          "sameBankAccount"
-        ).value.trim();
-
-      if (!accountNumber) {
-
-        alert("Enter an account number");
-
-        return;
-      }
-
-      try {
-
-        const response = await fetch(
-          "https://api.globalcrestc.com/api/transfers/verify-same-bank",
-          {
-            method: "POST",
-
-            headers: {
-              "Content-Type": "application/json",
-
-              Authorization:
-                `Bearer ${localStorage.getItem("token")}`
-            },
-
-            body: JSON.stringify({
-              accountNumber
-            })
-          }
-        );
-
-        const result =
-          await response.json();
-
-        if (!response.ok) {
-          throw new Error(result.message);
-        }
-
-        verifiedAccountBox.style.display =
-          "block";
-
-        verifiedAccountName.textContent =
-          result.account.name;
-
-        verificationStatus.textContent =
-          "✓ Globalcrest account verified";
-
-      } catch (error) {
+      if (verifiedAccountBox) {
 
         verifiedAccountBox.style.display =
           "none";
 
-        alert(error.message);
+      }
+
+
+      if (
+        transferType.value ===
+        "same-bank"
+      ) {
+
+        if (sameBankSection) {
+
+          sameBankSection.style.display =
+            "block";
+
+        }
+
+        if (externalBankSection) {
+
+          externalBankSection.style.display =
+            "none";
+
+        }
+
+      } else {
+
+        if (sameBankSection) {
+
+          sameBankSection.style.display =
+            "none";
+
+        }
+
+        if (externalBankSection) {
+
+          externalBankSection.style.display =
+            "block";
+
+        }
 
       }
 
@@ -463,94 +653,280 @@ if (verifySameBank) {
   );
 
 }
-if (transferForm) {
-
-transferForm.addEventListener(
-  "submit",
-  async (e) => {
-
-    e.preventDefault();
 
 
-    const data =
-      new FormData(transferForm);
+// ========================================
+// VERIFY SAME BANK
+// ========================================
 
+if (verifySameBank) {
 
-    const accountNumber =
-      data.get("accountNumber");
+  verifySameBank.addEventListener(
+    "click",
+    async () => {
 
-
-    const amount =
-      Number(data.get("amount"));
-
-
-    // CLEAR OLD MESSAGE
-    message.textContent = "";
-
-
-    try {
-
-      const response =
-        await fetch(
-          "https://api.globalcrestc.com/api/transfers",
-          {
-            method: "POST",
-
-            headers: {
-              "Content-Type":
-                "application/json",
-
-              Authorization:
-                `Bearer ${token}`
-            },
-
-            body: JSON.stringify({
-              accountNumber,
-              amount
-            })
-          }
+      const sameBankAccount =
+        document.getElementById(
+          "sameBankAccount"
         );
 
 
-      const result =
-        await response.json();
+      if (!sameBankAccount) {
 
-
-      if (!response.ok) {
-        throw new Error(
-          result.message
+        console.error(
+          "sameBankAccount element not found"
         );
+
+        return;
+
       }
 
 
-      // TRANSFER IS PENDING
-      const transaction =
-        result.transaction;
+      const customerAccount =
+        sameBankAccount.value.trim();
 
 
-      formReset();
+      if (!customerAccount) {
+
+        alert(
+          "Enter an account number"
+        );
+
+        return;
+
+      }
 
 
-      showTransferPending(
-        transaction
-      );
+      try {
+
+        const response =
+          await fetch(
+            "https://api.globalcrestc.com/api/transfers/verify-same-bank",
+            {
+              method: "POST",
+
+              headers: {
+                "Content-Type":
+                  "application/json",
+
+                Authorization:
+                  `Bearer ${token}`
+              },
+
+              body: JSON.stringify({
+                accountNumber:
+                  customerAccount
+              })
+            }
+          );
 
 
-      // START CHECKING STATUS
-      watchTransfer(
-        transaction._id
-      );
+        const result =
+          await response.json();
 
 
-    } catch (error) {
+        if (!response.ok) {
 
-      message.textContent =
-        error.message;
+          throw new Error(
+            result.message ||
+            "Account verification failed"
+          );
+
+        }
+
+
+        if (verifiedAccountBox) {
+
+          verifiedAccountBox.style.display =
+            "block";
+
+        }
+
+
+        if (verifiedAccountName) {
+
+          verifiedAccountName.textContent =
+            result.account?.name ||
+            result.user?.name ||
+            "Account verified";
+
+        }
+
+
+        if (verificationStatus) {
+
+          verificationStatus.textContent =
+            "✓ Globalcrest account verified";
+
+        }
+
+
+      } catch (error) {
+
+        if (verifiedAccountBox) {
+
+          verifiedAccountBox.style.display =
+            "none";
+
+        }
+
+        alert(
+          error.message ||
+          "Unable to verify account"
+        );
+
+      }
 
     }
+  );
 
-  }
-)};
+}
+
+
+// ========================================
+// TRANSFER FORM
+// ========================================
+
+if (transferForm) {
+
+  transferForm.addEventListener(
+    "submit",
+    async (e) => {
+
+      e.preventDefault();
+
+
+      const data =
+        new FormData(
+          transferForm
+        );
+
+
+      const customerAccount =
+        data.get(
+          "accountNumber"
+        );
+
+
+      const amount =
+        Number(
+          data.get("amount")
+        );
+
+
+      if (message) {
+
+        message.textContent =
+          "";
+
+      }
+
+
+      if (
+        !customerAccount ||
+        !Number.isFinite(amount) ||
+        amount <= 0
+      ) {
+
+        if (message) {
+
+          message.textContent =
+            "Enter a valid account number and amount.";
+
+        }
+
+        return;
+
+      }
+
+
+      try {
+
+        const response =
+          await fetch(
+            "https://api.globalcrestc.com/api/transfers",
+            {
+              method: "POST",
+
+              headers: {
+                "Content-Type":
+                  "application/json",
+
+                Authorization:
+                  `Bearer ${token}`
+              },
+
+              body: JSON.stringify({
+                accountNumber:
+                  customerAccount,
+                amount
+              })
+            }
+          );
+
+
+        const result =
+          await response.json();
+
+
+        if (!response.ok) {
+
+          throw new Error(
+            result.message ||
+            result.error ||
+            "Transfer failed"
+          );
+
+        }
+
+
+        const transaction =
+          result.transaction;
+
+
+        if (!transaction) {
+
+          throw new Error(
+            "Transfer was created but no transaction was returned."
+          );
+
+        }
+
+
+        formReset();
+
+
+        showTransferPending(
+          transaction
+        );
+
+
+        watchTransfer(
+          transaction._id
+        );
+
+
+      } catch (error) {
+
+        console.error(
+          "Transfer error:",
+          error
+        );
+
+        if (message) {
+
+          message.textContent =
+            error.message ||
+            "Transfer failed";
+
+        }
+
+      }
+
+    }
+  );
+
+}
 
 
 // ========================================
@@ -559,41 +935,71 @@ transferForm.addEventListener(
 
 function formReset() {
 
-  transferForm.reset();
+  if (transferForm) {
+
+    transferForm.reset();
+
+  }
 
 }
 
 
 // ========================================
-// SHOW PENDING
+// SHOW TRANSFER PENDING
 // ========================================
 
 function showTransferPending(
   transaction
 ) {
 
-  transferResult.style.display =
-    "block";
+  if (transferResult) {
+
+    transferResult.style.display =
+      "block";
+
+  }
 
 
-  transferStatusTitle.textContent =
-    "Transfer Submitted";
+  if (transferStatusTitle) {
+
+    transferStatusTitle.textContent =
+      "Transfer Submitted";
+
+  }
 
 
-  transferStatusMessage.textContent =
-    "Your transfer has been submitted and is waiting for approval.";
+  if (transferStatusMessage) {
+
+    transferStatusMessage.textContent =
+      "Your transfer has been submitted and is waiting for approval.";
+
+  }
 
 
-  receiptButtons.style.display =
-    "none";
+  if (receiptButtons) {
+
+    receiptButtons.style.display =
+      "none";
+
+  }
 
 
-  receipt.style.display =
-    "none";
+  if (receipt) {
+
+    receipt.style.display =
+      "none";
+
+  }
 
 
-  message.textContent =
-    `Reference: ${transaction.reference}`;
+  if (message) {
+
+    message.textContent =
+      `Reference: ${
+        transaction.reference || "---"
+      }`;
+
+  }
 
 }
 
@@ -606,7 +1012,13 @@ function watchTransfer(
   transactionId
 ) {
 
-  // STOP OLD WATCHER
+  if (!transactionId) {
+
+    return;
+
+  }
+
+
   if (transferCheckInterval) {
 
     clearInterval(
@@ -616,13 +1028,11 @@ function watchTransfer(
   }
 
 
-  // CHECK IMMEDIATELY
   checkTransferStatus(
     transactionId
   );
 
 
-  // CHECK EVERY 5 SECONDS
   transferCheckInterval =
     setInterval(
       () => {
@@ -646,6 +1056,13 @@ async function checkTransferStatus(
   transactionId
 ) {
 
+  if (!token) {
+
+    return;
+
+  }
+
+
   try {
 
     const response =
@@ -661,7 +1078,9 @@ async function checkTransferStatus(
 
 
     if (!response.ok) {
+
       return;
+
     }
 
 
@@ -673,15 +1092,18 @@ async function checkTransferStatus(
       data.transaction;
 
 
+    if (!transaction) {
+
+      return;
+
+    }
+
+
     console.log(
       "Transfer status:",
       transaction.status
     );
 
-
-    // ====================================
-    // APPROVED
-    // ====================================
 
     if (
       transaction.status ===
@@ -701,19 +1123,12 @@ async function checkTransferStatus(
       );
 
 
-      // REFRESH BALANCE
       getProfile();
 
-
-      // REFRESH TRANSACTIONS
       getTransactions();
 
     }
 
-
-    // ====================================
-    // DECLINED
-    // ====================================
 
     if (
       transaction.status ===
@@ -733,6 +1148,7 @@ async function checkTransferStatus(
       );
 
     }
+
 
   } catch (error) {
 
@@ -754,88 +1170,171 @@ function showTransferSuccess(
   transaction
 ) {
 
-  transferResult.style.display =
-    "block";
+  if (transferResult) {
+
+    transferResult.style.display =
+      "block";
+
+  }
 
 
-  transferStatusTitle.textContent =
-    "✓ Transfer Successful";
+  if (transferStatusTitle) {
+
+    transferStatusTitle.textContent =
+      "✓ Transfer Successful";
+
+  }
 
 
-  transferStatusMessage.textContent =
-    "Your transfer has been approved successfully.";
+  if (transferStatusMessage) {
+
+    transferStatusMessage.textContent =
+      "Your transfer has been approved successfully.";
+
+  }
 
 
-  receiptButtons.style.display =
-    "block";
+  if (receiptButtons) {
+
+    receiptButtons.style.display =
+      "block";
+
+  }
 
 
-  receipt.style.display =
-    "none";
+  if (receipt) {
+
+    receipt.style.display =
+      "none";
+
+  }
 
 
-  // AMOUNT
-  document.getElementById(
-    "receiptAmount"
-  ).textContent =
-    Number(
-      transaction.amount
-    ).toLocaleString();
+  const receiptAmount =
+    document.getElementById(
+      "receiptAmount"
+    );
+
+  if (receiptAmount) {
+
+    receiptAmount.textContent =
+      Number(
+        transaction.amount || 0
+      ).toLocaleString();
+
+  }
 
 
-  // SENDER
-  document.getElementById(
-    "receiptSender"
-  ).textContent =
-    transaction.sender.name;
+  const receiptSender =
+    document.getElementById(
+      "receiptSender"
+    );
+
+  if (receiptSender) {
+
+    receiptSender.textContent =
+      transaction.sender?.name ||
+      "---";
+
+  }
 
 
-  // SENDER ACCOUNT
-  document.getElementById(
-    "receiptSenderAccount"
-  ).textContent =
-    transaction.sender.accountNumber;
+  const receiptSenderAccount =
+    document.getElementById(
+      "receiptSenderAccount"
+    );
+
+  if (receiptSenderAccount) {
+
+    receiptSenderAccount.textContent =
+      transaction.sender?.accountNumber ||
+      "---";
+
+  }
 
 
-  // RECEIVER
-  document.getElementById(
-    "receiptReceiver"
-  ).textContent =
-    transaction.receiver.name;
+  const receiptReceiver =
+    document.getElementById(
+      "receiptReceiver"
+    );
+
+  if (receiptReceiver) {
+
+    receiptReceiver.textContent =
+      transaction.receiver?.name ||
+      "---";
+
+  }
 
 
-  // RECEIVER ACCOUNT
-  document.getElementById(
-    "receiptReceiverAccount"
-  ).textContent =
-    transaction.receiver.accountNumber;
+  const receiptReceiverAccount =
+    document.getElementById(
+      "receiptReceiverAccount"
+    );
+
+  if (receiptReceiverAccount) {
+
+    receiptReceiverAccount.textContent =
+      transaction.receiver?.accountNumber ||
+      "---";
+
+  }
 
 
-  // REFERENCE
-  document.getElementById(
-    "receiptReference"
-  ).textContent =
-    transaction.reference;
+  const receiptReference =
+    document.getElementById(
+      "receiptReference"
+    );
+
+  if (receiptReference) {
+
+    receiptReference.textContent =
+      transaction.reference ||
+      "---";
+
+  }
 
 
-  // STATUS
-  document.getElementById(
-    "receiptStatus"
-  ).textContent =
-    transaction.status.toUpperCase();
+  const receiptStatus =
+    document.getElementById(
+      "receiptStatus"
+    );
+
+  if (receiptStatus) {
+
+    receiptStatus.textContent =
+      String(
+        transaction.status || ""
+      ).toUpperCase();
+
+  }
 
 
-  // DATE
-  document.getElementById(
-    "receiptDate"
-  ).textContent =
-    new Date(
+  const receiptDate =
+    document.getElementById(
+      "receiptDate"
+    );
+
+  if (receiptDate) {
+
+    receiptDate.textContent =
       transaction.createdAt
-    ).toLocaleString();
+        ? new Date(
+            transaction.createdAt
+          ).toLocaleString()
+        : "---";
+
+  }
 
 
-  message.textContent =
-    `Reference: ${transaction.reference}`;
+  if (message) {
+
+    message.textContent =
+      `Reference: ${
+        transaction.reference || "---"
+      }`;
+
+  }
 
 }
 
@@ -848,28 +1347,54 @@ function showTransferDeclined(
   transaction
 ) {
 
-  transferResult.style.display =
-    "block";
+  if (transferResult) {
+
+    transferResult.style.display =
+      "block";
+
+  }
 
 
-  transferStatusTitle.textContent =
-    "Transfer Declined";
+  if (transferStatusTitle) {
+
+    transferStatusTitle.textContent =
+      "Transfer Declined";
+
+  }
 
 
-  transferStatusMessage.textContent =
-    "Your transfer was declined by the administrator.";
+  if (transferStatusMessage) {
+
+    transferStatusMessage.textContent =
+      "Your transfer was declined by the administrator.";
+
+  }
 
 
-  receiptButtons.style.display =
-    "none";
+  if (receiptButtons) {
+
+    receiptButtons.style.display =
+      "none";
+
+  }
 
 
-  receipt.style.display =
-    "none";
+  if (receipt) {
+
+    receipt.style.display =
+      "none";
+
+  }
 
 
-  message.textContent =
-    `Reference: ${transaction.reference}`;
+  if (message) {
+
+    message.textContent =
+      `Reference: ${
+        transaction.reference || "---"
+      }`;
+
+  }
 
 }
 
@@ -878,165 +1403,261 @@ function showTransferDeclined(
 // VIEW RECEIPT
 // ========================================
 
-viewReceipt.addEventListener( "click",() => {
+if (viewReceipt) {
 
-    receipt.style.display =
-      "block";
+  viewReceipt.addEventListener(
+    "click",
+    () => {
+
+      if (!receipt) {
+
+        return;
+
+      }
 
 
-    receipt.scrollIntoView({
-      behavior: "smooth"
-    });
+      receipt.style.display =
+        "block";
 
-  }
-);
+
+      receipt.scrollIntoView({
+        behavior: "smooth"
+      });
+
+    }
+  );
+
+}
 
 
 // ========================================
 // DOWNLOAD PDF
 // ========================================
 
-downloadReceipt.addEventListener(
-  "click",
-  async () => {
+if (downloadReceipt) {
 
-    receipt.style.display =
-      "block";
+  downloadReceipt.addEventListener(
+    "click",
+    async () => {
+
+      if (!receipt) {
+
+        return;
+
+      }
 
 
-    const canvas =
-      await html2canvas(
-        receipt
+      if (
+        typeof html2canvas ===
+        "undefined"
+      ) {
+
+        console.error(
+          "html2canvas is not loaded."
+        );
+
+        return;
+
+      }
+
+
+      if (
+        !window.jspdf ||
+        !window.jspdf.jsPDF
+      ) {
+
+        console.error(
+          "jsPDF is not loaded."
+        );
+
+        return;
+
+      }
+
+
+      receipt.style.display =
+        "block";
+
+
+      const canvas =
+        await html2canvas(
+          receipt
+        );
+
+
+      const imageData =
+        canvas.toDataURL(
+          "image/png"
+        );
+
+
+      const {
+        jsPDF
+      } =
+        window.jspdf;
+
+
+      const pdf =
+        new jsPDF();
+
+
+      const width =
+        190;
+
+
+      const height =
+        (
+          canvas.height *
+          width
+        ) /
+        canvas.width;
+
+
+      pdf.addImage(
+        imageData,
+        "PNG",
+        10,
+        10,
+        width,
+        height
       );
 
 
-    const imageData =
-      canvas.toDataURL(
-        "image/png"
+      pdf.save(
+        "transfer-receipt.pdf"
       );
 
+    }
+  );
 
-    const {
-      jsPDF
-    } = window.jspdf;
-
-
-    const pdf =
-      new jsPDF();
-
-
-    const width = 190;
-
-
-    const height =
-      (
-        canvas.height *
-        width
-      ) /
-      canvas.width;
-
-
-    pdf.addImage(
-      imageData,
-      "PNG",
-      10,
-      10,
-      width,
-      height
-    );
-
-
-    pdf.save(
-      "transfer-receipt.pdf"
-    );
-
-  }
-);
+}
 
 
 // ========================================
 // SAVE RECEIPT IMAGE
 // ========================================
 
-saveReceiptImage.addEventListener(
-  "click",
-  async () => {
+if (saveReceiptImage) {
 
-    receipt.style.display =
-      "block";
+  saveReceiptImage.addEventListener(
+    "click",
+    async () => {
 
+      if (!receipt) {
 
-    const canvas =
-      await html2canvas(
-        receipt
-      );
+        return;
 
-
-    const image =
-      canvas.toDataURL(
-        "image/png"
-      );
+      }
 
 
-    const link =
-      document.createElement("a");
+      if (
+        typeof html2canvas ===
+        "undefined"
+      ) {
+
+        console.error(
+          "html2canvas is not loaded."
+        );
+
+        return;
+
+      }
 
 
-    link.href =
-      image;
+      receipt.style.display =
+        "block";
 
 
-    link.download =
-      "transfer-receipt.png";
+      const canvas =
+        await html2canvas(
+          receipt
+        );
 
 
-    link.click();
+      const image =
+        canvas.toDataURL(
+          "image/png"
+        );
 
-  }
-);
+
+      const link =
+        document.createElement(
+          "a"
+        );
+
+
+      link.href =
+        image;
+
+
+      link.download =
+        "transfer-receipt.png";
+
+
+      link.click();
+
+    }
+  );
+
+}
 
 
 // ========================================
 // LOGOUT
 // ========================================
 
-logoutButton.addEventListener(
-  "click",
-  () => {
+if (logoutButton) {
 
-    // Stop transfer checking
-    if (transferCheckInterval) {
+  logoutButton.addEventListener(
+    "click",
+    () => {
 
-      clearInterval(
-        transferCheckInterval
+      if (transferCheckInterval) {
+
+        clearInterval(
+          transferCheckInterval
+        );
+
+        transferCheckInterval =
+          null;
+
+      }
+
+
+      localStorage.removeItem(
+        "token"
       );
 
-      transferCheckInterval =
-        null;
+
+      token = null;
+
+
+      if (dashboardSection) {
+
+        dashboardSection.style.display =
+          "none";
+
+      }
+
+
+      if (loginSection) {
+
+        loginSection.style.display =
+          "block";
+
+      }
+
+
+      if (loginForm) {
+
+        loginForm.reset();
+
+      }
 
     }
+  );
 
-
-    localStorage.removeItem(
-      "token"
-    );
-
-
-    token = null;
-
-
-    dashboardSection.style.display =
-      "none";
-
-
-    loginSection.style.display =
-      "block";
-
-
-    loginForm.reset();
-
-  }
-);
+}
 
 
 // ========================================
@@ -1045,11 +1666,20 @@ logoutButton.addEventListener(
 
 if (token) {
 
-  loginSection.style.display =
-    "none";
+  if (loginSection) {
 
-  dashboardSection.style.display =
-    "block";
+    loginSection.style.display =
+      "none";
+
+  }
+
+
+  if (dashboardSection) {
+
+    dashboardSection.style.display =
+      "block";
+
+  }
 
 
   getProfile();
@@ -1058,10 +1688,19 @@ if (token) {
 
 } else {
 
-  loginSection.style.display =
-    "block";
+  if (loginSection) {
 
-  dashboardSection.style.display =
-    "none";
+    loginSection.style.display =
+      "block";
+
+  }
+
+
+  if (dashboardSection) {
+
+    dashboardSection.style.display =
+      "none";
+
+  }
 
 }
