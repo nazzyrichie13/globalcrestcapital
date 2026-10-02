@@ -2150,6 +2150,7 @@ footer {
   footer {
    
     padding: 45px 24px 25;
+    overflow-x: hidden;
    
   }
 
@@ -2158,7 +2159,7 @@ footer {
     flex-direction: column;
     gap: 30px;
 
-    box-sizing: border-box;
+    
   }
 
   .footer-brand,
@@ -2180,9 +2181,10 @@ footer {
   }
   .social-links{
     display: flex;
+    flex-direction: column-reverse;
     gap: 10px;
-    position: static;
-    margin-top: 20px;
+    
+    
   }
   .footer-logo{
     position: static;
@@ -2214,9 +2216,7 @@ footer {
     max-width: 100%;
 
     display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-
+    flex-direction: column;
     gap: 12px;
   }
 
