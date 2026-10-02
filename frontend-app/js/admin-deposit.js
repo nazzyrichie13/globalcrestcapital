@@ -1,34 +1,12 @@
+const token = localStorage.getItem("token");
 
-const token = localStorage.getItem("adminToken");
+const adminUser =
+  JSON.parse(localStorage.getItem("user"));
 
-const adminUser = JSON.parse(
-  localStorage.getItem("admin") || "null"
-);
-
-
-// ========================================
-// CHECK ADMIN AUTHENTICATION
-// ========================================
-
-if (
-  !token ||
-  !adminUser ||
-  String(adminUser.role).toLowerCase() !== "admin"
-) {
+if (!token || !adminUser || adminUser.role !== "admin") {
   window.location.href = "admin-login.html";
 }
 
-
-// ========================================
-// VERIFIED ACCOUNT
-// ========================================
-
-let verifiedAccountNumber = "";
-
-
-// ========================================
-// GET HTML ELEMENTS
-// ========================================
 
 const accountNumber =
   document.getElementById("accountNumber");
@@ -42,7 +20,7 @@ const accountBox =
 const accountName =
   document.getElementById("accountName");
 
-const verifiedAccountNumberElement =
+const verifiedAccountNumber =
   document.getElementById("verifiedAccountNumber");
 
 const currentBalance =
@@ -61,10 +39,6 @@ const depositMessage =
   document.getElementById("depositMessage");
 
 
-// ========================================
-// VERIFY CUSTOMER ACCOUNT
-// ========================================
-
 verifyAccount.addEventListener(
   "click",
   async () => {
@@ -72,44 +46,17 @@ verifyAccount.addEventListener(
     const number =
       accountNumber.value.trim();
 
-
-    // --------------------------------------
-    // CHECK ACCOUNT NUMBER
-    // --------------------------------------
-
     if (!number) {
-
       depositMessage.textContent =
         "Enter an account number.";
-
-      accountBox.style.display =
-        "none";
-
-      verifiedAccountNumber = "";
 
       return;
     }
 
-
-    // --------------------------------------
-    // BUTTON LOADING
-    // --------------------------------------
-
-    verifyAccount.disabled =
-      true;
-
-    verifyAccount.textContent =
-      "Checking...";
-
-    depositMessage.textContent =
-      "";
-
+    verifyAccount.disabled = true;
+    verifyAccount.textContent = "Checking...";
 
     try {
-
-      // ------------------------------------
-      // VERIFY ACCOUNT
-      // ------------------------------------
 
       const response =
         await fetch(
@@ -118,11 +65,8 @@ verifyAccount.addEventListener(
             method: "POST",
 
             headers: {
-              "Content-Type":
-                "application/json",
-
-              Authorization:
-                `Bearer ${token}`
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`
             },
 
             body: JSON.stringify({
@@ -131,114 +75,46 @@ verifyAccount.addEventListener(
           }
         );
 
-
       const result =
         await response.json();
 
-
-      // ------------------------------------
-      // CHECK RESPONSE
-      // ------------------------------------
-
       if (!response.ok) {
-
         throw new Error(
           result.message ||
           "Account not found."
         );
-
       }
-
-
-      // ------------------------------------
-      // CHECK USER DATA
-      // ------------------------------------
-
-      if (!result.user) {
-
-        throw new Error(
-          "Customer information was not returned."
-        );
-
-      }
-
-
-      // ------------------------------------
-      // SAVE VERIFIED ACCOUNT NUMBER
-      // ------------------------------------
-
-      verifiedAccountNumber =
-        result.user.accountNumber;
-
-
-      // ------------------------------------
-      // DISPLAY CUSTOMER INFORMATION
-      // ------------------------------------
 
       accountName.textContent =
-        result.user.name || "N/A";
+        result.user.name;
 
-
-      verifiedAccountNumberElement.textContent =
-        result.user.accountNumber || number;
-
+      verifiedAccountNumber.textContent =
+        result.user.accountNumber;
 
       currentBalance.textContent =
-        `₦${Number(
-          result.user.balance || 0
-        ).toLocaleString()}`;
+        `₦${Number(result.user.balance).toLocaleString()}`;
 
-
-      // ------------------------------------
-      // SHOW ACCOUNT BOX
-      // ------------------------------------
-
-      accountBox.style.display =
-        "block";
-
+      accountBox.style.display = "block";
 
       depositMessage.textContent =
         "Account verified successfully.";
 
-
     } catch (error) {
 
-      // Clear verified account
-      verifiedAccountNumber = "";
-
-
-      accountBox.style.display =
-        "none";
-
+      accountBox.style.display = "none";
 
       depositMessage.textContent =
-        error.message ||
-        "Unable to verify account.";
-
-
-      console.error(
-        "Account verification error:",
-        error
-      );
-
+        error.message;
 
     } finally {
 
-      verifyAccount.disabled =
-        false;
-
-      verifyAccount.textContent =
-        "Verify";
+      verifyAccount.disabled = false;
+      verifyAccount.textContent = "Verify";
 
     }
-
   }
 );
 
-
-// ========================================
-// DEPOSIT FUNDS
-// ========================================
 
 depositForm.addEventListener(
   "submit",
@@ -246,63 +122,31 @@ depositForm.addEventListener(
 
     event.preventDefault();
 
+    const number =
+      accountNumber.value.trim();
 
-    // --------------------------------------
-    // MAKE SURE ACCOUNT WAS VERIFIED
-    // --------------------------------------
+    const depositAmount =
+      Number(amount.value);
 
-    if (!verifiedAccountNumber) {
-
+    if (!number) {
       depositMessage.textContent =
         "Verify the customer account first.";
 
       return;
     }
 
-
-    // --------------------------------------
-    // GET AMOUNT
-    // --------------------------------------
-
-    const depositAmount =
-      Number(amount.value);
-
-
-    // --------------------------------------
-    // CHECK AMOUNT
-    // --------------------------------------
-
-    if (
-      !Number.isFinite(depositAmount) ||
-      depositAmount <= 0
-    ) {
-
+    if (!depositAmount || depositAmount <= 0) {
       depositMessage.textContent =
         "Enter a valid deposit amount.";
 
       return;
     }
 
-
-    // --------------------------------------
-    // BUTTON LOADING
-    // --------------------------------------
-
-    depositButton.disabled =
-      true;
-
+    depositButton.disabled = true;
     depositButton.textContent =
       "Processing...";
 
-    depositMessage.textContent =
-      "";
-
-
     try {
-
-      // ------------------------------------
-      // SEND DEPOSIT
-      // ------------------------------------
 
       const response =
         await fetch(
@@ -311,118 +155,51 @@ depositForm.addEventListener(
             method: "POST",
 
             headers: {
-              "Content-Type":
-                "application/json",
-
-              Authorization:
-                `Bearer ${token}`
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`
             },
 
             body: JSON.stringify({
-
-              // IMPORTANT:
-              // Use the account that was
-              // actually verified.
-
-              accountNumber:
-                verifiedAccountNumber,
-
-              amount:
-                depositAmount
-
+              accountNumber: number,
+              amount: depositAmount
             })
           }
         );
 
-
       const result =
         await response.json();
 
-
-      // ------------------------------------
-      // CHECK RESPONSE
-      // ------------------------------------
-
       if (!response.ok) {
-
         throw new Error(
           result.message ||
           "Deposit failed."
         );
-
       }
-
-
-      // ------------------------------------
-      // CHECK UPDATED USER
-      // ------------------------------------
-
-      if (!result.user) {
-
-        throw new Error(
-          "Deposit completed, but updated account information was not returned."
-        );
-
-      }
-
-
-      // ------------------------------------
-      // UPDATE BALANCE
-      // ------------------------------------
-
-      currentBalance.textContent =
-        `₦${Number(
-          result.user.balance || 0
-        ).toLocaleString()}`;
-
-
-      // ------------------------------------
-      // SUCCESS MESSAGE
-      // ------------------------------------
 
       depositMessage.textContent =
         `Deposit successful. New balance: ₦${Number(
-          result.user.balance || 0
+          result.user.balance
         ).toLocaleString()}`;
 
-
-      // ------------------------------------
-      // CLEAR AMOUNT
-      // ------------------------------------
+      currentBalance.textContent =
+        `₦${Number(
+          result.user.balance
+        ).toLocaleString()}`;
 
       amount.value = "";
-
-
-      // ------------------------------------
-      // KEEP ACCOUNT BOX VISIBLE
-      // ------------------------------------
-
-      accountBox.style.display =
-        "block";
-
 
     } catch (error) {
 
       depositMessage.textContent =
-        error.message ||
-        "Deposit failed.";
-
-
-      console.error(
-        "Deposit error:",
-        error
-      );
-
+        error.message;
 
     } finally {
 
-      depositButton.disabled =
-        false;
+      depositButton.disabled = false;
 
       depositButton.innerHTML =
         '<i class="fa-solid fa-plus"></i> Deposit Funds';
 
     }
-
   }
 );

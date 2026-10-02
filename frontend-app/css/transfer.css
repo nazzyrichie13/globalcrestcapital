@@ -394,6 +394,15 @@
   #receipt {
     padding: 18px;
   }
+  footer-container {
+    grid-template-columns: 1fr;
+    gap: 35px;
+  }
+
+  .footer-bottom {
+    flex-direction: column;
+    gap: 15px;
+  }
 }
 
 /* ================================

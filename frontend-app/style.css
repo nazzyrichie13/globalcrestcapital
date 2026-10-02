@@ -2803,29 +2803,41 @@ footer {
 }
 
 
-/* =========================================
+
+
+
+
+/* ===================================================== */
+/* stop here */
+/* =========================================================
    DASHBOARD
-========================================= */
+========================================================= */
 
 #dashboardSection {
   width: 100%;
   max-width: 1200px;
+
   margin: 0 auto;
   padding: 20px;
+
+  min-width: 0;
+
   box-sizing: border-box;
+
+  overflow-x: hidden;
 }
 
-/* =========================================
+
+/* =========================================================
    PROFILE CARD
-========================================= */
+========================================================= */
 
 .profile-card {
   position: relative;
 
   width: 100%;
   max-width: 100%;
-
-  box-sizing: border-box;
+  min-width: 0;
 
   display: flex;
   flex-direction: column;
@@ -2833,27 +2845,28 @@ footer {
   align-items: center;
   justify-content: center;
 
-  text-align: center;
+  gap: 10px;
 
   padding: 25px 20px;
-
-  gap: 10px;
 
   background: #ffffff;
 
   border-radius: 16px;
 
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
+  box-shadow:
+    0 8px 25px rgba(0, 0, 0, 0.06);
 
-  /* IMPORTANT */
-  min-width: 0;
+  text-align: center;
+
+  box-sizing: border-box;
+
   overflow: visible;
 }
 
 
-/* =========================================
+/* =========================================================
    PROFILE IMAGE
-========================================= */
+========================================================= */
 
 #profilePhoto {
   display: block;
@@ -2867,29 +2880,32 @@ footer {
   max-width: 60px !important;
   max-height: 60px !important;
 
+  flex: 0 0 60px;
+
+  margin: 0 auto 5px;
+
+  border: 3px solid #ffffff;
   border-radius: 50%;
+
+  background: #e5e7eb;
 
   object-fit: cover;
 
-  background: navy;
+  box-shadow:
+    0 4px 15px rgba(0, 0, 0, 0.12);
 
-  border: 3px solid red;
-
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.12);
-
-  flex-shrink: 0;
+  box-sizing: border-box;
 }
 
 
-/* =========================================
+/* =========================================================
    USER NAME
-========================================= */
+========================================================= */
 
 .profile-card h2 {
-  display: block;
-
   width: 100%;
   max-width: 100%;
+  min-width: 0;
 
   margin: 5px 0;
 
@@ -2899,9 +2915,6 @@ footer {
 
   text-align: center;
 
-  /* IMPORTANT */
-  min-width: 0;
-
   white-space: normal;
 
   overflow: visible;
@@ -2914,28 +2927,24 @@ footer {
 }
 
 
-/* =========================================
+/* =========================================================
    PROFILE TEXT
-========================================= */
+========================================================= */
 
 .profile-card p {
-  display: block;
-
   width: 100%;
   max-width: 100%;
+  min-width: 0;
 
   margin: 0;
+
+  color: #555;
 
   font-size: 14px;
 
   line-height: 1.6;
 
-  color: #555;
-
   text-align: center;
-
-  /* IMPORTANT */
-  min-width: 0;
 
   white-space: normal;
 
@@ -2949,25 +2958,28 @@ footer {
 }
 
 
-/* =========================================
+/* =========================================================
    ACCOUNT NUMBER
-========================================= */
+========================================================= */
 
 #accountNumber {
   display: block;
 
-  width: 100%;
+  width: auto;
   max-width: 100%;
+  min-width: 0;
 
-  box-sizing: border-box;
-
-  font-weight: 600;
+  margin: 0 auto;
+  padding: 0;
 
   color: #222;
 
+  font-weight: 600;
+
+  line-height: 1.5;
+
   text-align: center;
 
-  /* IMPORTANT FOR LONG ACCOUNT NUMBERS */
   white-space: normal;
 
   overflow: visible;
@@ -2976,53 +2988,99 @@ footer {
 
   word-break: break-all;
 
-  min-width: 0;
+  box-sizing: border-box;
 }
 
 
-/* =========================================
-   EDIT BUTTON
-========================================= */
+/* =========================================================
+   EDIT PROFILE BUTTON
+========================================================= */
 
 #editProfileBtn {
   align-self: flex-end;
 
+  flex-shrink: 0;
+
   padding: 8px 14px;
 
   border: none;
-
   border-radius: 20px;
 
   background: #315a8a;
-
   color: #ffffff;
 
-  cursor: pointer;
+  font-size: 13px;
 
-  flex-shrink: 0;
+  cursor: pointer;
 }
 
-/* =========================================
+#editProfileBtn:hover {
+  background: #264b73;
+}
+
+
+/* =========================================================
+   BALANCE CARD
+========================================================= */
+
+.balance-card {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+
+  margin-top: 15px;
+
+  padding: 22px 20px;
+
+  border-radius: 16px;
+
+  box-sizing: border-box;
+
+  overflow: visible;
+}
+
+.balance-card h1 {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+
+  margin: 0;
+
+  font-size: clamp(24px, 5vw, 40px);
+
+  line-height: 1.2;
+
+  white-space: normal;
+
+  overflow: visible;
+
+  overflow-wrap: anywhere;
+
+  word-break: break-word;
+
+  box-sizing: border-box;
+}
+
+
+/* =========================================================
    TIER CARD
-========================================= */
+========================================================= */
 
 .tier-card {
   width: 100%;
   max-width: 100%;
+  min-width: 0;
 
   display: flex;
 
   gap: 20px;
 
-  padding: 20px;
-
   margin-top: 15px;
-
-  box-sizing: border-box;
+  padding: 20px;
 
   border-radius: 14px;
 
-  min-width: 0;
+  box-sizing: border-box;
 
   overflow: visible;
 }
@@ -3033,20 +3091,24 @@ footer {
 }
 
 .tier-card h3 {
+  max-width: 100%;
+
   font-size: 21px;
 
   overflow-wrap: anywhere;
+
   word-break: break-word;
 }
 
 
-/* =========================================
-   CARD DETAILS
-========================================= */
+/* =========================================================
+   DASHBOARD CARD DETAILS
+========================================================= */
 
-.card-details-box {
+#dashboardSection .card-details-box {
   width: 100%;
   max-width: 100%;
+  min-width: 0;
 
   margin-top: 15px;
 
@@ -3056,38 +3118,45 @@ footer {
 
   border-radius: 14px;
 
-  min-width: 0;
-
   overflow: visible;
 }
 
-.card-details-box h3 {
+#dashboardSection .card-details-box h3 {
+  max-width: 100%;
+
   font-size: 18px;
+
   line-height: 1.3;
 
   overflow-wrap: anywhere;
+
   word-break: break-word;
 }
 
-.card-details-box p {
+#dashboardSection .card-details-box p {
+  max-width: 100%;
+
   font-size: 14px;
+
   line-height: 1.5;
 
   overflow-wrap: anywhere;
+
   word-break: break-word;
 }
 
-.card-details-box button {
+#dashboardSection .card-details-box button {
   max-width: 100%;
+
   box-sizing: border-box;
 }
 
 
-/* =========================================
-   TRANSFER BUTTON
-========================================= */
+/* =========================================================
+   DASHBOARD TRANSFER BUTTON
+========================================================= */
 
-.transfer-button {
+#dashboardSection .transfer-button {
   display: inline-flex !important;
 
   align-items: center;
@@ -3095,84 +3164,63 @@ footer {
 
   width: auto !important;
   min-width: 180px;
+  max-width: 100%;
 
+  margin: 18px 0;
   padding: 13px 28px !important;
 
-  background-color: #0b3a6f !important;
-
+  background: #0b3a6f !important;
   color: #ffffff !important;
 
   border: none !important;
-
   border-radius: 25px !important;
+
+  font-size: 15px !important;
+  font-weight: 600 !important;
+
+  line-height: 1.2;
 
   text-align: center;
 
   text-decoration: none;
 
-  font-size: 15px !important;
-  font-weight: 600 !important;
+  white-space: nowrap;
 
   cursor: pointer;
 
   box-sizing: border-box;
 
+  box-shadow:
+    0 5px 12px rgba(11, 58, 111, 0.18);
+
   transition:
     background-color 0.2s ease,
-    transform 0.2s ease;
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
-.transfer-button:hover {
-  background-color: #082d56 !important;
+#dashboardSection .transfer-button:hover {
+  background: #082d56 !important;
+
+  box-shadow:
+    0 7px 16px rgba(11, 58, 111, 0.25);
+
+  transform: translateY(-1px);
 }
 
-.transfer-button:active {
+#dashboardSection .transfer-button:active {
   transform: scale(0.97);
 }
 
 
-/* =========================================
-   TRANSACTIONS
-========================================= */
+/* =========================================================
+   DASHBOARD QUICK ACTIONS
+========================================================= */
 
-#transactions {
+#dashboardSection .quick-actions {
   width: 100%;
   max-width: 100%;
-
-  margin-top: 15px;
-
-  padding: 20px;
-
-  box-sizing: border-box;
-
-  border-radius: 14px;
-
   min-width: 0;
-
-  overflow-x: auto;
-}
-
-#transactions h2 {
-  font-size: 20px;
-}
-
-
-/* =========================================
-   LOGOUT
-========================================= */
-
-#logout {
-  box-sizing: border-box;
-}
-
-
-/* =========================================
-   QUICK ACTIONS
-========================================= */
-
-.quick-actions {
-  width: 100%;
-  max-width: 100%;
 
   display: flex;
 
@@ -3181,15 +3229,17 @@ footer {
   box-sizing: border-box;
 }
 
-.action-card {
+#dashboardSection .action-card {
+  min-width: 0;
   max-width: 100%;
+
   box-sizing: border-box;
 }
 
 
-/* =========================================
-   TABLET
-========================================= */
+/* =========================================================
+   DASHBOARD TABLET
+========================================================= */
 
 @media (max-width: 1024px) {
 
@@ -3198,13 +3248,10 @@ footer {
     max-width: 100%;
 
     padding: 20px;
-
-    box-sizing: border-box;
   }
 
   #dashboardSection > * {
     max-width: 100%;
-
     min-width: 0;
 
     box-sizing: border-box;
@@ -3213,139 +3260,112 @@ footer {
 }
 
 
-/* =========================================
-   MOBILE
-========================================= */
+/* =========================================================
+   TABLET / MOBILE
+========================================================= */
 
 @media (max-width: 768px) {
+/* ================================= */
+/* NAV-SECTION */
+/* ================================= */
+ .menu-btn {
+    display: block;
+   
+  }
+ .nav-container{
+  
+      display: flex;
+      justify-content: space-between;
+      contain: content;
+    }
+  .nav-links {
+    position: absolute;
+
+    top: 78px;
+    left: 0;
+    right: 0;
+
+    display: none;
+
+    flex-direction: column;
+    align-items: flex-start;
+
+    padding: 25px;
+
+    background: white;
+
+    border-bottom: 1px solid #e4e9ef;
+  }
+
+  .nav-links.show {
+    display: flex;
+  }
+
+  /* -----------------------------------------
+     DASHBOARD
+  ----------------------------------------- */
 
   #dashboardSection {
     width: 100% !important;
     max-width: 100% !important;
 
     margin: 0 !important;
-
     padding: 15px !important;
-
-    box-sizing: border-box !important;
 
     overflow-x: hidden !important;
   }
 
-
-  /* Prevent children from becoming wider
-     than the screen */
-
   #dashboardSection > * {
-    width: 100% !important;
     max-width: 100% !important;
-
     min-width: 0 !important;
 
     box-sizing: border-box !important;
   }
 
 
-  /* ---------------------------------------
+  /* -----------------------------------------
      PROFILE
-  --------------------------------------- */
+  ----------------------------------------- */
 
   .profile-card {
     width: 100% !important;
     max-width: 100% !important;
+    min-width: 0 !important;
 
-    padding: 25px 15px !important;
+    padding: 20px 15px !important;
 
     gap: 8px !important;
-
-    box-sizing: border-box !important;
 
     overflow: visible !important;
   }
 
+
+  /* PROFILE IMAGE */
+
   #profilePhoto {
-    width: 90px !important;
-    height: 90px !important;
+    width: 60px !important;
+    height: 60px !important;
 
-    min-width: 90px !important;
-    min-height: 90px !important;
+    min-width: 60px !important;
+    min-height: 60px !important;
 
-    max-width: 90px !important;
-    max-height: 90px !important;
+    max-width: 60px !important;
+    max-height: 60px !important;
 
-    margin: 0 auto 5px !important;
+    flex: 0 0 60px !important;
   }
+
+
+  /* NAME */
 
   .profile-card h2 {
     width: 100% !important;
     max-width: 100% !important;
+    min-width: 0 !important;
 
     font-size: 19px !important;
 
-    line-height: 1.35;
-
-    overflow-wrap: anywhere;
-    word-break: break-word;
-  }
-
-  .profile-card p {
-    width: 100% !important;
-    max-width: 100% !important;
-
-    font-size: 13px !important;
-
-    overflow-wrap: anywhere;
-    word-break: break-word;
-  }
-
-  #accountNumber {
-    max-width: 100% !important;
-
-    word-break: break-all !important;
-    overflow-wrap: anywhere !important;
-  }
-
-  #editProfileBtn {
-    align-self: flex-end !important;
-
-    font-size: 12px !important;
-
-    padding: 7px 11px !important;
-
-    border-radius: 20px !important;
-  }
-
-
-  /* ---------------------------------------
-     BALANCE
-  --------------------------------------- */
-
-  .balance-card {
-    width: 100% !important;
-    max-width: 100% !important;
-
-    min-width: 0 !important;
-
-    margin-top: 15px !important;
-
-    padding: 20px 15px !important;
-
-    box-sizing: border-box !important;
-
-    border-radius: 16px !important;
-
-    overflow: visible !important;
-  }
-
-  .balance-card h1 {
-    width: 100% !important;
-    max-width: 100% !important;
-
-    margin: 0 !important;
-
-    font-size: clamp(24px, 8vw, 36px) !important;
-
-    line-height: 1.2 !important;
+    line-height: 1.35 !important;
 
     white-space: normal !important;
 
@@ -3353,264 +3373,80 @@ footer {
 
     overflow-wrap: anywhere !important;
 
-    word-break: break-word !important;
-
-    box-sizing: border-box !important;
+    word-break: normal !important;
   }
 
 
-  /* ---------------------------------------
-     TIER
-  --------------------------------------- */
+  /* PROFILE TEXT */
 
-  .tier-card {
+  .profile-card p {
     width: 100% !important;
     max-width: 100% !important;
-
     min-width: 0 !important;
 
-    display: flex !important;
+    font-size: 13px !important;
 
-    flex-direction: column !important;
+    line-height: 1.5 !important;
 
-    gap: 15px !important;
-
-    padding: 18px !important;
-
-    margin-top: 15px !important;
-
-    border-radius: 14px !important;
-
-    box-sizing: border-box !important;
+    white-space: normal !important;
 
     overflow: visible !important;
-  }
 
-  .tier-card > div {
-    width: 100% !important;
-    max-width: 100% !important;
-
-    min-width: 0 !important;
-
-    box-sizing: border-box !important;
-  }
-
-  .tier-card h3 {
-    font-size: 21px !important;
-
-    overflow-wrap: anywhere;
-    word-break: break-word;
+    overflow-wrap: anywhere !important;
   }
 
 
-  /* ---------------------------------------
-     CARD DETAILS
-  --------------------------------------- */
+  /* ACCOUNT NUMBER */
 
-  .card-details-box {
-    width: 100% !important;
-    max-width: 100% !important;
-
-    min-width: 0 !important;
-
-    margin-top: 15px !important;
-
-    padding: 20px 16px !important;
-
-    border-radius: 14px !important;
-
-    box-sizing: border-box !important;
-
-    overflow: visible !important;
-  }
-
-  .card-details-box h3 {
-    font-size: 18px !important;
-
-    line-height: 1.3;
-
-    overflow-wrap: anywhere;
-    word-break: break-word;
-  }
-
-  .card-details-box p {
-    font-size: 14px !important;
-
-    line-height: 1.5;
-
-    overflow-wrap: anywhere;
-    word-break: break-word;
-  }
-
-
-  /* ---------------------------------------
-     TRANSFER BUTTON
-  --------------------------------------- */
-
-  .transfer-button {
-    display: inline-flex !important;
-
-    align-items: center;
-    justify-content: center;
+  #accountNumber {
+    display: block !important;
 
     width: auto !important;
-
-    min-width: 170px !important;
-
     max-width: 100% !important;
+    min-width: 0 !important;
 
-    margin: 18px 0 !important;
+    margin: 0 auto !important;
+    padding: 0 !important;
 
-    padding: 13px 25px !important;
+    font-size: 14px !important;
 
-    background-color: #0b3a6f !important;
-
-    color: #ffffff !important;
-
-    border: none !important;
-
-    border-radius: 25px !important;
-
-    font-size: 15px !important;
-
-    font-weight: 600 !important;
+    line-height: 1.5 !important;
 
     text-align: center !important;
 
-    box-sizing: border-box !important;
-
-    white-space: nowrap;
-
-    cursor: pointer;
-  }
-
-  .transfer-button:hover {
-    background-color: #082d56 !important;
-  }
-
-  .transfer-button:active {
-    transform: scale(0.97);
-  }
-
-
-  /* ---------------------------------------
-     TRANSACTIONS
-  --------------------------------------- */
-
-  #transactions {
-    width: 100% !important;
-    max-width: 100% !important;
-
-    min-width: 0 !important;
-
-    margin-top: 15px !important;
-
-    padding: 18px 15px !important;
-
-    border-radius: 14px !important;
-
-    box-sizing: border-box !important;
-
-    overflow-x: auto !important;
-  }
-
-  #transactions h2 {
-    font-size: 20px !important;
-  }
-
-
-  /* ---------------------------------------
-     LOGOUT
-  --------------------------------------- */
-
-  #logout {
-    width: 100% !important;
-    max-width: 100% !important;
-
-    margin-top: 18px !important;
-
-    padding: 14px !important;
-
-    border-radius: 12px !important;
-
-    box-sizing: border-box !important;
-  }
-
-}
-
-
-/* =========================================
-   SMALL PHONES
-========================================= */
-
-@media (max-width: 600px) {
-
-  #dashboardSection {
-    width: 100% !important;
-    max-width: 100% !important;
-
-    margin: 0 !important;
-
-    padding: 15px !important;
-
-    box-sizing: border-box !important;
-
-    overflow-x: hidden !important;
-  }
-
-
-  /* ---------------------------------------
-     PROFILE
-  --------------------------------------- */
-
-  .profile-card {
-    width: 100% !important;
-    max-width: 100% !important;
-
-    padding: 20px 15px !important;
-
-    gap: 8px !important;
-
-    box-sizing: border-box !important;
-  }
-
-  #profilePhoto {
-    width: 90px !important;
-    height: 90px !important;
-
-    min-width: 90px !important;
-    min-height: 90px !important;
-
-    max-width: 90px !important;
-    max-height: 90px !important;
-  }
-
-  .profile-card h2 {
-    font-size: 19px !important;
-  }
-
-  .profile-card p {
-    font-size: 13px !important;
-
-    width: 100% !important;
+    white-space: normal !important;
 
     overflow: visible !important;
+
+    overflow-wrap: anywhere !important;
+
+    word-break: break-all !important;
   }
 
 
-  /* ---------------------------------------
+  /* EDIT PROFILE */
+
+  #editProfileBtn {
+    align-self: flex-end !important;
+
+    padding: 7px 11px !important;
+
+    font-size: 12px !important;
+
+    border-radius: 20px !important;
+  }
+
+
+  /* -----------------------------------------
      BALANCE
-  --------------------------------------- */
+  ----------------------------------------- */
 
   .balance-card {
     width: 100% !important;
     max-width: 100% !important;
-
     min-width: 0 !important;
 
     padding: 20px 15px !important;
-
-    box-sizing: border-box !important;
 
     overflow: visible !important;
   }
@@ -3618,6 +3454,7 @@ footer {
   .balance-card h1 {
     width: 100% !important;
     max-width: 100% !important;
+    min-width: 0 !important;
 
     font-size: clamp(23px, 8vw, 34px) !important;
 
@@ -3633,84 +3470,354 @@ footer {
   }
 
 
-  /* ---------------------------------------
-     TRANSFER BUTTON
-  --------------------------------------- */
-
-  .transfer-button {
-    width: auto !important;
-
-    min-width: 160px !important;
-
-    max-width: 100% !important;
-
-    padding: 12px 23px !important;
-
-    background-color: #0b3a6f !important;
-
-    color: #ffffff !important;
-
-    border: none !important;
-
-    border-radius: 25px !important;
-
-    font-size: 15px !important;
-  }
-
-
-  /* ---------------------------------------
+  /* -----------------------------------------
      TIER
-  --------------------------------------- */
+  ----------------------------------------- */
 
   .tier-card {
     width: 100% !important;
     max-width: 100% !important;
-
     min-width: 0 !important;
+
+    display: flex !important;
+
+    flex-direction: column !important;
+
+    gap: 15px !important;
 
     padding: 18px !important;
 
-    box-sizing: border-box !important;
+    overflow: visible !important;
+  }
+
+  .tier-card > div {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
   }
 
 
-  /* ---------------------------------------
+  /* -----------------------------------------
      CARD DETAILS
-  --------------------------------------- */
+  ----------------------------------------- */
 
-  .card-details-box {
+  #dashboardSection .card-details-box {
     width: 100% !important;
     max-width: 100% !important;
-
     min-width: 0 !important;
 
     padding: 20px 16px !important;
 
-    box-sizing: border-box !important;
+    overflow: visible !important;
   }
 
 
-  /* ---------------------------------------
+  /* -----------------------------------------
+     TRANSFER BUTTON
+  ----------------------------------------- */
+
+  #dashboardSection .transfer-button {
+    display: inline-flex !important;
+
+    width: auto !important;
+
+    min-width: 160px !important;
+    max-width: 100% !important;
+
+    padding: 12px 23px !important;
+
+    margin: 18px 0 !important;
+
+    background: #0b3a6f !important;
+    color: #ffffff !important;
+
+    border: none !important;
+    border-radius: 25px !important;
+
+    font-size: 15px !important;
+
+    white-space: nowrap !important;
+  }
+
+
+  /* -----------------------------------------
      TRANSACTIONS
-  --------------------------------------- */
+  ----------------------------------------- */
 
   #transactions {
     width: 100% !important;
     max-width: 100% !important;
-
     min-width: 0 !important;
 
-    overflow-x: auto !important;
+    padding: 18px 15px !important;
 
-    box-sizing: border-box !important;
+    overflow-x: auto !important;
+  }
+
+
+  /* -----------------------------------------
+     LOGOUT
+  ----------------------------------------- */
+
+  #logout {
+    width: 100% !important;
+    max-width: 100% !important;
+
+    margin-top: 18px !important;
+
+    padding: 14px !important;
+
+    border-radius: 12px !important;
+  }
+
+
+  /* -----------------------------------------
+     GENERAL MOBILE GRIDS
+  ----------------------------------------- */
+
+  .quick-actions {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .bank-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .analytics-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .goals-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .financial-overview {
+    grid-template-columns: 1fr;
+  }
+
+  .security-section {
+    grid-template-columns: 1fr;
+  }
+
+  .promo-section {
+    grid-template-columns: 1fr;
+  }
+
+  .connected-section {
+    grid-template-columns: 1fr;
+  }
+
+  .support-card {
+    grid-template-columns: auto 1fr;
+  }
+
+  .support-card > a {
+    grid-column: 1 / -1;
+  }
+
+  .footer-main {
+    grid-template-columns: 1fr 1fr;
   }
 
 }
 
 
-/* =========================================
+/* =========================================================
+   SMALL PHONES
+========================================================= */
+
+@media (max-width: 600px) {
+
+  /* -----------------------------------------
+     DASHBOARD
+  ----------------------------------------- */
+
+  #dashboardSection {
+    padding: 12px !important;
+  }
+
+
+  /* -----------------------------------------
+     PROFILE
+  ----------------------------------------- */
+
+  .profile-card {
+    padding: 18px 12px !important;
+
+    gap: 7px !important;
+  }
+
+
+  /* -----------------------------------------
+     PROFILE IMAGE
+  ----------------------------------------- */
+
+  #profilePhoto {
+    width: 50px !important;
+    height: 50px !important;
+
+    min-width: 50px !important;
+    min-height: 50px !important;
+
+    max-width: 50px !important;
+    max-height: 50px !important;
+
+    flex: 0 0 50px !important;
+  }
+
+
+  /* -----------------------------------------
+     NAME
+  ----------------------------------------- */
+
+  .profile-card h2 {
+    font-size: 18px !important;
+
+    line-height: 1.35 !important;
+  }
+
+
+  /* -----------------------------------------
+     PROFILE TEXT
+  ----------------------------------------- */
+
+  .profile-card p {
+    font-size: 13px !important;
+
+    line-height: 1.5 !important;
+  }
+
+
+  /* -----------------------------------------
+     ACCOUNT NUMBER
+  ----------------------------------------- */
+
+  #accountNumber {
+    width: auto !important;
+
+    max-width: 100% !important;
+
+    font-size: 13px !important;
+
+    line-height: 1.5 !important;
+
+    overflow-wrap: anywhere !important;
+
+    word-break: break-all !important;
+  }
+
+
+  /* -----------------------------------------
+     BALANCE
+  ----------------------------------------- */
+
+  .balance-card {
+    padding: 18px 13px !important;
+  }
+
+  .balance-card h1 {
+    font-size: clamp(22px, 8vw, 32px) !important;
+  }
+
+
+  /* -----------------------------------------
+     TRANSFER BUTTON
+  ----------------------------------------- */
+
+  #dashboardSection .transfer-button {
+    min-width: 150px !important;
+
+    padding: 12px 21px !important;
+
+    border-radius: 25px !important;
+
+    font-size: 14px !important;
+  }
+
+
+  /* -----------------------------------------
+     DASHBOARD CARDS
+  ----------------------------------------- */
+
+  .tier-card {
+    padding: 18px !important;
+  }
+
+  #dashboardSection .card-details-box {
+    padding: 20px 16px !important;
+  }
+
+
+  /* -----------------------------------------
+     TRANSACTIONS
+  ----------------------------------------- */
+
+  #transactions {
+    padding: 16px 12px !important;
+  }
+
+
+  /* -----------------------------------------
+     QUICK ACTIONS
+  ----------------------------------------- */
+
+  .quick-actions {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .action-card {
+    padding: 15px;
+  }
+
+
+  /* -----------------------------------------
+     OTHER SECTIONS
+  ----------------------------------------- */
+
+  .nav-container {
+    padding: 0 15px;
+  }
+
+  .hero-content h1 {
+    font-size: 42px;
+
+    letter-spacing: -2px;
+  }
+
+  .welcome-section,
+  .financial-overview,
+  .section,
+  .connected-section,
+  .security-section,
+  .promo-section,
+  .support-section {
+    width: calc(100% - 30px);
+  }
+
+  .support-card {
+    grid-template-columns: 1fr;
+  }
+
+  .support-card > a {
+    grid-column: auto;
+  }
+
+  footer-main {
+    grid-template-columns: 1fr;
+    gap: 35px;
+  }
+
+  .footer-bottom {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+}
+
+
+/* =========================================================
    VERY SMALL PHONES
-========================================= */
+========================================================= */
 
 @media (max-width: 380px) {
 
@@ -3718,230 +3825,33 @@ footer {
     padding: 10px !important;
   }
 
-  .profile-card {
-    padding: 18px 10px !important;
-  }
 
-  #profilePhoto {
-    width: 80px !important;
-    height: 80px !important;
-
-    min-width: 80px !important;
-    min-height: 80px !important;
-
-    max-width: 80px !important;
-    max-height: 80px !important;
-  }
-
-  .profile-card h2 {
-    font-size: 17px !important;
-  }
-
-  .profile-card p {
-    font-size: 12px !important;
-  }
-
-
-  .balance-card {
-    padding: 18px 12px !important;
-  }
-
-  .balance-card h1 {
-    font-size: clamp(21px, 8vw, 30px) !important;
-  }
-
-
-  .transfer-button {
-    min-width: 145px !important;
-
-    padding: 11px 20px !important;
-
-    font-size: 14px !important;
-
-    border-radius: 25px !important;
-  }
-
-}
-
-
-/* =========================================
-   MOBILE PROFILE
-========================================= */
-
-@media (max-width: 600px) {
+  /* PROFILE */
 
   .profile-card {
-    width: 100% !important;
+    padding: 16px 8px !important;
 
-    max-width: 100% !important;
-
-    min-width: 0 !important;
-
-    box-sizing: border-box !important;
-
-    display: flex !important;
-
-    flex-direction: column !important;
-
-    align-items: center !important;
-
-    justify-content: center !important;
-
-    padding: 20px 12px !important;
-
-    gap: 8px !important;
-
-    text-align: center !important;
-
-    overflow: visible !important;
+    gap: 6px !important;
   }
 
 
   /* PROFILE IMAGE */
 
   #profilePhoto {
-    width: 90px !important;
-    height: 90px !important;
+    width: 45px !important;
+    height: 45px !important;
 
-    min-width: 90px !important;
-    min-height: 90px !important;
+    min-width: 45px !important;
+    min-height: 45px !important;
 
-    max-width: 90px !important;
-    max-height: 90px !important;
+    max-width: 45px !important;
+    max-height: 45px !important;
 
-    flex-shrink: 0 !important;
-
-    margin: 0 auto 5px !important;
+    flex: 0 0 45px !important;
   }
 
 
   /* NAME */
-
-  .profile-card h2 {
-    width: 100% !important;
-
-    max-width: 100% !important;
-
-    min-width: 0 !important;
-
-    margin: 4px 0 !important;
-
-    font-size: 19px !important;
-
-    line-height: 1.35 !important;
-
-    text-align: center !important;
-
-    white-space: normal !important;
-
-    overflow: visible !important;
-
-    overflow-wrap: anywhere !important;
-
-    word-break: normal !important;
-
-    box-sizing: border-box !important;
-  }
-
-
-  /* PROFILE PARAGRAPH */
-
-  .profile-card p {
-    width: 100% !important;
-
-    max-width: 100% !important;
-
-    min-width: 0 !important;
-
-    margin: 0 !important;
-
-    font-size: 13px !important;
-
-    line-height: 1.5 !important;
-
-    text-align: center !important;
-
-    white-space: normal !important;
-
-    overflow: visible !important;
-
-    overflow-wrap: anywhere !important;
-
-    word-break: normal !important;
-
-    box-sizing: border-box !important;
-  }
-
-
-  /* ACCOUNT NUMBER */
-
-  #accountNumber {
-    display: block !important;
-
-    width: 100% !important;
-
-    max-width: 100% !important;
-
-    min-width: 0 !important;
-
-    box-sizing: border-box !important;
-
-    padding: 0 5px !important;
-
-    text-align: center !important;
-
-    white-space: normal !important;
-
-    overflow: visible !important;
-
-    overflow-wrap: anywhere !important;
-
-    word-break: break-all !important;
-
-    line-height: 1.5 !important;
-  }
-
-
-  /* EDIT BUTTON */
-
-  #editProfileBtn {
-    align-self: flex-end !important;
-
-    flex-shrink: 0 !important;
-
-    font-size: 12px !important;
-
-    padding: 7px 11px !important;
-
-    border-radius: 20px !important;
-  }
-}
-
-
-/* =========================================
-   VERY SMALL PHONES
-========================================= */
-
-@media (max-width: 380px) {
-
-  .profile-card {
-    padding: 18px 8px !important;
-
-    gap: 7px !important;
-  }
-
-
-  #profilePhoto {
-    width: 80px !important;
-    height: 80px !important;
-
-    min-width: 80px !important;
-    min-height: 80px !important;
-
-    max-width: 80px !important;
-    max-height: 80px !important;
-  }
-
 
   .profile-card h2 {
     font-size: 17px !important;
@@ -3950,19 +3860,58 @@ footer {
   }
 
 
+  /* PROFILE TEXT */
+
   .profile-card p {
     font-size: 12px !important;
 
-    line-height: 1.5 !important;
+    line-height: 1.45 !important;
   }
 
 
+  /* ACCOUNT NUMBER */
+
   #accountNumber {
-    font-size: 13px !important;
+    font-size: 12px !important;
 
     line-height: 1.5 !important;
 
-    padding: 0 3px !important;
+    max-width: 100% !important;
+
+    overflow-wrap: anywhere !important;
+
+    word-break: break-all !important;
+  }
+
+
+  /* BALANCE */
+
+  .balance-card {
+    padding: 16px 10px !important;
+  }
+
+  .balance-card h1 {
+    font-size: clamp(20px, 8vw, 29px) !important;
+  }
+
+
+  /* TRANSFER BUTTON */
+
+  #dashboardSection .transfer-button {
+    min-width: 140px !important;
+
+    padding: 11px 18px !important;
+
+    font-size: 14px !important;
+
+    border-radius: 25px !important;
+  }
+
+
+  /* QUICK ACTIONS */
+
+  .quick-actions {
+    grid-template-columns: 1fr;
   }
 
 }

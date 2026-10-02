@@ -1,21 +1,10 @@
 // ========================================
 // ELEMENTS
 // ========================================
-console.log("home is CONNECTED");
-
-
-// ========================================
-// API
-// ========================================
-
-const API = "https://api.globalcrestc.com/api";
-
-
-// ========================================
-// DOM ELEMENTS
-// ========================================
-
-// LOGIN / DASHBOARD
+console.log("home is CONNECTED")
+const slidecontainer = document.querySelector(".slides");
+const slide = document.querySelectorAll(".slide");
+let index = 0;
 const loginSection =
   document.getElementById("loginSection");
 
@@ -25,20 +14,15 @@ const dashboardSection =
 const loginForm =
   document.getElementById("loginForm");
 
+const transferForm =
+  document.getElementById("transferForm");
+
 const message =
   document.getElementById("message");
 
 const logoutButton =
   document.getElementById("logout");
-
-
-// ========================================
-// TRANSFER ELEMENTS
-// ========================================
-
-const transferForm =
-  document.getElementById("transferForm");
-
+// transfer
 const transferType =
   document.getElementById("transferType");
 
@@ -63,11 +47,7 @@ const verifiedAccountName =
 const verificationStatus =
   document.getElementById("verificationStatus");
 
-
-// ========================================
-// PROFILE ELEMENTS
-// ========================================
-
+// PROFILE
 const profilePhoto =
   document.getElementById("profilePhoto");
 
@@ -83,25 +63,24 @@ const balance =
 const transactionsContainer =
   document.getElementById("transactions");
 
-const userTier =
-  document.getElementById("userTier");
+document.getElementById("userTier").textContent =
+  `Tier ${user.tier}`;
 
-const tierLimit =
-  document.getElementById("tierLimit");
-
-
-// ========================================
+document.getElementById("tierLimit").textContent =
+  `$${Number(user.tierLimit).toLocaleString()}`;
 // TRANSFER RESULT
-// ========================================
-
 const transferResult =
   document.getElementById("transferResult");
 
 const transferStatusTitle =
-  document.getElementById("transferStatusTitle");
+  document.getElementById(
+    "transferStatusTitle"
+  );
 
 const transferStatusMessage =
-  document.getElementById("transferStatusMessage");
+  document.getElementById(
+    "transferStatusMessage"
+  );
 
 const receiptButtons =
   document.getElementById("receiptButtons");
@@ -116,34 +95,14 @@ const downloadReceipt =
   document.getElementById("downloadReceipt");
 
 const saveReceiptImage =
-  document.getElementById("saveReceiptImage");
-
-
-// ========================================
-// EDIT PROFILE
-// ========================================
-
-const editProfileBtn =
-  document.getElementById("editProfileBtn");
-
-const editProfileModal =
-  document.getElementById("editProfileModal");
-
-const closeProfileModal =
-  document.getElementById("closeProfileModal");
-
-const editProfileForm =
-  document.getElementById("editProfileForm");
-
-const profilePhotoInput =
-  document.getElementById("profilePhotoInput");
-
-const photoPreview =
-  document.getElementById("photoPreview");
-
-const profileMessage =
-  document.getElementById("profileMessage");
-
+  document.getElementById(
+    "saveReceiptImage"
+  );
+setInterval(() => {
+  index = (index + 1)% slide.length;
+  slidecontainer.style.transform = 
+  ` translateX(-${index *  100}%)`;
+}, 3000);
 
 // ========================================
 // TOKEN
@@ -164,107 +123,86 @@ let transferCheckInterval = null;
 // LOGIN
 // ========================================
 
-if (loginForm) {
+loginForm.addEventListener(
+  "submit",
+  async (e) => {
 
-  loginForm.addEventListener(
-    "submit",
-    async (e) => {
+    e.preventDefault();
 
-      e.preventDefault();
+    const formData =
+      new FormData(loginForm);
 
-      const formData =
-        new FormData(loginForm);
+    const email =
+      formData.get("email");
 
-      const email =
-        formData.get("email");
-
-      const password =
-        formData.get("password");
+    const password =
+      formData.get("password");
 
 
-      try {
+    try {
 
-        const response =
-          await fetch(
-            `${API}/auth/login`,
-            {
-              method: "POST",
+      const response =
+        await fetch(
+          "https://api.globalcrestc.com/api/auth/login",
+          {
+            method: "POST",
 
-              headers: {
-                "Content-Type":
-                  "application/json"
-              },
+            headers: {
+              "Content-Type":
+                "application/json"
+            },
 
-              body: JSON.stringify({
-                email,
-                password
-              })
-            }
-          );
-
-
-        const data =
-          await response.json();
-
-
-        if (!response.ok) {
-          throw new Error(
-            data.message ||
-            "Login failed"
-          );
-        }
-
-
-        // SAVE TOKEN
-        localStorage.setItem(
-          "token",
-          data.token
+            body: JSON.stringify({
+              email,
+              password
+            })
+          }
         );
 
-        token =
-          data.token;
+
+      const data =
+        await response.json();
 
 
-        // SHOW DASHBOARD
-        if (loginSection) {
-          loginSection.style.display =
-            "none";
-        }
-
-        if (dashboardSection) {
-          dashboardSection.style.display =
-            "block";
-        }
-
-
-        if (message) {
-          message.textContent = "";
-        }
-
-
-        // LOAD USER DATA
-        getProfile();
-
-        getTransactions();
-
-      } catch (error) {
-
-        console.error(
-          "Login error:",
-          error
-        );
-
-        if (message) {
-          message.textContent =
-            error.message;
-        }
-
+      if (!response.ok) {
+        throw new Error(data.message);
       }
 
-    }
-  );
 
-}
+      // SAVE TOKEN
+      localStorage.setItem(
+        "token",
+        data.token
+      );
+
+      token = data.token;
+
+
+      // SHOW DASHBOARD
+      loginSection.style.display =
+        "none";
+
+      dashboardSection.style.display =
+        "block";
+
+
+      message.textContent = "";
+
+
+      // LOAD USER DATA
+      getProfile();
+
+      getTransactions();
+
+    } catch (error) {
+
+      message.textContent =
+        error.message;
+
+    }
+
+  }
+);
 
 
 // ========================================
@@ -273,15 +211,11 @@ if (loginForm) {
 
 async function getProfile() {
 
-  if (!token) {
-    return;
-  }
-
   try {
 
     const response =
       await fetch(
-        `${API}/users/profile`,
+        "https://api.globalcrestc.com/api/users/profile",
         {
           headers: {
             Authorization:
@@ -290,91 +224,41 @@ async function getProfile() {
         }
       );
 
+
     const data =
       await response.json();
 
+
     if (!response.ok) {
-      throw new Error(
-        data.message ||
-        "Unable to load profile"
-      );
+      throw new Error(data.message);
     }
+
 
     const user =
       data.user;
 
-    // ==============================
-    // PROFILE PHOTO
-    // ==============================
 
-    const profilePhoto =
-      document.getElementById(
-        "profilePhoto"
-      );
+    userName.textContent =
+      user.name;
 
-    if (profilePhoto) {
+    accountNumber.textContent =
+      user.accountNumber;
 
-      if (user.profilePhoto) {
+    balance.textContent =
+      Number(user.balance)
+        .toLocaleString();
 
-        profilePhoto.src =
-          "default-profile.png";
-      } else {
 
-        profilePhoto.src =
-          
-   `${API}${user.profilePhoto}`;
- 
-      }
+    if (user.profilePhoto) {
 
-    }
+      profilePhoto.src =
+        user.profilePhoto;
 
-    // ==============================
-    // NAME
-    // ==============================
+    } else {
 
-    if (userName) {
-      userName.textContent =
-        user.name || "";
-    }
+      profilePhoto.src =
+        "default-profile.png";
 
-    // ==============================
-    // ACCOUNT NUMBER
-    // ==============================
-
-    if (accountNumber) {
-      accountNumber.textContent =
-        user.accountNumber || "";
-    }
-
-    // ==============================
-    // BALANCE
-    // ==============================
-
-    if (balance) {
-      balance.textContent =
-        Number(
-          user.balance || 0
-        ).toLocaleString();
-    }
-
-    // ==============================
-    // TIER
-    // ==============================
-
-    if (userTier) {
-      userTier.textContent =
-        `Tier ${user.tier || 1}`;
-    }
-
-    // ==============================
-    // TIER LIMIT
-    // ==============================
-
-    if (tierLimit) {
-      tierLimit.textContent =
-        `$${Number(
-          user.tierLimit || 0
-        ).toLocaleString()}`;
     }
 
   } catch (error) {
@@ -395,20 +279,11 @@ async function getProfile() {
 
 async function getTransactions() {
 
-  if (!token) {
-    return;
-  }
-
-  if (!transactionsContainer) {
-    return;
-  }
-
-
   try {
 
     const response =
       await fetch(
-        `${API}/users/transactions`,
+        "https://api.globalcrestc.com/api/users/transactions",
         {
           headers: {
             Authorization:
@@ -423,20 +298,12 @@ async function getTransactions() {
 
 
     if (!response.ok) {
-      throw new Error(
-        data.message ||
-        "Unable to load transactions"
-      );
+      throw new Error(data.message);
     }
 
 
     transactionsContainer.innerHTML =
       "<h2>Transactions</h2>";
-
-
-    if (!data.transactions) {
-      return;
-    }
 
 
     data.transactions.forEach(
@@ -454,38 +321,32 @@ async function getTransactions() {
         item.innerHTML = `
           <p>
             <strong>
-              ${transaction.type
-                ? transaction.type.toUpperCase()
-                : ""}
+              ${transaction.type.toUpperCase()}
             </strong>
           </p>
 
           <p>
             Amount:
             ₦${Number(
-              transaction.amount || 0
+              transaction.amount
             ).toLocaleString()}
           </p>
 
           <p>
             Status:
-            ${transaction.status || ""}
+            ${transaction.status}
           </p>
 
           <p>
             Reference:
-            ${transaction.reference || ""}
+            ${transaction.reference}
           </p>
 
           <p>
             Date:
-            ${
+            ${new Date(
               transaction.createdAt
-                ? new Date(
-                    transaction.createdAt
-                  ).toLocaleString()
-                : ""
-            }
+            ).toLocaleString()}
           </p>
         `;
 
@@ -510,157 +371,91 @@ async function getTransactions() {
 
 
 // ========================================
-// TRANSFER TYPE
+// TRANSFER
 // ========================================
-
 if (transferType) {
 
-  transferType.addEventListener(
-    "change",
-    () => {
+  transferType.addEventListener("change", () => {
 
-      if (verifiedAccountBox) {
-        verifiedAccountBox.style.display =
-          "none";
-      }
+    verifiedAccountBox.style.display = "none";
 
+    if (transferType.value === "same-bank") {
 
-      if (
-        transferType.value ===
-        "same-bank"
-      ) {
+      sameBankSection.style.display = "block";
 
-        if (sameBankSection) {
-          sameBankSection.style.display =
-            "block";
-        }
+      externalBankSection.style.display = "none";
 
-        if (externalBankSection) {
-          externalBankSection.style.display =
-            "none";
-        }
+    } else {
 
-      } else {
+      sameBankSection.style.display = "none";
 
-        if (sameBankSection) {
-          sameBankSection.style.display =
-            "none";
-        }
-
-        if (externalBankSection) {
-          externalBankSection.style.display =
-            "block";
-        }
-
-      }
+      externalBankSection.style.display = "block";
 
     }
-  );
+
+  });
 
 }
-
-
-// ========================================
-// VERIFY SAME BANK ACCOUNT
-// ========================================
-
 if (verifySameBank) {
 
   verifySameBank.addEventListener(
     "click",
     async () => {
 
-      const accountInput =
+      const accountNumber =
         document.getElementById(
           "sameBankAccount"
-        );
-
-
-      if (!accountInput) {
-        alert(
-          "Account number field not found."
-        );
-        return;
-      }
-
-
-      const accountNumber =
-        accountInput.value.trim();
-
+        ).value.trim();
 
       if (!accountNumber) {
 
-        alert(
-          "Enter an account number"
-        );
+        alert("Enter an account number");
 
         return;
       }
 
-
       try {
 
-        const response =
-          await fetch(
-            `${API}/transfers/verify-same-bank`,
-            {
-              method: "POST",
+        const response = await fetch(
+          "https://api.globalcrestc.com/api/transfers/verify-same-bank",
+          {
+            method: "POST",
 
-              headers: {
-                "Content-Type":
-                  "application/json",
+            headers: {
+              "Content-Type": "application/json",
 
-                Authorization:
-                  `Bearer ${token}`
-              },
+              Authorization:
+                `Bearer ${localStorage.getItem("token")}`
+            },
 
-              body: JSON.stringify({
-                accountNumber
-              })
-            }
-          );
-
+            body: JSON.stringify({
+              accountNumber
+            })
+          }
+        );
 
         const result =
           await response.json();
 
-
         if (!response.ok) {
-          throw new Error(
-            result.message ||
-            "Account verification failed"
-          );
+          throw new Error(result.message);
         }
 
+        verifiedAccountBox.style.display =
+          "block";
 
-        if (verifiedAccountBox) {
-          verifiedAccountBox.style.display =
-            "block";
-        }
+        verifiedAccountName.textContent =
+          result.account.name;
 
-
-        if (verifiedAccountName) {
-          verifiedAccountName.textContent =
-            result.account?.name ||
-            "";
-        }
-
-
-        if (verificationStatus) {
-          verificationStatus.textContent =
-            "✓ GlobalCrestcapital account verified";
-        }
+        verificationStatus.textContent =
+          "✓ Globalcrest account verified";
 
       } catch (error) {
 
-        if (verifiedAccountBox) {
-          verifiedAccountBox.style.display =
-            "none";
-        }
+        verifiedAccountBox.style.display =
+          "none";
 
-        alert(
-          error.message
-        );
+        alert(error.message);
 
       }
 
@@ -668,163 +463,94 @@ if (verifySameBank) {
   );
 
 }
-
-
-// ========================================
-// EXTERNAL BANK VERIFICATION
-// ========================================
-
-if (verifyExternalBank) {
-
-  verifyExternalBank.addEventListener(
-    "click",
-    () => {
-
-      alert(
-        "External bank verification is not connected yet."
-      );
-
-    }
-  );
-
-}
-
-
-// ========================================
-// TRANSFER
-// ========================================
-
 if (transferForm) {
 
-  transferForm.addEventListener(
-    "submit",
-    async (e) => {
+transferForm.addEventListener(
+  "submit",
+  async (e) => {
 
-      e.preventDefault();
+    e.preventDefault();
 
 
-      const data =
-        new FormData(
-          transferForm
+    const data =
+      new FormData(transferForm);
+
+
+    const accountNumber =
+      data.get("accountNumber");
+
+
+    const amount =
+      Number(data.get("amount"));
+
+
+    // CLEAR OLD MESSAGE
+    message.textContent = "";
+
+
+    try {
+
+      const response =
+        await fetch(
+          "https://api.globalcrestc.com/api/transfers",
+          {
+            method: "POST",
+
+            headers: {
+              "Content-Type":
+                "application/json",
+
+              Authorization:
+                `Bearer ${token}`
+            },
+
+            body: JSON.stringify({
+              accountNumber,
+              amount
+            })
+          }
         );
 
 
-      const accountNumber =
-        data.get(
-          "accountNumber"
+      const result =
+        await response.json();
+
+
+      if (!response.ok) {
+        throw new Error(
+          result.message
         );
-
-
-      const amount =
-        Number(
-          data.get("amount")
-        );
-
-
-      if (!accountNumber) {
-
-        if (message) {
-          message.textContent =
-            "Enter an account number.";
-        }
-
-        return;
       }
 
 
-      if (!amount || amount <= 0) {
-
-        if (message) {
-          message.textContent =
-            "Enter a valid amount.";
-        }
-
-        return;
-      }
+      // TRANSFER IS PENDING
+      const transaction =
+        result.transaction;
 
 
-      if (message) {
-        message.textContent = "";
-      }
+      formReset();
 
 
-      try {
-
-        const response =
-          await fetch(
-            `${API}/transfers`,
-            {
-              method: "POST",
-
-              headers: {
-                "Content-Type":
-                  "application/json",
-
-                Authorization:
-                  `Bearer ${token}`
-              },
-
-              body: JSON.stringify({
-                accountNumber,
-                amount
-              })
-            }
-          );
+      showTransferPending(
+        transaction
+      );
 
 
-        const result =
-          await response.json();
+      // START CHECKING STATUS
+      watchTransfer(
+        transaction._id
+      );
 
 
-        if (!response.ok) {
+    } catch (error) {
 
-          throw new Error(
-            result.message ||
-            "Transfer failed"
-          );
-
-        }
-
-
-        const transaction =
-          result.transaction;
-
-
-        formReset();
-
-
-        showTransferPending(
-          transaction
-        );
-
-
-        // START CHECKING STATUS
-        if (transaction?._id) {
-
-          watchTransfer(
-            transaction._id
-          );
-
-        }
-
-      } catch (error) {
-
-        console.error(
-          "Transfer error:",
-          error
-        );
-
-        if (message) {
-          message.textContent =
-            error.message;
-        }
-
-      }
+      message.textContent =
+        error.message;
 
     }
-  );
 
-}
+  }
+)};
 
 
 // ========================================
@@ -833,57 +559,41 @@ if (transferForm) {
 
 function formReset() {
 
-  if (transferForm) {
-    transferForm.reset();
-  }
+  transferForm.reset();
 
 }
 
 
 // ========================================
-// SHOW PENDING TRANSFER
+// SHOW PENDING
 // ========================================
 
 function showTransferPending(
   transaction
 ) {
 
-  if (transferResult) {
-    transferResult.style.display =
-      "block";
-  }
+  transferResult.style.display =
+    "block";
 
 
-  if (transferStatusTitle) {
-    transferStatusTitle.textContent =
-      "Transfer Submitted";
-  }
+  transferStatusTitle.textContent =
+    "Transfer Submitted";
 
 
-  if (transferStatusMessage) {
-    transferStatusMessage.textContent =
-      "Your transfer has been submitted and is waiting for approval.";
-  }
+  transferStatusMessage.textContent =
+    "Your transfer has been submitted and is waiting for approval.";
 
 
-  if (receiptButtons) {
-    receiptButtons.style.display =
-      "none";
-  }
+  receiptButtons.style.display =
+    "none";
 
 
-  if (receipt) {
-    receipt.style.display =
-      "none";
-  }
+  receipt.style.display =
+    "none";
 
 
-  if (message) {
-    message.textContent =
-      `Reference: ${
-        transaction.reference || ""
-      }`;
-  }
+  message.textContent =
+    `Reference: ${transaction.reference}`;
 
 }
 
@@ -895,11 +605,6 @@ function showTransferPending(
 function watchTransfer(
   transactionId
 ) {
-
-  if (!transactionId) {
-    return;
-  }
-
 
   // STOP OLD WATCHER
   if (transferCheckInterval) {
@@ -945,7 +650,7 @@ async function checkTransferStatus(
 
     const response =
       await fetch(
-        `${API}/users/transactions/${transactionId}`,
+        `https://api.globalcrestc.com/api/users/transactions/${transactionId}`,
         {
           headers: {
             Authorization:
@@ -966,11 +671,6 @@ async function checkTransferStatus(
 
     const transaction =
       data.transaction;
-
-
-    if (!transaction) {
-      return;
-    }
 
 
     console.log(
@@ -1054,151 +754,88 @@ function showTransferSuccess(
   transaction
 ) {
 
-  if (transferResult) {
-    transferResult.style.display =
-      "block";
-  }
+  transferResult.style.display =
+    "block";
 
 
-  if (transferStatusTitle) {
-    transferStatusTitle.textContent =
-      "✓ Transfer Successful";
-  }
+  transferStatusTitle.textContent =
+    "✓ Transfer Successful";
 
 
-  if (transferStatusMessage) {
-    transferStatusMessage.textContent =
-      "Your transfer has been approved successfully.";
-  }
+  transferStatusMessage.textContent =
+    "Your transfer has been approved successfully.";
 
 
-  if (receiptButtons) {
-    receiptButtons.style.display =
-      "block";
-  }
+  receiptButtons.style.display =
+    "block";
 
 
-  if (receipt) {
-    receipt.style.display =
-      "none";
-  }
+  receipt.style.display =
+    "none";
 
 
   // AMOUNT
-  const receiptAmount =
-    document.getElementById(
-      "receiptAmount"
-    );
-
-  if (receiptAmount) {
-    receiptAmount.textContent =
-      Number(
-        transaction.amount || 0
-      ).toLocaleString();
-  }
+  document.getElementById(
+    "receiptAmount"
+  ).textContent =
+    Number(
+      transaction.amount
+    ).toLocaleString();
 
 
   // SENDER
-  const receiptSender =
-    document.getElementById(
-      "receiptSender"
-    );
-
-  if (receiptSender) {
-    receiptSender.textContent =
-      transaction.sender?.name ||
-      "";
-  }
+  document.getElementById(
+    "receiptSender"
+  ).textContent =
+    transaction.sender.name;
 
 
   // SENDER ACCOUNT
-  const receiptSenderAccount =
-    document.getElementById(
-      "receiptSenderAccount"
-    );
-
-  if (receiptSenderAccount) {
-    receiptSenderAccount.textContent =
-      transaction.sender?.accountNumber ||
-      "";
-  }
+  document.getElementById(
+    "receiptSenderAccount"
+  ).textContent =
+    transaction.sender.accountNumber;
 
 
   // RECEIVER
-  const receiptReceiver =
-    document.getElementById(
-      "receiptReceiver"
-    );
-
-  if (receiptReceiver) {
-    receiptReceiver.textContent =
-      transaction.receiver?.name ||
-      "";
-  }
+  document.getElementById(
+    "receiptReceiver"
+  ).textContent =
+    transaction.receiver.name;
 
 
   // RECEIVER ACCOUNT
-  const receiptReceiverAccount =
-    document.getElementById(
-      "receiptReceiverAccount"
-    );
-
-  if (receiptReceiverAccount) {
-    receiptReceiverAccount.textContent =
-      transaction.receiver?.accountNumber ||
-      "";
-  }
+  document.getElementById(
+    "receiptReceiverAccount"
+  ).textContent =
+    transaction.receiver.accountNumber;
 
 
   // REFERENCE
-  const receiptReference =
-    document.getElementById(
-      "receiptReference"
-    );
-
-  if (receiptReference) {
-    receiptReference.textContent =
-      transaction.reference ||
-      "";
-  }
+  document.getElementById(
+    "receiptReference"
+  ).textContent =
+    transaction.reference;
 
 
   // STATUS
-  const receiptStatus =
-    document.getElementById(
-      "receiptStatus"
-    );
-
-  if (receiptStatus) {
-    receiptStatus.textContent =
-      transaction.status
-        ? transaction.status.toUpperCase()
-        : "";
-  }
+  document.getElementById(
+    "receiptStatus"
+  ).textContent =
+    transaction.status.toUpperCase();
 
 
   // DATE
-  const receiptDate =
-    document.getElementById(
-      "receiptDate"
-    );
-
-  if (receiptDate) {
-    receiptDate.textContent =
+  document.getElementById(
+    "receiptDate"
+  ).textContent =
+    new Date(
       transaction.createdAt
-        ? new Date(
-            transaction.createdAt
-          ).toLocaleString()
-        : "";
-  }
+    ).toLocaleString();
 
 
-  if (message) {
-    message.textContent =
-      `Reference: ${
-        transaction.reference || ""
-      }`;
-  }
+  message.textContent =
+    `Reference: ${transaction.reference}`;
 
 }
 
@@ -1211,42 +848,28 @@ function showTransferDeclined(
   transaction
 ) {
 
-  if (transferResult) {
-    transferResult.style.display =
-      "block";
-  }
+  transferResult.style.display =
+    "block";
 
 
-  if (transferStatusTitle) {
-    transferStatusTitle.textContent =
-      "Transfer Declined";
-  }
+  transferStatusTitle.textContent =
+    "Transfer Declined";
 
 
-  if (transferStatusMessage) {
-    transferStatusMessage.textContent =
-      "Your transfer was declined by the administrator.";
-  }
+  transferStatusMessage.textContent =
+    "Your transfer was declined by the administrator.";
 
 
-  if (receiptButtons) {
-    receiptButtons.style.display =
-      "none";
-  }
+  receiptButtons.style.display =
+    "none";
 
 
-  if (receipt) {
-    receipt.style.display =
-      "none";
-  }
+  receipt.style.display =
+    "none";
 
 
-  if (message) {
-    message.textContent =
-      `Reference: ${
-        transaction.reference || ""
-      }`;
-  }
+  message.textContent =
+    `Reference: ${transaction.reference}`;
 
 }
 
@@ -1255,206 +878,165 @@ function showTransferDeclined(
 // VIEW RECEIPT
 // ========================================
 
-if (viewReceipt) {
+viewReceipt.addEventListener( "click",() => {
 
-  viewReceipt.addEventListener(
-    "click",
-    () => {
+    receipt.style.display =
+      "block";
 
-      if (receipt) {
 
-        receipt.style.display =
-          "block";
+    receipt.scrollIntoView({
+      behavior: "smooth"
+    });
 
-        receipt.scrollIntoView({
-          behavior: "smooth"
-        });
-
-      }
-
-    }
-  );
-
-}
+  }
+);
 
 
 // ========================================
 // DOWNLOAD PDF
 // ========================================
 
-if (downloadReceipt) {
+downloadReceipt.addEventListener(
+  "click",
+  async () => {
 
-  downloadReceipt.addEventListener(
-    "click",
-    async () => {
-
-      if (!receipt) {
-        return;
-      }
+    receipt.style.display =
+      "block";
 
 
-      receipt.style.display =
-        "block";
-
-
-      const canvas =
-        await html2canvas(
-          receipt
-        );
-
-
-      const imageData =
-        canvas.toDataURL(
-          "image/png"
-        );
-
-
-      const {
-        jsPDF
-      } = window.jspdf;
-
-
-      const pdf =
-        new jsPDF();
-
-
-      const width =
-        190;
-
-
-      const height =
-        (
-          canvas.height *
-          width
-        ) /
-        canvas.width;
-
-
-      pdf.addImage(
-        imageData,
-        "PNG",
-        10,
-        10,
-        width,
-        height
+    const canvas =
+      await html2canvas(
+        receipt
       );
 
 
-      pdf.save(
-        "transfer-receipt.pdf"
+    const imageData =
+      canvas.toDataURL(
+        "image/png"
       );
 
-    }
-  );
 
-}
+    const {
+      jsPDF
+    } = window.jspdf;
+
+
+    const pdf =
+      new jsPDF();
+
+
+    const width = 190;
+
+
+    const height =
+      (
+        canvas.height *
+        width
+      ) /
+      canvas.width;
+
+
+    pdf.addImage(
+      imageData,
+      "PNG",
+      10,
+      10,
+      width,
+      height
+    );
+
+
+    pdf.save(
+      "transfer-receipt.pdf"
+    );
+
+  }
+);
 
 
 // ========================================
 // SAVE RECEIPT IMAGE
 // ========================================
 
-if (saveReceiptImage) {
+saveReceiptImage.addEventListener(
+  "click",
+  async () => {
 
-  saveReceiptImage.addEventListener(
-    "click",
-    async () => {
-
-      if (!receipt) {
-        return;
-      }
+    receipt.style.display =
+      "block";
 
 
-      receipt.style.display =
-        "block";
+    const canvas =
+      await html2canvas(
+        receipt
+      );
 
 
-      const canvas =
-        await html2canvas(
-          receipt
-        );
+    const image =
+      canvas.toDataURL(
+        "image/png"
+      );
 
 
-      const image =
-        canvas.toDataURL(
-          "image/png"
-        );
+    const link =
+      document.createElement("a");
 
 
-      const link =
-        document.createElement("a");
+    link.href =
+      image;
 
 
-      link.href =
-        image;
+    link.download =
+      "transfer-receipt.png";
 
 
-      link.download =
-        "transfer-receipt.png";
+    link.click();
 
-
-      link.click();
-
-    }
-  );
-
-}
+  }
+);
 
 
 // ========================================
 // LOGOUT
 // ========================================
 
-if (logoutButton) {
+logoutButton.addEventListener(
+  "click",
+  () => {
 
-  logoutButton.addEventListener(
-    "click",
-    () => {
+    // Stop transfer checking
+    if (transferCheckInterval) {
 
-      // STOP TRANSFER CHECKING
-      if (transferCheckInterval) {
-
-        clearInterval(
-          transferCheckInterval
-        );
-
-        transferCheckInterval =
-          null;
-
-      }
-
-
-      // REMOVE TOKEN
-      localStorage.removeItem(
-        "token"
+      clearInterval(
+        transferCheckInterval
       );
 
-
-      token =
+      transferCheckInterval =
         null;
 
-
-      // SHOW LOGIN
-      if (dashboardSection) {
-        dashboardSection.style.display =
-          "none";
-      }
-
-
-      if (loginSection) {
-        loginSection.style.display =
-          "block";
-      }
-
-
-      if (loginForm) {
-        loginForm.reset();
-      }
-
     }
-  );
 
-}
+
+    localStorage.removeItem(
+      "token"
+    );
+
+
+    token = null;
+
+
+    dashboardSection.style.display =
+      "none";
+
+
+    loginSection.style.display =
+      "block";
+
+
+    loginForm.reset();
+
+  }
+);
 
 
 // ========================================
@@ -1463,16 +1045,11 @@ if (logoutButton) {
 
 if (token) {
 
-  if (loginSection) {
-    loginSection.style.display =
-      "none";
-  }
+  loginSection.style.display =
+    "none";
 
-
-  if (dashboardSection) {
-    dashboardSection.style.display =
-      "block";
-  }
+  dashboardSection.style.display =
+    "block";
 
 
   getProfile();
@@ -1481,266 +1058,10 @@ if (token) {
 
 } else {
 
-  if (loginSection) {
-    loginSection.style.display =
-      "block";
-  }
-
-
-  if (dashboardSection) {
-    dashboardSection.style.display =
-      "none";
-  }
-
-}
-
-
-// ========================================
-// OPEN EDIT PROFILE
-// ========================================
-
-if (editProfileBtn) {
-
-  editProfileBtn.addEventListener(
-    "click",
-    () => {
-
-      if (editProfileModal) {
-        editProfileModal.style.display =
-          "flex";
-      }
-
-    }
-  );
-
-}
-
-
-// ========================================
-// CLOSE EDIT PROFILE
-// ========================================
-
-if (closeProfileModal) {
-
-  closeProfileModal.addEventListener(
-    "click",
-    () => {
-
-      if (editProfileModal) {
-        editProfileModal.style.display =
-          "none";
-      }
-
-
-      if (profileMessage) {
-        profileMessage.textContent =
-          "";
-      }
-
-
-      if (photoPreview) {
-        photoPreview.innerHTML =
-          "";
-      }
-
-
-      if (editProfileForm) {
-        editProfileForm.reset();
-      }
-
-    }
-  );
-
-}
-
-
-// ========================================
-// PHOTO PREVIEW
-// ========================================
-
-if (profilePhotoInput) {
-
-  profilePhotoInput.addEventListener(
-    "change",
-    () => {
-
-      const file =
-        profilePhotoInput.files[0];
-
-
-      if (!file) {
-        return;
-      }
-
-
-      const imageUrl =
-        URL.createObjectURL(
-          file
-        );
-
-
-      if (photoPreview) {
-
-        photoPreview.innerHTML = `
-          <img
-            src="${imageUrl}"
-            alt="Photo preview"
-            style="
-              width:120px;
-              height:120px;
-              object-fit:cover;
-              border-radius:50%;
-            "
-          >
-        `;
-
-      }
-
-    }
-  );
-
-}
-
-
-// ========================================
-// UPLOAD PROFILE PHOTO
-// ========================================
-
-if (editProfileForm) {
-
-  editProfileForm.addEventListener(
-    "submit",
-    async (event) => {
-
-      event.preventDefault();
-
-
-      if (!profilePhotoInput) {
-        return;
-      }
-
-
-      const file =
-        profilePhotoInput.files[0];
-
-
-      if (!file) {
-
-        if (profileMessage) {
-          profileMessage.textContent =
-            "Please choose a photo.";
-        }
-
-        return;
-      }
-
-
-      const formData =
-        new FormData();
-
-
-      formData.append(
-        "profilePhoto",
-        file
-      );
-
-
-      try {
-
-        if (profileMessage) {
-          profileMessage.textContent =
-            "Uploading...";
-        }
-
-
-        const response =
-          await fetch(
-            `${API}/users/profile/photo`,
-            {
-              method: "PUT",
-
-              headers: {
-                Authorization:
-                  `Bearer ${token}`
-              },
-
-              body: formData
-            }
-          );
-
-
-        const data =
-          await response.json();
-
-
-        if (!response.ok) {
-
-          if (profileMessage) {
-            profileMessage.textContent =
-              data.message ||
-              "Upload failed.";
-          }
-
-          return;
-        }
-
-
-        if (profileMessage) {
-          profileMessage.textContent =
-            "Profile photo uploaded successfully!";
-        }
-
-
-        // UPDATE PHOTO IMMEDIATELY
-if (
-  data.user?.profilePhoto &&
-  profilePhoto
-) {
-
-  profilePhoto.src =
-    `${API}${data.user.profilePhoto}`;
-
-}
-
-
-        setTimeout(
-          () => {
-
-            if (editProfileModal) {
-              editProfileModal.style.display =
-                "none";
-            }
-
-
-            if (profileMessage) {
-              profileMessage.textContent =
-                "";
-            }
-
-
-            editProfileForm.reset();
-
-          },
-          1500
-        );
-
-
-      } catch (error) {
-
-        console.error(
-          "Profile upload error:",
-          error
-        );
-
-
-        if (profileMessage) {
-          profileMessage.textContent =
-            "Could not connect to server.";
-        }
-
-      }
-
-    }
-  );
+  loginSection.style.display =
+    "block";
+
+  dashboardSection.style.display =
+    "none";
 
 }
