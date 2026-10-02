@@ -16,14 +16,6 @@ const API = "https://api.globalcrestc.com";
 // ELEMENTS
 // ========================================
 
-const slidecontainer =
-    document.querySelector(".slides");
-
-const slide =
-    document.querySelectorAll(".slide");
-
-let index = 0;
-
 
 // ========================================
 // LOGIN
@@ -294,22 +286,6 @@ if (toggleBalance && balance) {
 // SLIDER
 // ========================================
 
-if (
-    slidecontainer &&
-    slide.length > 0
-) {
-
-    setInterval(() => {
-
-        index =
-            (index + 1) % slide.length;
-
-        slidecontainer.style.transform =
-            `translateX(-${index * 100}%)`;
-
-    }, 3000);
-
-}
 
 
 // ========================================
