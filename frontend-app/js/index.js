@@ -143,7 +143,51 @@ const downloadReceipt =
 const saveReceiptImage =
     document.getElementById("saveReceiptImage");
 
+// ========================================
+// TRANSFER OTP
+// ========================================
 
+const amountInput =
+    document.getElementById("amount");
+
+const transferSubmitBtn =
+    document.getElementById(
+        "transferSubmitBtn"
+    );
+
+const otpSection =
+    document.getElementById(
+        "otpSection"
+    );
+
+const requestOtpBtn =
+    document.getElementById(
+        "requestOtpBtn"
+    );
+
+const otpInputArea =
+    document.getElementById(
+        "otpInputArea"
+    );
+
+const transferOtp =
+    document.getElementById(
+        "transferOtp"
+    );
+
+const verifyOtpBtn =
+    document.getElementById(
+        "verifyOtpBtn"
+    );
+
+const otpStatus =
+    document.getElementById(
+        "otpStatus"
+    );
+
+const OTP_TRANSFER_LIMIT = 5000;
+
+let otpVerified = false;
 // ========================================
 // TOKEN
 // ========================================
@@ -294,17 +338,56 @@ if (toggleBalance && balance) {
 
 if (loginForm) {
 
+    const loginOtpSection =
+        document.getElementById(
+            "loginOtpSection"
+        );
+
+    const loginOtp =
+        document.getElementById(
+            "loginOtp"
+        );
+
+    const verifyLoginOtpButton =
+        document.getElementById(
+            "verifyLoginOtpButton"
+        );
+
+    const loginOtpMessage =
+        document.getElementById(
+            "loginOtpMessage"
+        );
+
+    const loginButton =
+        document.getElementById(
+            "loginButton"
+        );
+
+
+    // Temporary login challenge
+    let pendingLoginChallengeId = "";
+
+
+    // ======================================
+    // LOGIN
+    // ======================================
+
     loginForm.addEventListener(
         "submit",
         async (e) => {
 
             e.preventDefault();
 
+
             const formData =
-                new FormData(loginForm);
+                new FormData(
+                    loginForm
+                );
+
 
             const email =
                 formData.get("email");
+
 
             const password =
                 formData.get("password");
@@ -312,10 +395,22 @@ if (loginForm) {
 
             try {
 
+                if (loginButton) {
+
+                    loginButton.disabled =
+                        true;
+
+                    loginButton.textContent =
+                        "Checking...";
+
+                }
+
+
                 const response =
                     await fetch(
                         `${API}/api/auth/login`,
                         {
+
                             method: "POST",
 
                             headers: {
@@ -323,71 +418,95 @@ if (loginForm) {
                                     "application/json"
                             },
 
-                            body: JSON.stringify({
-                                email,
-                                password
-                            })
+                            body:
+                                JSON.stringify({
+
+                                    email,
+
+                                    password
+
+                                })
+
                         }
                     );
 
 
                 const data =
-                    await getResponseData(response);
+                    await getResponseData(
+                        response
+                    );
 
 
                 if (!response.ok) {
 
                     throw new Error(
+
                         data.message ||
                         "Login failed"
+
                     );
+
                 }
 
 
-                if (!data.token) {
+                // ==================================
+                // OTP REQUIRED
+                // ==================================
 
-                    throw new Error(
-                        "Login succeeded but no token was returned."
-                    );
+                if (
+                    data.requiresOtp
+                ) {
+
+                    pendingLoginChallengeId =
+                        data.challengeId;
+
+
+                    if (
+                        loginForm
+                    ) {
+
+                        loginForm.style.display =
+                            "none";
+
+                    }
+
+
+                    if (
+                        loginOtpSection
+                    ) {
+
+                        loginOtpSection.style.display =
+                            "block";
+
+                    }
+
+
+                    if (
+                        loginOtpMessage
+                    ) {
+
+                        loginOtpMessage.textContent =
+                            data.message ||
+                            "A verification code has been sent to your registered email.";
+
+                    }
+
+
+                    if (
+                        loginOtp
+                    ) {
+
+                        loginOtp.value =
+                            "";
+
+                        loginOtp.focus();
+
+                    }
+
+
+                    return;
+
                 }
-
-
-                // SAVE TOKEN
-                localStorage.setItem(
-                    "token",
-                    data.token
-                );
-
-                token =
-                    data.token;
-
-
-                // SHOW DASHBOARD
-                if (loginSection) {
-
-                    loginSection.style.display =
-                        "none";
-                }
-
-
-                if (dashboardSection) {
-
-                    dashboardSection.style.display =
-                        "block";
-                }
-
-
-                if (message) {
-
-                    message.textContent =
-                        "";
-                }
-
-
-                // LOAD USER DATA
-                getProfile();
-
-                getTransactions();
 
 
             } catch (error) {
@@ -403,10 +522,235 @@ if (loginForm) {
                     message.textContent =
                         error.message ||
                         "Login failed";
+
                 }
+
+            } finally {
+
+                if (loginButton) {
+
+                    loginButton.disabled =
+                        false;
+
+                    loginButton.textContent =
+                        "Login";
+
+                }
+
             }
+
         }
     );
+
+
+    // ======================================
+    // VERIFY LOGIN OTP
+    // ======================================
+
+    if (
+        verifyLoginOtpButton
+    ) {
+
+        verifyLoginOtpButton.addEventListener(
+            "click",
+            async () => {
+
+                const otp =
+                    loginOtp.value.trim();
+
+
+                if (!pendingLoginChallengeId) {
+
+                    loginOtpMessage.textContent =
+                        "Your login session has expired. Please log in again.";
+
+                    return;
+
+                }
+
+
+                if (!/^\d{6}$/.test(otp)) {
+
+                    loginOtpMessage.textContent =
+                        "Enter the 6-digit verification code.";
+
+                    return;
+
+                }
+
+
+                try {
+
+                    verifyLoginOtpButton.disabled =
+                        true;
+
+                    verifyLoginOtpButton.textContent =
+                        "Verifying...";
+
+
+                    const response =
+                        await fetch(
+
+                            `${API}/api/auth/verify-login-otp`,
+
+                            {
+
+                                method: "POST",
+
+                                headers: {
+
+                                    "Content-Type":
+                                        "application/json"
+
+                                },
+
+                                body:
+                                    JSON.stringify({
+
+                                        challengeId:
+                                            pendingLoginChallengeId,
+
+                                        otp
+
+                                    })
+
+                            }
+
+                        );
+
+
+                    const data =
+                        await getResponseData(
+                            response
+                        );
+
+
+                    if (!response.ok) {
+
+                        throw new Error(
+
+                            data.message ||
+                            "Verification failed."
+
+                        );
+
+                    }
+
+
+                    if (!data.token) {
+
+                        throw new Error(
+                            "Verification succeeded but no login token was returned."
+                        );
+
+                    }
+
+
+                    // ==================================
+                    // LOGIN COMPLETED
+                    // ==================================
+
+                    localStorage.setItem(
+                        "token",
+                        data.token
+                    );
+
+
+                    token =
+                        data.token;
+
+
+                    pendingLoginChallengeId =
+                        "";
+
+
+                    if (
+                        loginOtpMessage
+                    ) {
+
+                        loginOtpMessage.textContent =
+                            "Login successful.";
+
+                    }
+
+
+                    if (
+                        loginSection
+                    ) {
+
+                        loginSection.style.display =
+                            "none";
+
+                    }
+
+
+                    if (
+                        loginOtpSection
+                    ) {
+
+                        loginOtpSection.style.display =
+                            "none";
+
+                    }
+
+
+                    if (
+                        dashboardSection
+                    ) {
+
+                        dashboardSection.style.display =
+                            "block";
+
+                    }
+
+
+                    if (message) {
+
+                        message.textContent =
+                            "";
+
+                    }
+
+
+                    // Load existing dashboard data
+                    getProfile();
+
+                    getTransactions();
+
+
+                } catch (error) {
+
+                    console.error(
+                        "Login OTP error:",
+                        error
+                    );
+
+
+                    if (
+                        loginOtpMessage
+                    ) {
+
+                        loginOtpMessage.textContent =
+                            error.message ||
+                            "Verification failed.";
+
+                    }
+
+                } finally {
+
+                    verifyLoginOtpButton.disabled =
+                        false;
+
+                    verifyLoginOtpButton.textContent =
+                        "Verify Code";
+
+                }
+
+            }
+        );
+
+    }
+
 }
 
 
@@ -981,6 +1325,7 @@ if (verifySameBank) {
                     verifiedAccountBox.style.display =
                         "none";
                 }
+                resetOTPState();
 
 
                 alert(
@@ -1011,7 +1356,476 @@ if (verifyExternalBank) {
     );
 }
 
+// ========================================
+// RESET OTP STATE
+// ========================================
 
+function resetOTPState() {
+
+    otpVerified = false;
+
+
+    if (otpSection) {
+
+        otpSection.style.display =
+            "none";
+    }
+
+
+    if (otpInputArea) {
+
+        otpInputArea.style.display =
+            "none";
+    }
+
+
+    if (transferOtp) {
+
+        transferOtp.value = "";
+    }
+
+
+    if (otpStatus) {
+
+        otpStatus.textContent = "";
+    }
+
+
+    if (requestOtpBtn) {
+
+        requestOtpBtn.disabled = false;
+
+        requestOtpBtn.textContent =
+            "Send Verification Code";
+    }
+
+
+    if (verifyOtpBtn) {
+
+        verifyOtpBtn.disabled = false;
+    }
+
+
+    if (transferSubmitBtn) {
+
+        transferSubmitBtn.disabled =
+            false;
+    }
+}
+// ========================================
+// CHECK OTP REQUIREMENT
+// ========================================
+
+function updateOTPRequirement() {
+
+    const amount =
+        Number(
+            amountInput?.value
+        );
+
+
+    if (
+        !Number.isFinite(amount) ||
+        amount <= OTP_TRANSFER_LIMIT
+    ) {
+
+        resetOTPState();
+
+        return;
+    }
+
+
+    // ========================================
+    // LARGE TRANSFER
+    // ========================================
+
+    otpVerified = false;
+
+
+    if (otpSection) {
+
+        otpSection.style.display =
+            "block";
+    }
+
+
+    if (otpInputArea) {
+
+        otpInputArea.style.display =
+            "none";
+    }
+
+
+    if (transferSubmitBtn) {
+
+        transferSubmitBtn.disabled =
+            true;
+    }
+
+
+    if (otpStatus) {
+
+        otpStatus.textContent =
+            "Verification is required before this transfer can be submitted.";
+    }
+}
+// ========================================
+// AMOUNT CHANGE
+// ========================================
+
+if (amountInput) {
+
+    amountInput.addEventListener(
+        "input",
+        () => {
+
+            updateOTPRequirement();
+
+        }
+    );
+}
+// ========================================
+// REQUEST OTP
+// ========================================
+
+if (requestOtpBtn) {
+
+    requestOtpBtn.addEventListener(
+        "click",
+        async () => {
+
+            const amount =
+                Number(
+                    amountInput?.value
+                );
+
+
+            const sameBankAccount =
+                document.getElementById(
+                    "sameBankAccount"
+                );
+
+
+            const customerAccount =
+                sameBankAccount
+                    ? sameBankAccount.value.trim()
+                    : "";
+
+
+            if (
+                !Number.isFinite(amount) ||
+                amount <= OTP_TRANSFER_LIMIT
+            ) {
+
+                if (otpStatus) {
+
+                    otpStatus.textContent =
+                        "OTP is only required for transfers above 5,000.";
+                }
+
+                return;
+            }
+
+
+            if (!customerAccount) {
+
+                if (otpStatus) {
+
+                    otpStatus.textContent =
+                        "Verify the recipient account first.";
+                }
+
+                return;
+            }
+
+
+            if (!token) {
+
+                if (otpStatus) {
+
+                    otpStatus.textContent =
+                        "Please login again.";
+                }
+
+                return;
+            }
+
+
+            try {
+
+                requestOtpBtn.disabled =
+                    true;
+
+
+                requestOtpBtn.textContent =
+                    "Sending...";
+
+
+                const response =
+                    await fetch(
+                        `${API}/api/transfers/otp/request`,
+                        {
+                            method: "POST",
+
+                            headers: {
+                                "Content-Type":
+                                    "application/json",
+
+                                Authorization:
+                                    `Bearer ${token}`
+                            },
+
+                            body:
+                                JSON.stringify({
+                                    accountNumber:
+                                        customerAccount,
+
+                                    amount
+                                })
+                        }
+                    );
+
+
+                const result =
+                    await getResponseData(
+                        response
+                    );
+
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        result.message ||
+                        "Unable to send verification code."
+                    );
+                }
+
+
+                if (otpInputArea) {
+
+                    otpInputArea.style.display =
+                        "block";
+                }
+
+
+                if (otpStatus) {
+
+                    otpStatus.textContent =
+                        "Verification code sent to your registered email.";
+                }
+
+
+                requestOtpBtn.textContent =
+                    "Code Sent";
+
+
+            } catch (error) {
+
+                console.error(
+                    "OTP request error:",
+                    error
+                );
+
+
+                requestOtpBtn.disabled =
+                    false;
+
+
+                requestOtpBtn.textContent =
+                    "Send Verification Code";
+
+
+                if (otpStatus) {
+
+                    otpStatus.textContent =
+                        error.message ||
+                        "Unable to send verification code.";
+                }
+            }
+        }
+    );
+}
+// ========================================
+// VERIFY OTP
+// ========================================
+
+if (verifyOtpBtn) {
+
+    verifyOtpBtn.addEventListener(
+        "click",
+        async () => {
+
+            const amount =
+                Number(
+                    amountInput?.value
+                );
+
+
+            const sameBankAccount =
+                document.getElementById(
+                    "sameBankAccount"
+                );
+
+
+            const customerAccount =
+                sameBankAccount
+                    ? sameBankAccount.value.trim()
+                    : "";
+
+
+            const otp =
+                transferOtp
+                    ? transferOtp.value.trim()
+                    : "";
+
+
+            if (!otp) {
+
+                if (otpStatus) {
+
+                    otpStatus.textContent =
+                        "Enter the verification code.";
+                }
+
+                return;
+            }
+
+
+            if (
+                !/^\d{6}$/.test(
+                    otp
+                )
+            ) {
+
+                if (otpStatus) {
+
+                    otpStatus.textContent =
+                        "Enter the 6-digit verification code.";
+                }
+
+                return;
+            }
+
+
+            if (
+                !customerAccount ||
+                !Number.isFinite(amount)
+            ) {
+
+                if (otpStatus) {
+
+                    otpStatus.textContent =
+                        "Enter the transfer details first.";
+                }
+
+                return;
+            }
+
+
+            try {
+
+                verifyOtpBtn.disabled =
+                    true;
+
+
+                verifyOtpBtn.textContent =
+                    "Verifying...";
+
+
+                const response =
+                    await fetch(
+                        `${API}/api/transfers/otp/verify`,
+                        {
+                            method: "POST",
+
+                            headers: {
+                                "Content-Type":
+                                    "application/json",
+
+                                Authorization:
+                                    `Bearer ${token}`
+                            },
+
+                            body:
+                                JSON.stringify({
+                                    accountNumber:
+                                        customerAccount,
+
+                                    amount,
+
+                                    otp
+                                })
+                        }
+                    );
+
+
+                const result =
+                    await getResponseData(
+                        response
+                    );
+
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        result.message ||
+                        "Verification failed."
+                    );
+                }
+
+
+                otpVerified =
+                    true;
+
+
+                if (otpStatus) {
+
+                    otpStatus.textContent =
+                        "✓ Transfer verified successfully.";
+                }
+
+
+                verifyOtpBtn.textContent =
+                    "Verified";
+
+
+                verifyOtpBtn.disabled =
+                    true;
+
+
+                if (transferSubmitBtn) {
+
+                    transferSubmitBtn.disabled =
+                        false;
+                }
+
+
+            } catch (error) {
+
+                console.error(
+                    "OTP verification error:",
+                    error
+                );
+
+
+                verifyOtpBtn.disabled =
+                    false;
+
+
+                verifyOtpBtn.textContent =
+                    "Verify Code";
+
+
+                if (otpStatus) {
+
+                    otpStatus.textContent =
+                        error.message ||
+                        "Verification failed.";
+                }
+            }
+        }
+    );
+}
 // ========================================
 // TRANSFER FORM
 // ========================================
@@ -1042,7 +1856,95 @@ if (transferForm) {
                     formData.get("amount")
                 );
 
+// ========================================
+// OTP CHECK
+// ========================================
 
+if (
+    amount > OTP_TRANSFER_LIMIT &&
+    !otpVerified
+) {
+
+    if (message) {
+
+        message.textContent =
+            "Please verify the transfer with the code sent to your email.";
+    }
+
+    return;
+}
+// ========================================
+// RECIPIENT CHANGE
+// ========================================
+
+const sameBankAccountInput =
+    document.getElementById(
+        "sameBankAccount"
+    );
+
+
+if (sameBankAccountInput) {
+
+    sameBankAccountInput.addEventListener(
+        "input",
+        () => {
+
+            const amount =
+                Number(
+                    amountInput?.value
+                );
+
+
+            if (
+                amount >
+                OTP_TRANSFER_LIMIT
+            ) {
+
+                otpVerified =
+                    false;
+
+
+                if (transferSubmitBtn) {
+
+                    transferSubmitBtn.disabled =
+                        true;
+                }
+
+
+                if (otpStatus) {
+
+                    otpStatus.textContent =
+                        "Recipient changed. Please request a new verification code.";
+                }
+
+
+                if (otpInputArea) {
+
+                    otpInputArea.style.display =
+                        "none";
+                }
+
+
+                if (transferOtp) {
+
+                    transferOtp.value =
+                        "";
+                }
+
+
+                if (requestOtpBtn) {
+
+                    requestOtpBtn.disabled =
+                        false;
+
+                    requestOtpBtn.textContent =
+                        "Send Verification Code";
+                }
+            }
+
+        }
+    );
+}
             if (message) {
 
                 message.textContent =
@@ -1133,12 +2035,12 @@ if (transferForm) {
 
 
                 formReset();
+          
+              resetOTPState();
 
-
-                showTransferPending(
-                    transaction
-                );
-
+           showTransferPending(
+               transaction
+             );
 
                 watchTransfer(
                     transaction._id
@@ -1359,7 +2261,7 @@ async function checkTransferStatus(
 
         if (
             transaction.status ===
-            "declined"
+            "rejected"
         ) {
 
             clearInterval(

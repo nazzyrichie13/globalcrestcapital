@@ -247,26 +247,81 @@
            AMOUNT
       ========================== -->
 
-      <label for="amount">
-        Amount
-      </label>
+      <label for="amount">Amount</label>
 
-      <input
-        type="number"
-        id="amount"
-        name="amount"
-        min="1"
-        step="0.01"
-        placeholder="Enter amount"
-        required
-      >
+<input
+    type="number"
+    id="amount"
+    name="amount"
+    min="1"
+    step="0.01"
+    placeholder="Enter amount"
+    required
+>
 
 
-      <!-- TRANSFER BUTTON -->
+<!-- ========================================
+     TRANSFER OTP
+======================================== -->
 
-      <button type="submit">
-        Transfer
-      </button>
+<div
+    id="otpSection"
+    style="display:none;"
+>
+
+    <p id="otpMessage">
+        Transfers above 5,000 require email verification.
+    </p>
+
+
+    <button
+        type="button"
+        id="requestOtpBtn"
+    >
+        Send Verification Code
+    </button>
+
+
+    <div id="otpInputArea" style="display:none;">
+
+        <label for="transferOtp">
+            Verification Code
+        </label>
+
+
+        <input
+            type="text"
+            id="transferOtp"
+            maxlength="6"
+            inputmode="numeric"
+            autocomplete="one-time-code"
+            placeholder="Enter 6-digit code"
+        >
+
+
+        <button
+            type="button"
+            id="verifyOtpBtn"
+        >
+            Verify Code
+        </button>
+
+
+        <p id="otpStatus"></p>
+
+    </div>
+
+</div>
+
+
+<button
+    type="submit"
+    id="transferSubmitBtn"
+>
+    Transfer
+</button>
+
+      
 
     </form>
 

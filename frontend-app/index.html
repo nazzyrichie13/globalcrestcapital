@@ -90,38 +90,82 @@
   </div>
 
   <!-- LOGIN -->
-  <section id="loginSection" class="loginSection">
-    <div class="loginmessage">
-      <h2>Welcome to </h2>
-      <img src="image/file_000000007c3081f4a50e9d1517c5c4cf.png" alt="img">
-    </div>
-    <h1>Login</h1>  
+  <!-- LOGIN -->
+<section id="loginSection" class="loginSection">
 
-    <form id="loginForm">
-      <input
-        type="email"
-        name="email"
-        placeholder="Email"
-        required
-      >
- 
-      <input
-        type="password"
-        name="password"
-        placeholder="Password"
-        required
-      >
+  <div class="loginmessage">
+    <h2>Welcome to </h2>
+    <img
+      src="image/file_000000007c3081f4a50e9d1517c5c4cf.png"
+      alt="img"
+    >
+  </div>
 
-      <button type="submit">
-        Login
-      </button>
+  <h1>Login</h1>
 
-    </form>
+  <!-- LOGIN FORM -->
+  <form id="loginForm">
 
-    <p id="message"></p>
+    <input
+      type="email"
+      name="email"
+      id="loginEmail"
+      placeholder="Email"
+      required
+    >
 
-  </section>
+    <input
+      type="password"
+      name="password"
+      id="loginPassword"
+      placeholder="Password"
+      required
+    >
 
+    <button type="submit" id="loginButton">
+      Login
+    </button>
+
+  </form>
+
+  <!-- LOGIN OTP SECTION -->
+  <div id="loginOtpSection" style="display: none;">
+
+    <p>
+      A verification code has been sent to your registered email.
+    </p>
+
+    <input
+      type="text"
+      id="loginOtp"
+      placeholder="Enter 6-digit verification code"
+      maxlength="6"
+      inputmode="numeric"
+      autocomplete="one-time-code"
+    >
+
+    <button
+      type="button"
+      id="verifyLoginOtpButton"
+    >
+      Verify Code
+    </button>
+
+    <button
+      type="button"
+      id="resendLoginOtpButton"
+      style="display: none;"
+    >
+      Resend Code
+    </button>
+
+    <p id="loginOtpMessage"></p>
+
+  </div>
+
+  <p id="message"></p>
+
+</section>
 
   <!-- DASHBOARD -->
  <section id="dashboardSection" style="display: none;">
@@ -342,7 +386,7 @@
         <p>available in person or via video <br> call</p>
         <div style="display: flex; gap: 10px; margin-top: 30px; border-top: 1px solid whitesmoke;padding: 20px;">
           <div>
-            <img src="default-profile.png" alt="" style="width: 80px; height: 80px; border-radius: 50%;">
+            <img src="default-profile.png`" alt="" style="width: 80px; height: 80px; border-radius: 50%;">
           </div>
           <div>
             <h3>our advisors are ready to <br>help</h3>
@@ -1352,8 +1396,6 @@
           <a href="#">
             <i class="fa-brands fa-linkedin-in"></i>
           </a>
-<p>  Modern banking built around security,<br> simplicity, and trust.</p>
-
         </div>
 
       </div>
