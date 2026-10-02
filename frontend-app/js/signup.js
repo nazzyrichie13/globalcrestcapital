@@ -56,7 +56,7 @@ signupForm.addEventListener("submit", async (event) => {
 
     // Give user time to see account number
     setTimeout(() => {
-      window.location.href = "home.html";
+      window.location.href = "index.html";
     }, 5000);
 
   } catch (error) {
