@@ -1,9 +1,20 @@
 
+// ========================================
+// ADMIN AUTHENTICATION
+// ========================================
+
 const token = localStorage.getItem("adminToken");
 
-const adminUser = JSON.parse(
-  localStorage.getItem("admin") || "null"
-);
+let adminUser = null;
+
+try {
+  adminUser = JSON.parse(
+    localStorage.getItem("admin") || "null"
+  );
+} catch (error) {
+  console.error("Invalid admin data in localStorage:", error);
+  adminUser = null;
+}
 
 
 // ========================================
@@ -13,7 +24,7 @@ const adminUser = JSON.parse(
 if (
   !token ||
   !adminUser ||
-  String(adminUser.role).toLowerCase() !== "admin"
+  String(adminUser.role || "").toLowerCase() !== "admin"
 ) {
   window.location.href = "admin-login.html";
 }
@@ -62,367 +73,441 @@ const depositMessage =
 
 
 // ========================================
+// CHECK REQUIRED HTML ELEMENTS
+// ========================================
+
+if (
+  !accountNumber ||
+  !verifyAccount ||
+  !accountBox ||
+  !accountName ||
+  !verifiedAccountNumberElement ||
+  !currentBalance ||
+  !depositForm ||
+  !amount ||
+  !depositButton ||
+  !depositMessage
+) {
+  console.error(
+    "Admin deposit page error: One or more required HTML elements are missing."
+  );
+}
+
+
+// ========================================
+// HELPER: SAFELY READ JSON RESPONSE
+// ========================================
+
+async function getResponseData(response) {
+
+  const contentType =
+    response.headers.get("content-type") || "";
+
+  if (
+    contentType.includes("application/json")
+  ) {
+
+    return await response.json();
+
+  }
+
+  // Backend returned HTML/text instead of JSON
+  const text = await response.text();
+
+  return {
+    message:
+      text ||
+      `Server returned ${response.status} ${response.statusText}`
+  };
+}
+
+
+// ========================================
 // VERIFY CUSTOMER ACCOUNT
 // ========================================
 
-verifyAccount.addEventListener(
-  "click",
-  async () => {
+if (verifyAccount) {
 
-    const number =
-      accountNumber.value.trim();
+  verifyAccount.addEventListener(
+    "click",
+    async () => {
 
-
-    // --------------------------------------
-    // CHECK ACCOUNT NUMBER
-    // --------------------------------------
-
-    if (!number) {
-
-      depositMessage.textContent =
-        "Enter an account number.";
-
-      accountBox.style.display =
-        "none";
-
-      verifiedAccountNumber = "";
-
-      return;
-    }
+      const number =
+        accountNumber.value.trim();
 
 
-    // --------------------------------------
-    // BUTTON LOADING
-    // --------------------------------------
+      // --------------------------------------
+      // CHECK ACCOUNT NUMBER
+      // --------------------------------------
 
-    verifyAccount.disabled =
-      true;
+      if (!number) {
 
-    verifyAccount.textContent =
-      "Checking...";
+        depositMessage.textContent =
+          "Enter an account number.";
 
-    depositMessage.textContent =
-      "";
+        accountBox.style.display =
+          "none";
 
+        verifiedAccountNumber = "";
 
-    try {
-
-      // ------------------------------------
-      // VERIFY ACCOUNT
-      // ------------------------------------
-
-      const response =
-        await fetch(
-          "https://api.globalcrestc.com/api/admin/deposit/verify",
-          {
-            method: "POST",
-
-            headers: {
-              "Content-Type":
-                "application/json",
-
-              Authorization:
-                `Bearer ${token}`
-            },
-
-            body: JSON.stringify({
-              accountNumber: number
-            })
-          }
-        );
-
-
-      const result =
-        await response.json();
-
-
-      // ------------------------------------
-      // CHECK RESPONSE
-      // ------------------------------------
-
-      if (!response.ok) {
-
-        throw new Error(
-          result.message ||
-          "Account not found."
-        );
-
+        return;
       }
 
 
-      // ------------------------------------
-      // CHECK USER DATA
-      // ------------------------------------
-
-      if (!result.user) {
-
-        throw new Error(
-          "Customer information was not returned."
-        );
-
-      }
-
-
-      // ------------------------------------
-      // SAVE VERIFIED ACCOUNT NUMBER
-      // ------------------------------------
-
-      verifiedAccountNumber =
-        result.user.accountNumber;
-
-
-      // ------------------------------------
-      // DISPLAY CUSTOMER INFORMATION
-      // ------------------------------------
-
-      accountName.textContent =
-        result.user.name || "N/A";
-
-
-      verifiedAccountNumberElement.textContent =
-        result.user.accountNumber || number;
-
-
-      currentBalance.textContent =
-        `₦${Number(
-          result.user.balance || 0
-        ).toLocaleString()}`;
-
-
-      // ------------------------------------
-      // SHOW ACCOUNT BOX
-      // ------------------------------------
-
-      accountBox.style.display =
-        "block";
-
-
-      depositMessage.textContent =
-        "Account verified successfully.";
-
-
-    } catch (error) {
-
-      // Clear verified account
-      verifiedAccountNumber = "";
-
-
-      accountBox.style.display =
-        "none";
-
-
-      depositMessage.textContent =
-        error.message ||
-        "Unable to verify account.";
-
-
-      console.error(
-        "Account verification error:",
-        error
-      );
-
-
-    } finally {
+      // --------------------------------------
+      // BUTTON LOADING
+      // --------------------------------------
 
       verifyAccount.disabled =
-        false;
+        true;
 
       verifyAccount.textContent =
-        "Verify";
+        "Checking...";
+
+      depositMessage.textContent =
+        "";
+
+
+      try {
+
+        // ------------------------------------
+        // VERIFY ACCOUNT
+        // ------------------------------------
+
+        const response =
+          await fetch(
+            "https://api.globalcrestc.com/api/admin/deposit/verify",
+            {
+              method: "POST",
+
+              headers: {
+                "Content-Type":
+                  "application/json",
+
+                Authorization:
+                  `Bearer ${token}`
+              },
+
+              body: JSON.stringify({
+                accountNumber: number
+              })
+            }
+          );
+
+
+        // ------------------------------------
+        // SAFELY READ RESPONSE
+        // ------------------------------------
+
+        const result =
+          await getResponseData(response);
+
+
+        // ------------------------------------
+        // CHECK RESPONSE
+        // ------------------------------------
+
+        if (!response.ok) {
+
+          throw new Error(
+            result.message ||
+            `Account verification failed (${response.status}).`
+          );
+
+        }
+
+
+        // ------------------------------------
+        // CHECK USER DATA
+        // ------------------------------------
+
+        if (!result.user) {
+
+          throw new Error(
+            "Customer information was not returned."
+          );
+
+        }
+
+
+        // ------------------------------------
+        // SAVE VERIFIED ACCOUNT NUMBER
+        // ------------------------------------
+
+        verifiedAccountNumber =
+          result.user.accountNumber;
+
+
+        if (!verifiedAccountNumber) {
+
+          throw new Error(
+            "Verified account number was not returned."
+          );
+
+        }
+
+
+        // ------------------------------------
+        // DISPLAY CUSTOMER INFORMATION
+        // ------------------------------------
+
+        accountName.textContent =
+          result.user.name || "N/A";
+
+
+        verifiedAccountNumberElement.textContent =
+          result.user.accountNumber || number;
+
+
+        currentBalance.textContent =
+          `₦${Number(
+            result.user.balance || 0
+          ).toLocaleString()}`;
+
+
+        // ------------------------------------
+        // SHOW ACCOUNT BOX
+        // ------------------------------------
+
+        accountBox.style.display =
+          "block";
+
+
+        depositMessage.textContent =
+          "Account verified successfully.";
+
+
+      } catch (error) {
+
+        // Clear verified account
+        verifiedAccountNumber =
+          "";
+
+
+        accountBox.style.display =
+          "none";
+
+
+        depositMessage.textContent =
+          error.message ||
+          "Unable to verify account.";
+
+
+        console.error(
+          "Account verification error:",
+          error
+        );
+
+
+      } finally {
+
+        verifyAccount.disabled =
+          false;
+
+        verifyAccount.textContent =
+          "Verify";
+
+      }
 
     }
+  );
 
-  }
-);
+}
 
 
 // ========================================
 // DEPOSIT FUNDS
 // ========================================
 
-depositForm.addEventListener(
-  "submit",
-  async (event) => {
+if (depositForm) {
 
-    event.preventDefault();
+  depositForm.addEventListener(
+    "submit",
+    async (event) => {
 
-
-    // --------------------------------------
-    // MAKE SURE ACCOUNT WAS VERIFIED
-    // --------------------------------------
-
-    if (!verifiedAccountNumber) {
-
-      depositMessage.textContent =
-        "Verify the customer account first.";
-
-      return;
-    }
+      event.preventDefault();
 
 
-    // --------------------------------------
-    // GET AMOUNT
-    // --------------------------------------
+      // --------------------------------------
+      // MAKE SURE ACCOUNT WAS VERIFIED
+      // --------------------------------------
 
-    const depositAmount =
-      Number(amount.value);
+      if (!verifiedAccountNumber) {
 
+        depositMessage.textContent =
+          "Verify the customer account first.";
 
-    // --------------------------------------
-    // CHECK AMOUNT
-    // --------------------------------------
-
-    if (
-      !Number.isFinite(depositAmount) ||
-      depositAmount <= 0
-    ) {
-
-      depositMessage.textContent =
-        "Enter a valid deposit amount.";
-
-      return;
-    }
-
-
-    // --------------------------------------
-    // BUTTON LOADING
-    // --------------------------------------
-
-    depositButton.disabled =
-      true;
-
-    depositButton.textContent =
-      "Processing...";
-
-    depositMessage.textContent =
-      "";
-
-
-    try {
-
-      // ------------------------------------
-      // SEND DEPOSIT
-      // ------------------------------------
-
-      const response =
-        await fetch(
-          "https://api.globalcrestc.com/api/admin/deposit",
-          {
-            method: "POST",
-
-            headers: {
-              "Content-Type":
-                "application/json",
-
-              Authorization:
-                `Bearer ${token}`
-            },
-
-            body: JSON.stringify({
-
-              // IMPORTANT:
-              // Use the account that was
-              // actually verified.
-
-              accountNumber:
-                verifiedAccountNumber,
-
-              amount:
-                depositAmount
-
-            })
-          }
-        );
-
-
-      const result =
-        await response.json();
-
-
-      // ------------------------------------
-      // CHECK RESPONSE
-      // ------------------------------------
-
-      if (!response.ok) {
-
-        throw new Error(
-          result.message ||
-          "Deposit failed."
-        );
-
+        return;
       }
 
 
-      // ------------------------------------
-      // CHECK UPDATED USER
-      // ------------------------------------
+      // --------------------------------------
+      // GET AMOUNT
+      // --------------------------------------
 
-      if (!result.user) {
+      const depositAmount =
+        Number(amount.value);
 
-        throw new Error(
-          "Deposit completed, but updated account information was not returned."
-        );
 
+      // --------------------------------------
+      // CHECK AMOUNT
+      // --------------------------------------
+
+      if (
+        !Number.isFinite(depositAmount) ||
+        depositAmount <= 0
+      ) {
+
+        depositMessage.textContent =
+          "Enter a valid deposit amount.";
+
+        return;
       }
 
 
-      // ------------------------------------
-      // UPDATE BALANCE
-      // ------------------------------------
-
-      currentBalance.textContent =
-        `₦${Number(
-          result.user.balance || 0
-        ).toLocaleString()}`;
-
-
-      // ------------------------------------
-      // SUCCESS MESSAGE
-      // ------------------------------------
-
-      depositMessage.textContent =
-        `Deposit successful. New balance: ₦${Number(
-          result.user.balance || 0
-        ).toLocaleString()}`;
-
-
-      // ------------------------------------
-      // CLEAR AMOUNT
-      // ------------------------------------
-
-      amount.value = "";
-
-
-      // ------------------------------------
-      // KEEP ACCOUNT BOX VISIBLE
-      // ------------------------------------
-
-      accountBox.style.display =
-        "block";
-
-
-    } catch (error) {
-
-      depositMessage.textContent =
-        error.message ||
-        "Deposit failed.";
-
-
-      console.error(
-        "Deposit error:",
-        error
-      );
-
-
-    } finally {
+      // --------------------------------------
+      // BUTTON LOADING
+      // --------------------------------------
 
       depositButton.disabled =
-        false;
+        true;
 
-      depositButton.innerHTML =
-        '<i class="fa-solid fa-plus"></i> Deposit Funds';
+      depositButton.textContent =
+        "Processing...";
+
+      depositMessage.textContent =
+        "";
+
+
+      try {
+
+        // ------------------------------------
+        // SEND DEPOSIT
+        // ------------------------------------
+
+        const response =
+          await fetch(
+            "https://api.globalcrestc.com/api/admin/deposit",
+            {
+              method: "POST",
+
+              headers: {
+                "Content-Type":
+                  "application/json",
+
+                Authorization:
+                  `Bearer ${token}`
+              },
+
+              body: JSON.stringify({
+
+                accountNumber:
+                  verifiedAccountNumber,
+
+                amount:
+                  depositAmount
+
+              })
+            }
+          );
+
+
+        // ------------------------------------
+        // SAFELY READ RESPONSE
+        // ------------------------------------
+
+        const result =
+          await getResponseData(response);
+
+
+        // ------------------------------------
+        // CHECK RESPONSE
+        // ------------------------------------
+
+        if (!response.ok) {
+
+          throw new Error(
+            result.message ||
+            `Deposit failed (${response.status}).`
+          );
+
+        }
+
+
+        // ------------------------------------
+        // CHECK UPDATED USER
+        // ------------------------------------
+
+        if (!result.user) {
+
+          throw new Error(
+            "Deposit completed, but updated account information was not returned."
+          );
+
+        }
+
+
+        // ------------------------------------
+        // UPDATE BALANCE
+        // ------------------------------------
+
+        currentBalance.textContent =
+          `₦${Number(
+            result.user.balance || 0
+          ).toLocaleString()}`;
+
+
+        // ------------------------------------
+        // SUCCESS MESSAGE
+        // ------------------------------------
+
+        depositMessage.textContent =
+          `Deposit successful. New balance: ₦${Number(
+            result.user.balance || 0
+          ).toLocaleString()}`;
+
+
+        // ------------------------------------
+        // CLEAR AMOUNT
+        // ------------------------------------
+
+        amount.value =
+          "";
+
+
+        // ------------------------------------
+        // KEEP ACCOUNT BOX VISIBLE
+        // ------------------------------------
+
+        accountBox.style.display =
+          "block";
+
+
+      } catch (error) {
+
+        depositMessage.textContent =
+          error.message ||
+          "Deposit failed.";
+
+
+        console.error(
+          "Deposit error:",
+          error
+        );
+
+
+      } finally {
+
+        depositButton.disabled =
+          false;
+
+        depositButton.innerHTML =
+          '<i class="fa-solid fa-plus"></i> Deposit Funds';
+
+      }
 
     }
+  );
 
-  }
-);
+}
+
