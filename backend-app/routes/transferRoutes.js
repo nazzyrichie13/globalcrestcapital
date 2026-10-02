@@ -1,49 +1,82 @@
 const express = require("express");
-const auth = require("../middleware/auth");
-const adminOnly = require("../middleware/adminOnly");
+
+const auth =
+    require("../middleware/auth");
+
+const adminOnly =
+    require("../middleware/adminOnly");
 
 const {
-  createTransfer,
-  getPendingTransfers,
-  approveTransfer,
-  declineTransfer
+    createTransfer,
+    getPendingTransfers,
+    approveTransfer,
+    declineTransfer
 } = require("../controllers/transferController");
 
-const router = express.Router();
+const {
+    requestTransferOTP,
+    verifyTransferOTP
+} = require("../controllers/transferOtpController");
 
 
-// USER CREATES TRANSFER
+const router =
+    express.Router();
+
+
+// ========================================
+// OTP ROUTES
+// ========================================
+
 router.post(
-  "/",
-  auth,
-  createTransfer
+    "/otp/request",
+    auth,
+    requestTransferOTP
 );
 
 
-// ADMIN GETS PENDING TRANSFERS
+router.post(
+    "/otp/verify",
+    auth,
+    verifyTransferOTP
+);
+
+
+// ========================================
+// TRANSFER
+// ========================================
+
+router.post(
+    "/",
+    auth,
+    createTransfer
+);
+
+
+// ========================================
+// ADMIN
+// ========================================
+
 router.get(
-  "/pending",
-  auth,
-  adminOnly,
-  getPendingTransfers
+    "/pending",
+    auth,
+    adminOnly,
+    getPendingTransfers
 );
 
 
-// ADMIN APPROVES
 router.patch(
-  "/:id/approve",
-  auth,
-  adminOnly,
-  approveTransfer
+    "/:id/approve",
+    auth,
+    adminOnly,
+    approveTransfer
 );
 
 
-// ADMIN DECLINES
 router.patch(
-  "/:id/decline",
-  auth,
-  adminOnly,
-  declineTransfer
+    "/:id/decline",
+    auth,
+    adminOnly,
+    declineTransfer
 );
 
 
