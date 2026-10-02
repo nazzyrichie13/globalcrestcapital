@@ -8,6 +8,13 @@
 html {
   scroll-behavior: smooth;
 }
+html,
+body {
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  overflow-x: hidden;
+}
 
 body {
   font-family: Arial, Helvetica, sans-serif;
@@ -1483,8 +1490,18 @@ footer {
 @media (max-width: 650px) {
 
   .navbar {
-    padding: 0 5%;
+    width: 100%;
+    max-width: 100%;
+    padding: 0 15px;
+    box-sizing: border-box;
+    overflow: hidden;
   }
+
+  .navbar * {
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
 
   .login-btn {
     display: none;

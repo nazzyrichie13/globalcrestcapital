@@ -56,6 +56,13 @@ button {
   --danger: #dc2626;
   --shadow: 0 15px 45px rgba(15, 23, 42, 0.08);
 }
+html,
+body {
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  overflow-x: hidden;
+}
 
 
 /* =========================================================
@@ -2141,18 +2148,36 @@ footer {
   /* FOOTER */
 
   .footer-main {
-    grid-template-columns: 1fr 1fr;
-    gap: 40px 25px;
-    padding: 55px 20px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 30px;
+    padding: 40px 20px;
+    width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
   }
 
   .footer-brand {
-    grid-column: span 2;
+    grid-column: auto;
+    width: 100%;
+    min-width: 0;
+  }
+
+  .footer-main > * {
+    min-width: 0;
+    max-width: 100%;
+    box-sizing: border-box;
   }
 
   .footer-bottom {
+    display: flex;
     flex-direction: column;
+    align-items: center;
+    gap: 15px;
     padding: 20px;
+    width: 100%;
+    box-sizing: border-box;
+    text-align: center;
   }
 
 }
