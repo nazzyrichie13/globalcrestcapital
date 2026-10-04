@@ -2879,7 +2879,9 @@ const profileMessage =
 // ==========================================
 
 
-
+document.getElementById("editProfileBtn").addEventListener("click", function () {
+    document.getElementById("editProfileModal").style.display = "flex";
+});
 
 // ==========================================
 // OPEN MODAL
