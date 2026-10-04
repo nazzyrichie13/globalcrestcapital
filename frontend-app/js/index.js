@@ -1349,7 +1349,7 @@ if (verifyExternalBank) {
         () => {
 
             console.log(
-                "External bank verification is not configured in home.js."
+                "External bank verification is not configured "
             );
 
         }
@@ -2846,4 +2846,352 @@ if (token) {
         dashboardSection.style.display =
             "none";
     }
+}
+
+// ==========================================
+// EDIT PROFILE / PROFILE PHOTO
+// ==========================================
+
+const editProfileModal =
+    document.getElementById("editProfileModal");
+
+const editProfileForm =
+    document.getElementById("editProfileForm");
+
+const profilePhotoInput =
+    document.getElementById("profilePhotoInput");
+
+const photoPreview =
+    document.getElementById("photoPreview");
+
+const saveProfileBtn =
+    document.getElementById("saveProfileBtn");
+
+const closeProfileModal =
+    document.getElementById("closeProfileModal");
+
+const profileMessage =
+    document.getElementById("profileMessage");
+
+
+// ==========================================
+// API
+// ==========================================
+
+
+
+
+// ==========================================
+// OPEN MODAL
+// ==========================================
+
+function openEditProfileModal() {
+
+    if (!editProfileModal) return;
+
+    editProfileModal.style.display = "flex";
+
+    profileMessage.textContent = "";
+
+    photoPreview.innerHTML = "";
+
+    if (profilePhotoInput) {
+        profilePhotoInput.value = "";
+    }
+}
+
+
+// ==========================================
+// CLOSE MODAL
+// ==========================================
+
+function closeEditProfileModal() {
+
+    if (!editProfileModal) return;
+
+    editProfileModal.style.display = "none";
+
+    profileMessage.textContent = "";
+
+    photoPreview.innerHTML = "";
+
+    if (profilePhotoInput) {
+        profilePhotoInput.value = "";
+    }
+}
+
+
+if (closeProfileModal) {
+
+    closeProfileModal.addEventListener(
+        "click",
+        closeEditProfileModal
+    );
+
+}
+
+
+// ==========================================
+// PHOTO PREVIEW
+// ==========================================
+
+if (profilePhotoInput) {
+
+    profilePhotoInput.addEventListener(
+        "change",
+        function () {
+
+            const file = this.files[0];
+
+            if (!file) {
+                photoPreview.innerHTML = "";
+                return;
+            }
+
+
+            // Check image
+            if (!file.type.startsWith("image/")) {
+
+                profileMessage.textContent =
+                    "Please select an image file.";
+
+                this.value = "";
+
+                return;
+            }
+
+
+            // Preview
+            const reader = new FileReader();
+
+            reader.onload = function (event) {
+
+                photoPreview.innerHTML = `
+                    <img
+                        src="${event.target.result}"
+                        alt="Profile Preview"
+                        style="
+                            width:120px;
+                            height:120px;
+                            object-fit:cover;
+                            border-radius:50%;
+                            display:block;
+                            margin:15px auto;
+                        "
+                    >
+                `;
+
+            };
+
+            reader.readAsDataURL(file);
+
+        }
+    );
+
+}
+
+
+// ==========================================
+// UPLOAD PROFILE PHOTO
+// ==========================================
+
+if (editProfileForm) {
+
+    editProfileForm.addEventListener(
+        "submit",
+        async function (event) {
+
+            event.preventDefault();
+
+
+            const file =
+                profilePhotoInput.files[0];
+
+
+            if (!file) {
+
+                profileMessage.textContent =
+                    "Please select a profile photo.";
+
+                return;
+            }
+
+
+            const token =
+                localStorage.getItem("token");
+
+
+            if (!token) {
+
+                profileMessage.textContent =
+                    "Please login again.";
+
+                return;
+            }
+
+
+            try {
+
+                saveProfileBtn.disabled = true;
+
+                saveProfileBtn.textContent =
+                    "Uploading...";
+
+                profileMessage.textContent =
+                    "Uploading your photo...";
+
+
+                const formData =
+                    new FormData();
+
+                formData.append(
+                    "profilePhoto",
+                    file
+                );
+
+
+                const response =
+                    await fetch(
+                        `${API}/users/profile/photo`,
+                        {
+                            method: "PUT",
+
+                            headers: {
+                                Authorization:
+                                    `Bearer ${token}`
+                            },
+
+                            body: formData
+                        }
+                    );
+
+
+                const data =
+                    await response.json();
+
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        data.message ||
+                        "Failed to upload profile photo."
+                    );
+
+                }
+
+
+                // ==================================
+                // SUCCESS
+                // ==================================
+
+                profileMessage.textContent =
+                    data.message ||
+                    "Profile photo updated successfully.";
+
+
+                // ==================================
+                // UPDATE PROFILE IMAGE
+                // ==================================
+
+                if (
+                    data.user &&
+                    data.user.profilePhoto
+                ) {
+
+                    const profilePhoto =
+                        document.getElementById(
+                            "profilePhoto"
+                        );
+
+
+                    if (profilePhoto) {
+
+                        let photoURL =
+                            data.user.profilePhoto;
+
+
+                        // If backend returns:
+                        // /uploads/profiles/photo.jpg
+
+                        if (
+                            photoURL.startsWith("/")
+                        ) {
+
+                            photoURL =
+                                API + photoURL;
+
+                        }
+
+
+                        profilePhoto.src =
+                            photoURL;
+
+                    }
+
+                }
+
+
+                // ==================================
+                // CLOSE AFTER SHORT DELAY
+                // ==================================
+
+                setTimeout(
+                    function () {
+
+                        closeEditProfileModal();
+
+                    },
+                    1000
+                );
+
+
+            } catch (error) {
+
+                console.error(
+                    "Profile photo upload error:",
+                    error
+                );
+
+
+                profileMessage.textContent =
+                    error.message ||
+                    "Something went wrong while uploading.";
+
+            } finally {
+
+                saveProfileBtn.disabled = false;
+
+                saveProfileBtn.textContent =
+                    "Upload Photo";
+
+            }
+
+        }
+    );
+
+}
+
+
+// ==========================================
+// OPTIONAL: CLICK OUTSIDE MODAL TO CLOSE
+// ==========================================
+
+if (editProfileModal) {
+
+    editProfileModal.addEventListener(
+        "click",
+        function (event) {
+
+            if (
+                event.target ===
+                editProfileModal
+            ) {
+
+                closeEditProfileModal();
+
+            }
+
+        }
+    );
+
 }

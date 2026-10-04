@@ -1803,6 +1803,365 @@ footer {
     opacity: 0.7;
 }
 
+/* ==========================================
+   EDIT PROFILE MODAL
+========================================== */
+
+.profile-modal {
+    position: fixed;
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    background: rgba(0, 0, 0, 0.55);
+
+    display: none;
+    align-items: center;
+    justify-content: center;
+
+    z-index: 9999;
+
+    padding: 20px;
+
+    box-sizing: border-box;
+}
+
+
+/* ==========================================
+   MODAL CONTENT
+========================================== */
+
+.profile-modal-content {
+    width: 100%;
+    max-width: 450px;
+
+    background: #ffffff;
+
+    border-radius: 18px;
+
+    padding: 30px;
+
+    box-sizing: border-box;
+
+    box-shadow:
+        0 20px 50px rgba(0, 0, 0, 0.20);
+
+    animation: profileModalIn 0.25s ease;
+}
+
+
+/* ==========================================
+   MODAL ANIMATION
+========================================== */
+
+@keyframes profileModalIn {
+
+    from {
+        opacity: 0;
+        transform: translateY(-15px) scale(0.97);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+
+}
+
+
+/* ==========================================
+   TITLE
+========================================== */
+
+.profile-modal-content h2 {
+
+    margin: 0 0 25px;
+
+    text-align: center;
+
+    color: #123b70;
+
+    font-size: 24px;
+
+    font-weight: 700;
+}
+
+
+/* ==========================================
+   FORM
+========================================== */
+
+#editProfileForm {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 14px;
+}
+
+
+/* ==========================================
+   LABEL
+========================================== */
+
+#editProfileForm label {
+
+    color: #334155;
+
+    font-size: 14px;
+
+    font-weight: 600;
+}
+
+
+/* ==========================================
+   FILE INPUT
+========================================== */
+
+#profilePhotoInput {
+
+    width: 100%;
+
+    padding: 12px;
+
+    box-sizing: border-box;
+
+    border: 1px solid #d8dee8;
+
+    border-radius: 10px;
+
+    background: #f8fafc;
+
+    color: #475569;
+
+    cursor: pointer;
+
+    font-size: 14px;
+
+    transition: 0.2s ease;
+}
+
+
+#profilePhotoInput:hover {
+
+    border-color: #2563eb;
+
+    background: #f8fbff;
+}
+
+
+#profilePhotoInput:focus {
+
+    outline: none;
+
+    border-color: #2563eb;
+
+    box-shadow:
+        0 0 0 3px rgba(37, 99, 235, 0.12);
+}
+
+
+/* ==========================================
+   PHOTO PREVIEW
+========================================== */
+
+#photoPreview {
+
+    width: 100%;
+
+    min-height: 20px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    margin: 5px 0;
+}
+
+
+#photoPreview img {
+
+    width: 120px;
+
+    height: 120px;
+
+    object-fit: cover;
+
+    border-radius: 50%;
+
+    border: 4px solid #e8f0ff;
+
+    box-shadow:
+        0 5px 18px rgba(37, 99, 235, 0.18);
+}
+
+
+/* ==========================================
+   UPLOAD BUTTON
+========================================== */
+
+#saveProfileBtn {
+
+    width: 100%;
+
+    border: none;
+
+    border-radius: 10px;
+
+    padding: 13px 18px;
+
+    background: linear-gradient(
+        135deg,
+        #2563eb,
+        #1d4ed8
+    );
+
+    color: #ffffff;
+
+    font-size: 15px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        opacity 0.2s ease;
+}
+
+
+#saveProfileBtn:hover {
+
+    transform: translateY(-1px);
+
+    box-shadow:
+        0 7px 18px rgba(37, 99, 235, 0.25);
+}
+
+
+#saveProfileBtn:active {
+
+    transform: translateY(0);
+}
+
+
+#saveProfileBtn:disabled {
+
+    opacity: 0.65;
+
+    cursor: not-allowed;
+
+    transform: none;
+
+    box-shadow: none;
+}
+
+
+/* ==========================================
+   CANCEL BUTTON
+========================================== */
+
+#closeProfileModal {
+
+    width: 100%;
+
+    border: 1px solid #d8dee8;
+
+    border-radius: 10px;
+
+    padding: 12px 18px;
+
+    background: #ffffff;
+
+    color: #475569;
+
+    font-size: 15px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: 0.2s ease;
+}
+
+
+#closeProfileModal:hover {
+
+    background: #f1f5f9;
+
+    border-color: #cbd5e1;
+
+    color: #1e293b;
+}
+
+
+/* ==========================================
+   MESSAGE
+========================================== */
+
+#profileMessage {
+
+    min-height: 20px;
+
+    margin: 5px 0 0;
+
+    text-align: center;
+
+    color: #2563eb;
+
+    font-size: 14px;
+
+    font-weight: 500;
+}
+
+
+/* ==========================================
+   MOBILE
+========================================== */
+
+@media (max-width: 500px) {
+
+    .profile-modal {
+
+        padding: 15px;
+
+    }
+
+
+    .profile-modal-content {
+
+        padding: 22px;
+
+        border-radius: 15px;
+
+    }
+
+
+    .profile-modal-content h2 {
+
+        font-size: 21px;
+
+        margin-bottom: 20px;
+
+    }
+
+
+    #photoPreview img {
+
+        width: 100px;
+
+        height: 100px;
+
+    }
+
+}
+
+
 /* =========================================================
    RESPONSIVE — TABLET
 ========================================================= */
