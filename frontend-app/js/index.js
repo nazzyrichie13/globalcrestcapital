@@ -205,7 +205,7 @@ const closeProfileModal =
 
 const profileMessage =
     document.getElementById("profileMessage");
-
+const editProfileBtn = document.getElementById("editProfileBtn");
 
 // ==========================================
 // API
@@ -231,7 +231,7 @@ let token =
 
 let transferCheckInterval = null;
 
-document.getElementById("editProfileBtn").addEventListener("click", function () {
+editProfileBtn.addEventListener("click", function () {
     document.getElementById("editProfileModal").style.display = "flex";
 });
 
