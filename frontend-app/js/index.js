@@ -1,3 +1,6 @@
+document.addEventListener("DOMContentLoaded", () => {
+    // existing code
+
 // ========================================
 // HOME JS CONNECTED
 // ========================================
@@ -13,12 +16,7 @@ const API = "https://api.globalcrestc.com";
 
 
 // ========================================
-// ELEMENTS
-// ========================================
-
-
-// ========================================
-// LOGIN
+// LOGIN ELEMENTS
 // ========================================
 
 const loginSection =
@@ -143,6 +141,7 @@ const downloadReceipt =
 const saveReceiptImage =
     document.getElementById("saveReceiptImage");
 
+
 // ========================================
 // TRANSFER OTP
 // ========================================
@@ -151,40 +150,31 @@ const amountInput =
     document.getElementById("amount");
 
 const transferSubmitBtn =
-    document.getElementById(
-        "transferSubmitBtn"
-    );
+    document.getElementById("transferSubmitBtn");
 
 const otpSection =
-    document.getElementById(
-        "otpSection"
-    );
+    document.getElementById("otpSection");
 
 const requestOtpBtn =
-    document.getElementById(
-        "requestOtpBtn"
-    );
+    document.getElementById("requestOtpBtn");
 
 const otpInputArea =
-    document.getElementById(
-        "otpInputArea"
-    );
+    document.getElementById("otpInputArea");
 
 const transferOtp =
-    document.getElementById(
-        "transferOtp"
-    );
+    document.getElementById("transferOtp");
 
 const verifyOtpBtn =
-    document.getElementById(
-        "verifyOtpBtn"
-    );
+    document.getElementById("verifyOtpBtn");
 
 const otpStatus =
-    document.getElementById(
-        "otpStatus"
-    );
-    
+    document.getElementById("otpStatus");
+
+
+// ========================================
+// EDIT PROFILE
+// ========================================
+
 const editProfileBtn =
     document.getElementById("editProfileBtn");
 
@@ -208,33 +198,20 @@ const saveProfileBtn =
 
 const profileMessage =
     document.getElementById("profileMessage");
+   
 
-
-
-// ==========================================
-// API
-// ==========================================
-
-
-
+// ========================================
+// CONSTANTS / STATE
+// ========================================
 
 const OTP_TRANSFER_LIMIT = 5000;
 
 let otpVerified = false;
-// ========================================
-// TOKEN
-// ========================================
 
 let token =
     localStorage.getItem("token");
 
-
-// ========================================
-// TRANSFER WATCHER
-// ========================================
-
 let transferCheckInterval = null;
-
 
 
 // ========================================
@@ -293,18 +270,23 @@ function getProfileImageUrl(path) {
         return "default-profile.png";
     }
 
+    const cleanPath =
+        String(path).trim();
+
     if (
-        path.startsWith("http://") ||
-        path.startsWith("https://")
+        cleanPath.startsWith("http://") ||
+        cleanPath.startsWith("https://")
     ) {
-        return path;
+
+        return cleanPath;
     }
 
-    if (path.startsWith("/")) {
-        return `${API}${path}`;
+    if (cleanPath.startsWith("/")) {
+
+        return `${API}${cleanPath}`;
     }
 
-    return `${API}/${path}`;
+    return `${API}/${cleanPath}`;
 }
 
 
@@ -320,10 +302,6 @@ if (toggleBalance && balance) {
 
             if (balanceVisible) {
 
-                /*
-                 * Save the current displayed balance
-                 * before hiding it.
-                 */
                 balance.dataset.balance =
                     balance.textContent;
 
@@ -361,26 +339,16 @@ if (toggleBalance && balance) {
 
 
 // ========================================
-// SLIDER
-// ========================================
-
-
-
-// ========================================
 // LOGIN
 // ========================================
 
 if (loginForm) {
 
     const loginOtpSection =
-        document.getElementById(
-            "loginOtpSection"
-        );
+        document.getElementById("loginOtpSection");
 
     const loginOtp =
-        document.getElementById(
-            "loginOtp"
-        );
+        document.getElementById("loginOtp");
 
     const verifyLoginOtpButton =
         document.getElementById(
@@ -388,22 +356,16 @@ if (loginForm) {
         );
 
     const loginOtpMessage =
-        document.getElementById(
-            "loginOtpMessage"
-        );
+        document.getElementById("loginOtpMessage");
 
     const loginButton =
-        document.getElementById(
-            "loginButton"
-        );
+        document.getElementById("loginButton");
 
-
-    // Temporary login challenge
     let pendingLoginChallengeId = "";
 
 
     // ======================================
-    // LOGIN
+    // LOGIN FORM
     // ======================================
 
     loginForm.addEventListener(
@@ -412,31 +374,40 @@ if (loginForm) {
 
             e.preventDefault();
 
-
             const formData =
-                new FormData(
-                    loginForm
+                new FormData(loginForm);
+
+            const email =
+                String(
+                    formData.get("email") || ""
+                ).trim();
+
+            const password =
+                String(
+                    formData.get("password") || ""
                 );
 
 
-            const email =
-                formData.get("email");
+            if (!email || !password) {
 
+                if (message) {
 
-            const password =
-                formData.get("password");
+                    message.textContent =
+                        "Enter your email and password.";
+                }
+
+                return;
+            }
 
 
             try {
 
                 if (loginButton) {
 
-                    loginButton.disabled =
-                        true;
+                    loginButton.disabled = true;
 
                     loginButton.textContent =
                         "Checking...";
-
                 }
 
 
@@ -444,7 +415,6 @@ if (loginForm) {
                     await fetch(
                         `${API}/api/auth/login`,
                         {
-
                             method: "POST",
 
                             headers: {
@@ -454,13 +424,9 @@ if (loginForm) {
 
                             body:
                                 JSON.stringify({
-
                                     email,
-
                                     password
-
                                 })
-
                         }
                     );
 
@@ -474,12 +440,9 @@ if (loginForm) {
                 if (!response.ok) {
 
                     throw new Error(
-
                         data.message ||
-                        "Login failed"
-
+                        "Login failed."
                     );
-
                 }
 
 
@@ -487,60 +450,71 @@ if (loginForm) {
                 // OTP REQUIRED
                 // ==================================
 
-                if (
-                    data.requiresOtp
-                ) {
+                if (data.requiresOtp) {
 
                     pendingLoginChallengeId =
-                        data.challengeId;
+                        data.challengeId || "";
 
 
-                    if (
-                        loginForm
-                    ) {
+                    if (!pendingLoginChallengeId) {
+
+                        throw new Error(
+                            "Login requires verification, but no challenge ID was returned."
+                        );
+                    }
+
+
+                    if (loginForm) {
 
                         loginForm.style.display =
                             "none";
-
                     }
 
 
-                    if (
-                        loginOtpSection
-                    ) {
+                    if (loginOtpSection) {
 
                         loginOtpSection.style.display =
                             "block";
-
                     }
 
 
-                    if (
-                        loginOtpMessage
-                    ) {
+                    if (loginOtpMessage) {
 
                         loginOtpMessage.textContent =
                             data.message ||
                             "A verification code has been sent to your registered email.";
-
                     }
 
 
-                    if (
-                        loginOtp
-                    ) {
+                    if (loginOtp) {
 
-                        loginOtp.value =
-                            "";
+                        loginOtp.value = "";
 
                         loginOtp.focus();
-
                     }
 
 
                     return;
-
                 }
+
+
+                // ==================================
+                // DIRECT LOGIN
+                // ==================================
+
+                if (data.token) {
+
+                    completeLogin(
+                        data.token
+                    );
+
+                    return;
+                }
+
+
+                throw new Error(
+                    "Login succeeded but no authentication token was returned."
+                );
 
 
             } catch (error) {
@@ -555,9 +529,9 @@ if (loginForm) {
 
                     message.textContent =
                         error.message ||
-                        "Login failed";
-
+                        "Login failed.";
                 }
+
 
             } finally {
 
@@ -568,11 +542,8 @@ if (loginForm) {
 
                     loginButton.textContent =
                         "Login";
-
                 }
-
             }
-
         }
     );
 
@@ -581,35 +552,39 @@ if (loginForm) {
     // VERIFY LOGIN OTP
     // ======================================
 
-    if (
-        verifyLoginOtpButton
-    ) {
+    if (verifyLoginOtpButton) {
 
         verifyLoginOtpButton.addEventListener(
             "click",
             async () => {
 
                 const otp =
-                    loginOtp.value.trim();
+                    loginOtp
+                        ? loginOtp.value.trim()
+                        : "";
 
 
                 if (!pendingLoginChallengeId) {
 
-                    loginOtpMessage.textContent =
-                        "Your login session has expired. Please log in again.";
+                    if (loginOtpMessage) {
+
+                        loginOtpMessage.textContent =
+                            "Your login session has expired. Please log in again.";
+                    }
 
                     return;
-
                 }
 
 
                 if (!/^\d{6}$/.test(otp)) {
 
-                    loginOtpMessage.textContent =
-                        "Enter the 6-digit verification code.";
+                    if (loginOtpMessage) {
+
+                        loginOtpMessage.textContent =
+                            "Enter the 6-digit verification code.";
+                    }
 
                     return;
-
                 }
 
 
@@ -624,32 +599,23 @@ if (loginForm) {
 
                     const response =
                         await fetch(
-
                             `${API}/api/auth/verify-login-otp`,
-
                             {
-
                                 method: "POST",
 
                                 headers: {
-
                                     "Content-Type":
                                         "application/json"
-
                                 },
 
                                 body:
                                     JSON.stringify({
-
                                         challengeId:
                                             pendingLoginChallengeId,
 
                                         otp
-
                                     })
-
                             }
-
                         );
 
 
@@ -662,12 +628,9 @@ if (loginForm) {
                     if (!response.ok) {
 
                         throw new Error(
-
                             data.message ||
                             "Verification failed."
-
                         );
-
                     }
 
 
@@ -676,80 +639,16 @@ if (loginForm) {
                         throw new Error(
                             "Verification succeeded but no login token was returned."
                         );
-
                     }
 
 
-                    // ==================================
-                    // LOGIN COMPLETED
-                    // ==================================
-
-                    localStorage.setItem(
-                        "token",
+                    completeLogin(
                         data.token
                     );
 
 
-                    token =
-                        data.token;
-
-
                     pendingLoginChallengeId =
                         "";
-
-
-                    if (
-                        loginOtpMessage
-                    ) {
-
-                        loginOtpMessage.textContent =
-                            "Login successful.";
-
-                    }
-
-
-                    if (
-                        loginSection
-                    ) {
-
-                        loginSection.style.display =
-                            "none";
-
-                    }
-
-
-                    if (
-                        loginOtpSection
-                    ) {
-
-                        loginOtpSection.style.display =
-                            "none";
-
-                    }
-
-
-                    if (
-                        dashboardSection
-                    ) {
-
-                        dashboardSection.style.display =
-                            "block";
-
-                    }
-
-
-                    if (message) {
-
-                        message.textContent =
-                            "";
-
-                    }
-
-
-                    // Load existing dashboard data
-                    getProfile();
-
-                    getTransactions();
 
 
                 } catch (error) {
@@ -760,15 +659,13 @@ if (loginForm) {
                     );
 
 
-                    if (
-                        loginOtpMessage
-                    ) {
+                    if (loginOtpMessage) {
 
                         loginOtpMessage.textContent =
                             error.message ||
                             "Verification failed.";
-
                     }
+
 
                 } finally {
 
@@ -777,14 +674,69 @@ if (loginForm) {
 
                     verifyLoginOtpButton.textContent =
                         "Verify Code";
-
                 }
-
             }
         );
-
     }
 
+
+    // ======================================
+    // COMPLETE LOGIN
+    // ======================================
+
+    function completeLogin(newToken) {
+
+        localStorage.setItem(
+            "token",
+            newToken
+        );
+
+        token = newToken;
+
+
+        if (loginSection) {
+
+            loginSection.style.display =
+                "none";
+        }
+
+
+        if (loginOtpSection) {
+
+            loginOtpSection.style.display =
+                "none";
+        }
+
+
+        if (dashboardSection) {
+
+            dashboardSection.style.display =
+                "block";
+        }
+
+
+        if (loginForm) {
+
+            loginForm.reset();
+        }
+
+
+        if (message) {
+
+            message.textContent = "";
+        }
+
+
+        if (loginOtpMessage) {
+
+            loginOtpMessage.textContent = "";
+        }
+
+
+        getProfile();
+
+        getTransactions();
+    }
 }
 
 
@@ -805,6 +757,8 @@ async function getProfile() {
             await fetch(
                 `${API}/api/users/profile`,
                 {
+                    method: "GET",
+
                     headers: {
                         Authorization:
                             `Bearer ${token}`
@@ -814,14 +768,23 @@ async function getProfile() {
 
 
         const data =
-            await getResponseData(response);
+            await getResponseData(
+                response
+            );
 
 
         if (!response.ok) {
 
+            if (response.status === 401) {
+
+                handleSessionExpired();
+                return;
+            }
+
+
             throw new Error(
                 data.message ||
-                "Unable to load profile"
+                "Unable to load profile."
             );
         }
 
@@ -833,7 +796,7 @@ async function getProfile() {
         if (!user) {
 
             throw new Error(
-                "User information was not returned"
+                "User information was not returned."
             );
         }
 
@@ -874,18 +837,10 @@ async function getProfile() {
                 ).toLocaleString();
 
 
-            /*
-             * Always keep the real formatted
-             * balance stored in data-balance.
-             */
             balance.dataset.balance =
                 formattedBalance;
 
 
-            /*
-             * Only display it if the eye
-             * is currently open.
-             */
             if (balanceVisible) {
 
                 balance.textContent =
@@ -900,18 +855,24 @@ async function getProfile() {
 
         if (profilePhoto) {
 
-            if (user.profilePhoto) {
+            const imageURL =
+                getProfileImageUrl(
+                    user.profilePhoto
+                );
 
-                profilePhoto.src =
-                    getProfileImageUrl(
-                        user.profilePhoto
-                    );
 
-            } else {
+            profilePhoto.src =
+                imageURL;
 
-                profilePhoto.src =
-                    "default-profile.png";
-            }
+
+            profilePhoto.onerror =
+                function () {
+
+                    this.onerror = null;
+
+                    this.src =
+                        "default-profile.png";
+                };
         }
 
 
@@ -940,7 +901,7 @@ async function getProfile() {
 
 
         // ========================================
-        // OTHER DASHBOARD NAME
+        // WELCOME NAME
         // ========================================
 
         const welcomeName =
@@ -1031,6 +992,8 @@ async function getTransactions() {
             await fetch(
                 `${API}/api/users/transactions`,
                 {
+                    method: "GET",
+
                     headers: {
                         Authorization:
                             `Bearer ${token}`
@@ -1040,14 +1003,23 @@ async function getTransactions() {
 
 
         const data =
-            await getResponseData(response);
+            await getResponseData(
+                response
+            );
 
 
         if (!response.ok) {
 
+            if (response.status === 401) {
+
+                handleSessionExpired();
+                return;
+            }
+
+
             throw new Error(
                 data.message ||
-                "Unable to load transactions"
+                "Unable to load transactions."
             );
         }
 
@@ -1067,9 +1039,7 @@ async function getTransactions() {
         if (transactions.length === 0) {
 
             const emptyMessage =
-                document.createElement(
-                    "p"
-                );
+                document.createElement("p");
 
             emptyMessage.textContent =
                 "No transactions yet.";
@@ -1086,9 +1056,7 @@ async function getTransactions() {
             (transaction) => {
 
                 const item =
-                    document.createElement(
-                        "div"
-                    );
+                    document.createElement("div");
 
 
                 item.classList.add(
@@ -1134,9 +1102,7 @@ async function getTransactions() {
 
                 item.innerHTML = `
                     <p>
-                        <strong>
-                            ${type}
-                        </strong>
+                        <strong>${type}</strong>
                     </p>
 
                     <p>
@@ -1187,6 +1153,9 @@ if (transferType) {
     transferType.addEventListener(
         "change",
         () => {
+
+            resetOTPState();
+
 
             if (verifiedAccountBox) {
 
@@ -1253,7 +1222,7 @@ if (verifySameBank) {
             if (!sameBankAccount) {
 
                 console.error(
-                    "sameBankAccount element not found"
+                    "sameBankAccount element not found."
                 );
 
                 return;
@@ -1267,7 +1236,7 @@ if (verifySameBank) {
             if (!customerAccount) {
 
                 alert(
-                    "Enter an account number"
+                    "Enter an account number."
                 );
 
                 return;
@@ -1286,6 +1255,14 @@ if (verifySameBank) {
 
             try {
 
+                verifySameBank.disabled =
+                    true;
+
+
+                verifySameBank.textContent =
+                    "Verifying...";
+
+
                 const response =
                     await fetch(
                         `${API}/api/transfers/verify-same-bank`,
@@ -1300,10 +1277,11 @@ if (verifySameBank) {
                                     `Bearer ${token}`
                             },
 
-                            body: JSON.stringify({
-                                accountNumber:
-                                    customerAccount
-                            })
+                            body:
+                                JSON.stringify({
+                                    accountNumber:
+                                        customerAccount
+                                })
                         }
                     );
 
@@ -1318,7 +1296,7 @@ if (verifySameBank) {
 
                     throw new Error(
                         result.message ||
-                        "Account verification failed"
+                        "Account verification failed."
                     );
                 }
 
@@ -1342,7 +1320,7 @@ if (verifySameBank) {
                 if (verificationStatus) {
 
                     verificationStatus.textContent =
-                        "✓ Globalcrest account verified";
+                        "✓ GlobalCrest account verified";
                 }
 
 
@@ -1359,13 +1337,24 @@ if (verifySameBank) {
                     verifiedAccountBox.style.display =
                         "none";
                 }
+
+
                 resetOTPState();
 
 
                 alert(
                     error.message ||
-                    "Unable to verify account"
+                    "Unable to verify account."
                 );
+
+
+            } finally {
+
+                verifySameBank.disabled =
+                    false;
+
+                verifySameBank.textContent =
+                    "Verify Account";
             }
         }
     );
@@ -1383,12 +1372,13 @@ if (verifyExternalBank) {
         () => {
 
             console.log(
-                "External bank verification is not configured "
+                "External bank verification is not configured."
             );
 
         }
     );
 }
+
 
 // ========================================
 // RESET OTP STATE
@@ -1427,7 +1417,8 @@ function resetOTPState() {
 
     if (requestOtpBtn) {
 
-        requestOtpBtn.disabled = false;
+        requestOtpBtn.disabled =
+            false;
 
         requestOtpBtn.textContent =
             "Send Verification Code";
@@ -1436,16 +1427,53 @@ function resetOTPState() {
 
     if (verifyOtpBtn) {
 
-        verifyOtpBtn.disabled = false;
+        verifyOtpBtn.disabled =
+            false;
+
+        verifyOtpBtn.textContent =
+            "Verify Code";
     }
 
 
-    if (transferSubmitBtn) {
+    if (amountInput) {
 
-        transferSubmitBtn.disabled =
-            false;
+        const amount =
+            Number(
+                amountInput.value
+            );
+
+
+        if (
+            Number.isFinite(amount) &&
+            amount > OTP_TRANSFER_LIMIT
+        ) {
+
+            if (transferSubmitBtn) {
+
+                transferSubmitBtn.disabled =
+                    true;
+            }
+
+        } else {
+
+            if (transferSubmitBtn) {
+
+                transferSubmitBtn.disabled =
+                    false;
+            }
+        }
+
+    } else {
+
+        if (transferSubmitBtn) {
+
+            transferSubmitBtn.disabled =
+                false;
+        }
     }
 }
+
+
 // ========================================
 // CHECK OTP REQUIREMENT
 // ========================================
@@ -1468,10 +1496,6 @@ function updateOTPRequirement() {
         return;
     }
 
-
-    // ========================================
-    // LARGE TRANSFER
-    // ========================================
 
     otpVerified = false;
 
@@ -1503,6 +1527,8 @@ function updateOTPRequirement() {
             "Verification is required before this transfer can be submitted.";
     }
 }
+
+
 // ========================================
 // AMOUNT CHANGE
 // ========================================
@@ -1514,10 +1540,104 @@ if (amountInput) {
         () => {
 
             updateOTPRequirement();
-
         }
     );
 }
+
+
+// ========================================
+// RECIPIENT CHANGE
+// ========================================
+// IMPORTANT:
+// This listener must NOT be inside the
+// transfer form submit handler.
+
+const sameBankAccountInput =
+    document.getElementById(
+        "sameBankAccount"
+    );
+
+
+if (sameBankAccountInput) {
+
+    sameBankAccountInput.addEventListener(
+        "input",
+        () => {
+
+            if (verifiedAccountBox) {
+
+                verifiedAccountBox.style.display =
+                    "none";
+            }
+
+
+            if (verificationStatus) {
+
+                verificationStatus.textContent =
+                    "";
+            }
+
+
+            const amount =
+                Number(
+                    amountInput?.value
+                );
+
+
+            if (
+                Number.isFinite(amount) &&
+                amount > OTP_TRANSFER_LIMIT
+            ) {
+
+                otpVerified = false;
+
+
+                if (transferSubmitBtn) {
+
+                    transferSubmitBtn.disabled =
+                        true;
+                }
+
+
+                if (otpInputArea) {
+
+                    otpInputArea.style.display =
+                        "none";
+                }
+
+
+                if (transferOtp) {
+
+                    transferOtp.value =
+                        "";
+                }
+
+
+                if (requestOtpBtn) {
+
+                    requestOtpBtn.disabled =
+                        false;
+
+                    requestOtpBtn.textContent =
+                        "Send Verification Code";
+                }
+
+
+                if (otpStatus) {
+
+                    otpStatus.textContent =
+                        "Recipient changed. Please verify the recipient and request a new verification code.";
+                }
+
+            } else {
+
+                resetOTPState();
+            }
+        }
+    );
+}
+
+
 // ========================================
 // REQUEST OTP
 // ========================================
@@ -1554,7 +1674,7 @@ if (requestOtpBtn) {
                 if (otpStatus) {
 
                     otpStatus.textContent =
-                        "OTP is only required for transfers above 5,000.";
+                        "OTP is only required for transfers above ₦5,000.";
                 }
 
                 return;
@@ -1566,7 +1686,7 @@ if (requestOtpBtn) {
                 if (otpStatus) {
 
                     otpStatus.textContent =
-                        "Verify the recipient account first.";
+                        "Enter the recipient account number first.";
                 }
 
                 return;
@@ -1589,7 +1709,6 @@ if (requestOtpBtn) {
 
                 requestOtpBtn.disabled =
                     true;
-
 
                 requestOtpBtn.textContent =
                     "Sending...";
@@ -1645,6 +1764,7 @@ if (requestOtpBtn) {
                 if (otpStatus) {
 
                     otpStatus.textContent =
+                        result.message ||
                         "Verification code sent to your registered email.";
                 }
 
@@ -1664,7 +1784,6 @@ if (requestOtpBtn) {
                 requestOtpBtn.disabled =
                     false;
 
-
                 requestOtpBtn.textContent =
                     "Send Verification Code";
 
@@ -1679,6 +1798,8 @@ if (requestOtpBtn) {
         }
     );
 }
+
+
 // ========================================
 // VERIFY OTP
 // ========================================
@@ -1725,11 +1846,7 @@ if (verifyOtpBtn) {
             }
 
 
-            if (
-                !/^\d{6}$/.test(
-                    otp
-                )
-            ) {
+            if (!/^\d{6}$/.test(otp)) {
 
                 if (otpStatus) {
 
@@ -1743,7 +1860,8 @@ if (verifyOtpBtn) {
 
             if (
                 !customerAccount ||
-                !Number.isFinite(amount)
+                !Number.isFinite(amount) ||
+                amount <= 0
             ) {
 
                 if (otpStatus) {
@@ -1756,11 +1874,22 @@ if (verifyOtpBtn) {
             }
 
 
+            if (!token) {
+
+                if (otpStatus) {
+
+                    otpStatus.textContent =
+                        "Please login again.";
+                }
+
+                return;
+            }
+
+
             try {
 
                 verifyOtpBtn.disabled =
                     true;
-
 
                 verifyOtpBtn.textContent =
                     "Verifying...";
@@ -1822,7 +1951,6 @@ if (verifyOtpBtn) {
                 verifyOtpBtn.textContent =
                     "Verified";
 
-
                 verifyOtpBtn.disabled =
                     true;
 
@@ -1845,7 +1973,6 @@ if (verifyOtpBtn) {
                 verifyOtpBtn.disabled =
                     false;
 
-
                 verifyOtpBtn.textContent =
                     "Verify Code";
 
@@ -1860,6 +1987,8 @@ if (verifyOtpBtn) {
         }
     );
 }
+
+
 // ========================================
 // TRANSFER FORM
 // ========================================
@@ -1880,9 +2009,11 @@ if (transferForm) {
 
 
             const customerAccount =
-                formData.get(
-                    "accountNumber"
-                );
+                String(
+                    formData.get(
+                        "accountNumber"
+                    ) || ""
+                ).trim();
 
 
             const amount =
@@ -1890,101 +2021,10 @@ if (transferForm) {
                     formData.get("amount")
                 );
 
-// ========================================
-// OTP CHECK
-// ========================================
 
-if (
-    amount > OTP_TRANSFER_LIMIT &&
-    !otpVerified
-) {
-
-    if (message) {
-
-        message.textContent =
-            "Please verify the transfer with the code sent to your email.";
-    }
-
-    return;
-}
-// ========================================
-// RECIPIENT CHANGE
-// ========================================
-
-const sameBankAccountInput =
-    document.getElementById(
-        "sameBankAccount"
-    );
-
-
-if (sameBankAccountInput) {
-
-    sameBankAccountInput.addEventListener(
-        "input",
-        () => {
-
-            const amount =
-                Number(
-                    amountInput?.value
-                );
-
-
-            if (
-                amount >
-                OTP_TRANSFER_LIMIT
-            ) {
-
-                otpVerified =
-                    false;
-
-
-                if (transferSubmitBtn) {
-
-                    transferSubmitBtn.disabled =
-                        true;
-                }
-
-
-                if (otpStatus) {
-
-                    otpStatus.textContent =
-                        "Recipient changed. Please request a new verification code.";
-                }
-
-
-                if (otpInputArea) {
-
-                    otpInputArea.style.display =
-                        "none";
-                }
-
-
-                if (transferOtp) {
-
-                    transferOtp.value =
-                        "";
-                }
-
-
-                if (requestOtpBtn) {
-
-                    requestOtpBtn.disabled =
-                        false;
-
-                    requestOtpBtn.textContent =
-                        "Send Verification Code";
-                }
-            }
-
-        }
-    );
-}
-            if (message) {
-
-                message.textContent =
-                    "";
-            }
-
+            // ==================================
+            // VALIDATE AMOUNT
+            // ==================================
 
             if (
                 !customerAccount ||
@@ -2002,6 +2042,29 @@ if (sameBankAccountInput) {
             }
 
 
+            // ==================================
+            // OTP CHECK
+            // ==================================
+
+            if (
+                amount > OTP_TRANSFER_LIMIT &&
+                !otpVerified
+            ) {
+
+                if (message) {
+
+                    message.textContent =
+                        "Please verify the transfer with the code sent to your email.";
+                }
+
+                return;
+            }
+
+
+            // ==================================
+            // TOKEN CHECK
+            // ==================================
+
             if (!token) {
 
                 if (message) {
@@ -2014,7 +2077,23 @@ if (sameBankAccountInput) {
             }
 
 
+            if (message) {
+
+                message.textContent = "";
+            }
+
+
             try {
+
+                if (transferSubmitBtn) {
+
+                    transferSubmitBtn.disabled =
+                        true;
+
+                    transferSubmitBtn.textContent =
+                        "Submitting...";
+                }
+
 
                 const response =
                     await fetch(
@@ -2030,12 +2109,13 @@ if (sameBankAccountInput) {
                                     `Bearer ${token}`
                             },
 
-                            body: JSON.stringify({
-                                accountNumber:
-                                    customerAccount,
+                            body:
+                                JSON.stringify({
+                                    accountNumber:
+                                        customerAccount,
 
-                                amount
-                            })
+                                    amount
+                                })
                         }
                     );
 
@@ -2051,7 +2131,7 @@ if (sameBankAccountInput) {
                     throw new Error(
                         result.message ||
                         result.error ||
-                        "Transfer failed"
+                        "Transfer failed."
                     );
                 }
 
@@ -2069,12 +2149,14 @@ if (sameBankAccountInput) {
 
 
                 formReset();
-          
-              resetOTPState();
 
-           showTransferPending(
-               transaction
-             );
+                resetOTPState();
+
+
+                showTransferPending(
+                    transaction
+                );
+
 
                 watchTransfer(
                     transaction._id
@@ -2093,7 +2175,30 @@ if (sameBankAccountInput) {
 
                     message.textContent =
                         error.message ||
-                        "Transfer failed";
+                        "Transfer failed.";
+                }
+
+
+            } finally {
+
+                if (transferSubmitBtn) {
+
+                    const currentAmount =
+                        Number(
+                            amountInput?.value
+                        );
+
+
+                    if (
+                        !Number.isFinite(
+                            currentAmount
+                        ) ||
+                        currentAmount <= OTP_TRANSFER_LIMIT
+                    ) {
+
+                        transferSubmitBtn.disabled =
+                            false;
+                    }
                 }
             }
         }
@@ -2110,6 +2215,20 @@ function formReset() {
     if (transferForm) {
 
         transferForm.reset();
+    }
+
+
+    if (verifiedAccountBox) {
+
+        verifiedAccountBox.style.display =
+            "none";
+    }
+
+
+    if (verificationStatus) {
+
+        verificationStatus.textContent =
+            "";
     }
 }
 
@@ -2227,6 +2346,8 @@ async function checkTransferStatus(
             await fetch(
                 `${API}/api/users/transactions/${transactionId}`,
                 {
+                    method: "GET",
+
                     headers: {
                         Authorization:
                             `Bearer ${token}`
@@ -2235,7 +2356,15 @@ async function checkTransferStatus(
             );
 
 
+        if (response.status === 401) {
+
+            handleSessionExpired();
+            return;
+        }
+
+
         if (!response.ok) {
+
             return;
         }
 
@@ -2270,12 +2399,15 @@ async function checkTransferStatus(
             "approved"
         ) {
 
-            clearInterval(
-                transferCheckInterval
-            );
+            if (transferCheckInterval) {
 
-            transferCheckInterval =
-                null;
+                clearInterval(
+                    transferCheckInterval
+                );
+
+                transferCheckInterval =
+                    null;
+            }
 
 
             showTransferSuccess(
@@ -2286,11 +2418,13 @@ async function checkTransferStatus(
             getProfile();
 
             getTransactions();
+
+            return;
         }
 
 
         // ========================================
-        // DECLINED
+        // REJECTED
         // ========================================
 
         if (
@@ -2298,12 +2432,15 @@ async function checkTransferStatus(
             "rejected"
         ) {
 
-            clearInterval(
-                transferCheckInterval
-            );
+            if (transferCheckInterval) {
 
-            transferCheckInterval =
-                null;
+                clearInterval(
+                    transferCheckInterval
+                );
+
+                transferCheckInterval =
+                    null;
+            }
 
 
             showTransferDeclined(
@@ -2599,7 +2736,8 @@ if (viewReceipt) {
 
 
             receipt.scrollIntoView({
-                behavior: "smooth"
+                behavior: "smooth",
+                block: "center"
             });
         }
     );
@@ -2655,7 +2793,11 @@ if (downloadReceipt) {
 
                 const canvas =
                     await html2canvas(
-                        receipt
+                        receipt,
+                        {
+                            useCORS: true,
+                            scale: 2
+                        }
                     );
 
 
@@ -2750,7 +2892,11 @@ if (saveReceiptImage) {
 
                 const canvas =
                     await html2canvas(
-                        receipt
+                        receipt,
+                        {
+                            useCORS: true,
+                            scale: 2
+                        }
                     );
 
 
@@ -2761,9 +2907,7 @@ if (saveReceiptImage) {
 
 
                 const link =
-                    document.createElement(
-                        "a"
-                    );
+                    document.createElement("a");
 
 
                 link.href =
@@ -2774,7 +2918,15 @@ if (saveReceiptImage) {
                     "transfer-receipt.png";
 
 
+                document.body.appendChild(
+                    link
+                );
+
+
                 link.click();
+
+
+                link.remove();
 
 
             } catch (error) {
@@ -2815,8 +2967,10 @@ if (logoutButton) {
             );
 
 
-            token =
-                null;
+            token = null;
+
+
+            resetOTPState();
 
 
             if (dashboardSection) {
@@ -2839,6 +2993,53 @@ if (logoutButton) {
             }
         }
     );
+}
+
+
+// ========================================
+// SESSION EXPIRED
+// ========================================
+
+function handleSessionExpired() {
+
+    localStorage.removeItem(
+        "token"
+    );
+
+
+    token = null;
+
+
+    if (transferCheckInterval) {
+
+        clearInterval(
+            transferCheckInterval
+        );
+
+        transferCheckInterval =
+            null;
+    }
+
+
+    if (dashboardSection) {
+
+        dashboardSection.style.display =
+            "none";
+    }
+
+
+    if (loginSection) {
+
+        loginSection.style.display =
+            "block";
+    }
+
+
+    if (message) {
+
+        message.textContent =
+            "Your session has expired. Please login again.";
+    }
 }
 
 
@@ -2882,104 +3083,121 @@ if (token) {
     }
 }
 
-// ==========================================
-// EDIT PROFILE / PROFILE PHOTO
-// ==========================================
-
 
 // ==========================================
-// PROFILE / EDIT PROFILE
+// EDIT PROFILE MODAL
 // ==========================================
-
-
-
-
-// ==========================================
-// ELEMENTS
-// ==========================================
-
 
 // ==========================================
 // OPEN EDIT PROFILE MODAL
 // ==========================================
 
-if (editProfileBtn && editProfileModal) {
+if (
+    editProfileBtn &&
+    editProfileModal
+) {
 
-    editProfileBtn.addEventListener("click", function () {
+    editProfileBtn.addEventListener(
+        "click",
+        () => {
 
-        editProfileModal.style.display = "flex";
+            editProfileModal.style.display =
+                "flex";
 
-        if (profileMessage) {
-            profileMessage.textContent = "";
+
+            if (profileMessage) {
+
+                profileMessage.textContent =
+                    "";
+            }
+
+
+            if (photoPreview) {
+
+                photoPreview.innerHTML =
+                    "";
+            }
+
+
+            if (profilePhotoInput) {
+
+                profilePhotoInput.value =
+                    "";
+            }
         }
-
-        if (photoPreview) {
-            photoPreview.innerHTML = "";
-        }
-
-        if (profilePhotoInput) {
-            profilePhotoInput.value = "";
-        }
-
-    });
-
+    );
 }
 
 
 // ==========================================
-// CLOSE MODAL
+// CLOSE EDIT PROFILE
 // ==========================================
 
 function closeEditProfile() {
 
-    if (!editProfileModal) return;
+    if (!editProfileModal) {
+        return;
+    }
 
-    editProfileModal.style.display = "none";
+
+    editProfileModal.style.display =
+        "none";
+
 
     if (profileMessage) {
-        profileMessage.textContent = "";
+
+        profileMessage.textContent =
+            "";
     }
+
 
     if (photoPreview) {
-        photoPreview.innerHTML = "";
+
+        photoPreview.innerHTML =
+            "";
     }
+
 
     if (profilePhotoInput) {
-        profilePhotoInput.value = "";
-    }
 
+        profilePhotoInput.value =
+            "";
+    }
 }
 
 
-// Close button
+// ==========================================
+// CLOSE BUTTON
+// ==========================================
+
 if (closeProfileModal) {
 
     closeProfileModal.addEventListener(
         "click",
         closeEditProfile
     );
-
 }
 
 
-// Close when clicking outside
+// ==========================================
+// CLOSE WHEN CLICKING OUTSIDE
+// ==========================================
+
 if (editProfileModal) {
 
     editProfileModal.addEventListener(
         "click",
-        function (event) {
+        (event) => {
 
             if (
-                event.target === editProfileModal
+                event.target ===
+                editProfileModal
             ) {
 
                 closeEditProfile();
-
             }
-
         }
     );
-
 }
 
 
@@ -2993,47 +3211,89 @@ if (profilePhotoInput) {
         "change",
         function () {
 
-            const file = this.files[0];
+            const file =
+                this.files &&
+                this.files[0];
+
 
             if (!file) {
 
-                photoPreview.innerHTML = "";
+                if (photoPreview) {
+
+                    photoPreview.innerHTML =
+                        "";
+                }
 
                 return;
             }
 
 
-            // Make sure it is an image
-            if (!file.type.startsWith("image/")) {
+            // ==================================
+            // IMAGE VALIDATION
+            // ==================================
 
-                profileMessage.textContent =
-                    "Please select an image file.";
+            if (
+                !file.type.startsWith(
+                    "image/"
+                )
+            ) {
 
-                this.value = "";
+                if (profileMessage) {
+
+                    profileMessage.textContent =
+                        "Please select an image file.";
+                }
+
+
+                this.value =
+                    "";
+
 
                 return;
             }
 
 
-            // Create preview
-            const reader = new FileReader();
+            // ==================================
+            // PREVIEW
+            // ==================================
 
-            reader.onload = function (event) {
+            if (!photoPreview) {
+                return;
+            }
 
-                photoPreview.innerHTML = `
-                    <img
-                        src="${event.target.result}"
-                        alt="Profile Preview"
-                    >
-                `;
 
-            };
+            const reader =
+                new FileReader();
 
-            reader.readAsDataURL(file);
 
+            reader.onload =
+                function (event) {
+
+                    photoPreview.innerHTML = `
+                        <img
+                            src="${event.target.result}"
+                            alt="Profile Preview"
+                        >
+                    `;
+                };
+
+
+            reader.onerror =
+                function () {
+
+                    if (profileMessage) {
+
+                        profileMessage.textContent =
+                            "Unable to preview this image.";
+                    }
+                };
+
+
+            reader.readAsDataURL(
+                file
+            );
         }
     );
-
 }
 
 
@@ -3051,28 +3311,45 @@ if (editProfileForm) {
 
 
             const file =
-                profilePhotoInput.files[0];
+                profilePhotoInput &&
+                profilePhotoInput.files
+                    ? profilePhotoInput.files[0]
+                    : null;
 
 
-            // No file
+            // ==================================
+            // FILE CHECK
+            // ==================================
+
             if (!file) {
 
-                profileMessage.textContent =
-                    "Please select a profile photo.";
+                if (profileMessage) {
+
+                    profileMessage.textContent =
+                        "Please select a profile photo.";
+                }
 
                 return;
             }
 
 
-            // Get login token
-            const token =
-                localStorage.getItem("token");
+            // ==================================
+            // TOKEN CHECK
+            // ==================================
+
+            const currentToken =
+                localStorage.getItem(
+                    "token"
+                );
 
 
-            if (!token) {
+            if (!currentToken) {
 
-                profileMessage.textContent =
-                    "Your session has expired. Please login again.";
+                if (profileMessage) {
+
+                    profileMessage.textContent =
+                        "Your session has expired. Please login again.";
+                }
 
                 return;
             }
@@ -3080,18 +3357,30 @@ if (editProfileForm) {
 
             try {
 
-                saveProfileBtn.disabled = true;
+                if (saveProfileBtn) {
 
-                saveProfileBtn.textContent =
-                    "Uploading...";
+                    saveProfileBtn.disabled =
+                        true;
 
-                profileMessage.textContent =
-                    "Uploading your photo...";
+                    saveProfileBtn.textContent =
+                        "Uploading...";
+                }
 
 
-                // FormData
+                if (profileMessage) {
+
+                    profileMessage.textContent =
+                        "Uploading your photo...";
+                }
+
+
+                // ==================================
+                // FORM DATA
+                // ==================================
+
                 const formData =
                     new FormData();
+
 
                 formData.append(
                     "profilePhoto",
@@ -3099,16 +3388,22 @@ if (editProfileForm) {
                 );
 
 
-                // Send to backend
+                // ==================================
+                // UPLOAD
+                // ==================================
+                // IMPORTANT:
+                // The users route is under /api.
+                // ==================================
+
                 const response =
                     await fetch(
-                        `${API}/users/profile/photo`,
+                        `${API}/api/users/profile/photo`,
                         {
                             method: "PUT",
 
                             headers: {
                                 Authorization:
-                                    `Bearer ${token}`
+                                    `Bearer ${currentToken}`
                             },
 
                             body: formData
@@ -3116,70 +3411,71 @@ if (editProfileForm) {
                     );
 
 
-                // Read response
                 const data =
-                    await response.json();
+                    await getResponseData(
+                        response
+                    );
 
 
                 if (!response.ok) {
+
+                    if (
+                        response.status ===
+                        401
+                    ) {
+
+                        handleSessionExpired();
+                    }
+
 
                     throw new Error(
                         data.message ||
                         "Failed to upload profile photo."
                     );
-
                 }
 
 
                 // ==================================
-                // SUCCESS
+                // SUCCESS MESSAGE
                 // ==================================
 
-                profileMessage.textContent =
-                    data.message ||
-                    "Profile photo updated successfully.";
+                if (profileMessage) {
+
+                    profileMessage.textContent =
+                        data.message ||
+                        "Profile photo updated successfully.";
+                }
 
 
                 // ==================================
-                // UPDATE PROFILE IMAGE
+                // UPDATE IMAGE
                 // ==================================
 
                 if (
                     data.user &&
-                    data.user.profilePhoto
+                    data.user.profilePhoto &&
+                    profilePhoto
                 ) {
 
-                    const profilePhoto =
-                        document.getElementById(
-                            "profilePhoto"
+                    const photoURL =
+                        getProfileImageUrl(
+                            data.user.profilePhoto
                         );
 
 
-                    if (profilePhoto) {
+                    profilePhoto.onerror =
+                        function () {
 
-                        let photoURL =
-                            data.user.profilePhoto;
+                            this.onerror =
+                                null;
 
-
-                        // Backend returns:
-                        // /uploads/profiles/photo.jpg
-
-                        if (
-                            photoURL.startsWith("/")
-                        ) {
-
-                            photoURL =
-                                API + photoURL;
-
-                        }
+                            this.src =
+                                "default-profile.png";
+                        };
 
 
-                        // Add cache breaker
-                        profilePhoto.src =
-                            `${photoURL}?t=${Date.now()}`;
-
-                    }
-
+                    profilePhoto.src =
+                        `${photoURL}?t=${Date.now()}`;
                 }
 
 
@@ -3187,11 +3483,14 @@ if (editProfileForm) {
                 // CLOSE MODAL
                 // ==================================
 
-                setTimeout(function () {
+                setTimeout(
+                    () => {
 
-                    closeEditProfile();
+                        closeEditProfile();
 
-                }, 1000);
+                    },
+                    1000
+                );
 
 
             } catch (error) {
@@ -3202,22 +3501,26 @@ if (editProfileForm) {
                 );
 
 
-                profileMessage.textContent =
-                    error.message ||
-                    "Something went wrong while uploading.";
+                if (profileMessage) {
+
+                    profileMessage.textContent =
+                        error.message ||
+                        "Something went wrong while uploading.";
+                }
 
 
             } finally {
 
-                saveProfileBtn.disabled = false;
+                if (saveProfileBtn) {
 
-                saveProfileBtn.textContent =
-                    "Upload Photo";
+                    saveProfileBtn.disabled =
+                        false;
 
+                    saveProfileBtn.textContent =
+                        "Upload Photo";
+                }
             }
-
         }
     );
-
 }
-
+});

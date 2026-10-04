@@ -1,8 +1,4 @@
 
-/* =========================================================
-   GLOBAL RESET
-========================================================= */
-
 * {
   margin: 0;
   padding: 0;
@@ -407,6 +403,7 @@ body {
   position: absolute;
   top: 25px;
   right: 25px;
+  z-index: 5;
   border: 1px solid rgba(255,255,255,0.25);
   background: rgba(255,255,255,0.1);
   color: white;
@@ -521,90 +518,6 @@ body {
   padding: 12px 25px;
   border-radius: 8px;
   font-weight: 700;
-}
-
-
-/* =========================================================
-   PROFILE MODAL
-========================================================= */
-
-.profile-modal {
-  position: fixed;
-  inset: 0;
-  background: rgba(2, 8, 23, 0.7);
-  backdrop-filter: blur(6px);
-  z-index: 3000;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 20px;
-}
-
-.profile-modal-content {
-  width: min(450px, 100%);
-  background: white;
-  padding: 30px;
-  border-radius: 20px;
-  box-shadow: 0 30px 80px rgba(0,0,0,0.25);
-}
-
-.profile-modal-content h2 {
-  margin-bottom: 25px;
-}
-
-#editProfileForm {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-#editProfileForm label {
-  font-size: 14px;
-  font-weight: 700;
-}
-
-#profilePhotoInput {
-  padding: 10px;
-  border: 1px solid var(--border);
-  border-radius: 8px;
-}
-
-#photoPreview {
-  min-height: 80px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-#photoPreview img {
-  width: 100px;
-  height: 100px;
-  object-fit: cover;
-  border-radius: 50%;
-}
-
-#saveProfileBtn,
-#closeProfileModal {
-  border: none;
-  padding: 12px;
-  border-radius: 8px;
-  font-weight: 700;
-}
-
-#saveProfileBtn {
-  background: var(--primary);
-  color: white;
-}
-
-#closeProfileModal {
-  background: #e5e7eb;
-  color: #111827;
-}
-
-#profileMessage {
-  text-align: center;
-  font-size: 14px;
 }
 
 
