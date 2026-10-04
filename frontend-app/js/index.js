@@ -184,6 +184,35 @@ const otpStatus =
     document.getElementById(
         "otpStatus"
     );
+    
+const editProfileModal =
+    document.getElementById("editProfileModal");
+
+const editProfileForm =
+    document.getElementById("editProfileForm");
+
+const profilePhotoInput =
+    document.getElementById("profilePhotoInput");
+
+const photoPreview =
+    document.getElementById("photoPreview");
+
+const saveProfileBtn =
+    document.getElementById("saveProfileBtn");
+
+const closeProfileModal =
+    document.getElementById("closeProfileModal");
+
+const profileMessage =
+    document.getElementById("profileMessage");
+
+
+// ==========================================
+// API
+// ==========================================
+
+
+
 
 const OTP_TRANSFER_LIMIT = 5000;
 
@@ -202,6 +231,9 @@ let token =
 
 let transferCheckInterval = null;
 
+document.getElementById("editProfileBtn").addEventListener("click", function () {
+    document.getElementById("editProfileModal").style.display = "flex";
+});
 
 // ========================================
 // SAFE JSON RESPONSE
@@ -2851,37 +2883,6 @@ if (token) {
 // ==========================================
 // EDIT PROFILE / PROFILE PHOTO
 // ==========================================
-
-const editProfileModal =
-    document.getElementById("editProfileModal");
-
-const editProfileForm =
-    document.getElementById("editProfileForm");
-
-const profilePhotoInput =
-    document.getElementById("profilePhotoInput");
-
-const photoPreview =
-    document.getElementById("photoPreview");
-
-const saveProfileBtn =
-    document.getElementById("saveProfileBtn");
-
-const closeProfileModal =
-    document.getElementById("closeProfileModal");
-
-const profileMessage =
-    document.getElementById("profileMessage");
-
-
-// ==========================================
-// API
-// ==========================================
-
-
-document.getElementById("editProfileBtn").addEventListener("click", function () {
-    document.getElementById("editProfileModal").style.display = "flex";
-});
 
 // ==========================================
 // OPEN MODAL
