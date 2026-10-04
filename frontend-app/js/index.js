@@ -185,11 +185,17 @@ const otpStatus =
         "otpStatus"
     );
     
+const editProfileBtn =
+    document.getElementById("editProfileBtn");
+
 const editProfileModal =
     document.getElementById("editProfileModal");
 
 const editProfileForm =
     document.getElementById("editProfileForm");
+
+const closeProfileModal =
+    document.getElementById("closeProfileModal");
 
 const profilePhotoInput =
     document.getElementById("profilePhotoInput");
@@ -200,12 +206,10 @@ const photoPreview =
 const saveProfileBtn =
     document.getElementById("saveProfileBtn");
 
-const closeProfileModal =
-    document.getElementById("closeProfileModal");
-
 const profileMessage =
     document.getElementById("profileMessage");
-const editProfileBtn = document.getElementById("editProfileBtn");
+
+
 
 // ==========================================
 // API
@@ -231,9 +235,7 @@ let token =
 
 let transferCheckInterval = null;
 
-editProfileBtn.addEventListener("click", function () {
-    document.getElementById("editProfileModal").style.display = "flex";
-});
+
 
 // ========================================
 // SAFE JSON RESPONSE
@@ -2884,23 +2886,43 @@ if (token) {
 // EDIT PROFILE / PROFILE PHOTO
 // ==========================================
 
+
 // ==========================================
-// OPEN MODAL
+// PROFILE / EDIT PROFILE
 // ==========================================
 
-function openEditProfileModal() {
+c
 
-    if (!editProfileModal) return;
 
-    editProfileModal.style.display = "flex";
+// ==========================================
+// ELEMENTS
+// ==========================================
 
-    profileMessage.textContent = "";
 
-    photoPreview.innerHTML = "";
+// ==========================================
+// OPEN EDIT PROFILE MODAL
+// ==========================================
 
-    if (profilePhotoInput) {
-        profilePhotoInput.value = "";
-    }
+if (editProfileBtn && editProfileModal) {
+
+    editProfileBtn.addEventListener("click", function () {
+
+        editProfileModal.style.display = "flex";
+
+        if (profileMessage) {
+            profileMessage.textContent = "";
+        }
+
+        if (photoPreview) {
+            photoPreview.innerHTML = "";
+        }
+
+        if (profilePhotoInput) {
+            profilePhotoInput.value = "";
+        }
+
+    });
+
 }
 
 
@@ -2908,27 +2930,54 @@ function openEditProfileModal() {
 // CLOSE MODAL
 // ==========================================
 
-function closeEditProfileModal() {
+function closeEditProfile() {
 
     if (!editProfileModal) return;
 
     editProfileModal.style.display = "none";
 
-    profileMessage.textContent = "";
+    if (profileMessage) {
+        profileMessage.textContent = "";
+    }
 
-    photoPreview.innerHTML = "";
+    if (photoPreview) {
+        photoPreview.innerHTML = "";
+    }
 
     if (profilePhotoInput) {
         profilePhotoInput.value = "";
     }
+
 }
 
 
+// Close button
 if (closeProfileModal) {
 
     closeProfileModal.addEventListener(
         "click",
-        closeEditProfileModal
+        closeEditProfile
+    );
+
+}
+
+
+// Close when clicking outside
+if (editProfileModal) {
+
+    editProfileModal.addEventListener(
+        "click",
+        function (event) {
+
+            if (
+                event.target === editProfileModal
+            ) {
+
+                closeEditProfile();
+
+            }
+
+        }
     );
 
 }
@@ -2947,12 +2996,14 @@ if (profilePhotoInput) {
             const file = this.files[0];
 
             if (!file) {
+
                 photoPreview.innerHTML = "";
+
                 return;
             }
 
 
-            // Check image
+            // Make sure it is an image
             if (!file.type.startsWith("image/")) {
 
                 profileMessage.textContent =
@@ -2964,7 +3015,7 @@ if (profilePhotoInput) {
             }
 
 
-            // Preview
+            // Create preview
             const reader = new FileReader();
 
             reader.onload = function (event) {
@@ -2973,14 +3024,6 @@ if (profilePhotoInput) {
                     <img
                         src="${event.target.result}"
                         alt="Profile Preview"
-                        style="
-                            width:120px;
-                            height:120px;
-                            object-fit:cover;
-                            border-radius:50%;
-                            display:block;
-                            margin:15px auto;
-                        "
                     >
                 `;
 
@@ -3011,6 +3054,7 @@ if (editProfileForm) {
                 profilePhotoInput.files[0];
 
 
+            // No file
             if (!file) {
 
                 profileMessage.textContent =
@@ -3020,6 +3064,7 @@ if (editProfileForm) {
             }
 
 
+            // Get login token
             const token =
                 localStorage.getItem("token");
 
@@ -3027,7 +3072,7 @@ if (editProfileForm) {
             if (!token) {
 
                 profileMessage.textContent =
-                    "Please login again.";
+                    "Your session has expired. Please login again.";
 
                 return;
             }
@@ -3044,6 +3089,7 @@ if (editProfileForm) {
                     "Uploading your photo...";
 
 
+                // FormData
                 const formData =
                     new FormData();
 
@@ -3053,6 +3099,7 @@ if (editProfileForm) {
                 );
 
 
+                // Send to backend
                 const response =
                     await fetch(
                         `${API}/users/profile/photo`,
@@ -3069,6 +3116,7 @@ if (editProfileForm) {
                     );
 
 
+                // Read response
                 const data =
                     await response.json();
 
@@ -3113,7 +3161,7 @@ if (editProfileForm) {
                             data.user.profilePhoto;
 
 
-                        // If backend returns:
+                        // Backend returns:
                         // /uploads/profiles/photo.jpg
 
                         if (
@@ -3126,8 +3174,9 @@ if (editProfileForm) {
                         }
 
 
+                        // Add cache breaker
                         profilePhoto.src =
-                            photoURL;
+                            `${photoURL}?t=${Date.now()}`;
 
                     }
 
@@ -3135,17 +3184,14 @@ if (editProfileForm) {
 
 
                 // ==================================
-                // CLOSE AFTER SHORT DELAY
+                // CLOSE MODAL
                 // ==================================
 
-                setTimeout(
-                    function () {
+                setTimeout(function () {
 
-                        closeEditProfileModal();
+                    closeEditProfile();
 
-                    },
-                    1000
-                );
+                }, 1000);
 
 
             } catch (error) {
@@ -3159,6 +3205,7 @@ if (editProfileForm) {
                 profileMessage.textContent =
                     error.message ||
                     "Something went wrong while uploading.";
+
 
             } finally {
 
@@ -3174,27 +3221,3 @@ if (editProfileForm) {
 
 }
 
-
-// ==========================================
-// OPTIONAL: CLICK OUTSIDE MODAL TO CLOSE
-// ==========================================
-
-if (editProfileModal) {
-
-    editProfileModal.addEventListener(
-        "click",
-        function (event) {
-
-            if (
-                event.target ===
-                editProfileModal
-            ) {
-
-                closeEditProfileModal();
-
-            }
-
-        }
-    );
-
-}
